@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'iran-sans' ;
+    src: url("../fonts/IRANSansWeb(FaNum).woff");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'iran-sans' ;
+    src: url("../fonts/IRANSansWeb(FaNum) Bold.woff");
+    font-weight: bold;
+}
+
+:root{
+    --color-primary:#222d32;
+    --color-secondary:#3c8dbc;
+    --color-dark:#1a2226;
+    --text-color-primary:#b8c7ce;
+    --text-color-white:#ffff;
+    --color-danger:#dd4b39;
+    --color-success:#00a65a;
+    --color-warning:#f39c12;
+    --background-color-primary:#ecf0f5;
+    font-family: iran-sans;
+    direction: rtl;
+}
