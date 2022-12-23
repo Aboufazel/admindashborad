@@ -1,0 +1,9 @@
+.table_block thead tr{
+  background: var(--color-secondary);
+    color: var(--text-color-white);
+}
+
+.table_block tbody tr:nth-child(odd){
+    background-color: var(--background-color-primary);
+    color: var(--color-dark);
+}

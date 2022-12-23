@@ -1,0 +1,17 @@
+.selection_block{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.selection_block select{
+    width: 80px;
+    padding: 0 8px;
+}
+
+.selection_block option{
+    font-size: 14px;
+}
+.selection_block option:hover{
+    background: black;
+}
