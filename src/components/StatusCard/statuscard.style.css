@@ -1,0 +1,26 @@
+.status_card_block{
+    border-radius: 2px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    color: var(--text-color-white);
+}
+
+.status_card_block p{
+    font-size: 14px;
+    font-weight: 600;
+    margin:20px 8px;
+}
+
+.status_card_bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    margin-top: 9px;
+    padding: 5px 0;
+    font-weight: 400;
+    background: var(--background-light-black);
+}

@@ -15,7 +15,7 @@ const IndexLayout = () => {
                       <Col xl={12} className={'outlet_header'}></Col>
                   </Row>
                   <Row>
-                      <Col xl={12}>
+                      <Col className={'outlet_block'} xl={12}>
                           <Outlet/>
                       </Col>
                   </Row>
