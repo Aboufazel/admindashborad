@@ -1,11 +1,11 @@
 import {Col, Container, Row} from "react-bootstrap";
-import './main.style.css'
+import '../main.style.css'
 import StatusCard from "../../components/StatusCard/StatusCard";
 
 const Main = () => {
   return(
       <Container>
-          <Row className={'dashboard_block'}>
+          <Row className={'main_block'}>
               <Col>
                   <p>
                       {'داشبور نرم افزار حسابداری'}

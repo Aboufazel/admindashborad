@@ -1,6 +1,7 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import IndexLayout from "../layout/IndexLayout";
 import Main from "../layout/Main/Main";
+import Category from "../layout/Category/Category";
 
 
 const Root = () => {
@@ -13,7 +14,10 @@ const Root = () => {
                     {
                         path: "/",
                         element: <Main/>
-                    },
+                    }, {
+                        path: '/category',
+                        element: <Category/>
+                    }
                 ]
 
             }
