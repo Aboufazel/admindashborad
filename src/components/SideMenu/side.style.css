@@ -28,6 +28,7 @@
 .side_menu li:hover{
     cursor: pointer;
     background: var(--hover-primary);
+    color: var(--text-color-white);
 }
 
 .side_title{
