@@ -1,6 +1,7 @@
 .table_block thead tr{
   background: var(--color-secondary);
     color: var(--text-color-white);
+    border-radius: 15px;
 }
 
 .table_block tbody tr:nth-child(odd){
