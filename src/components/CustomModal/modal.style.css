@@ -1,53 +1,53 @@
 .btn_style{
-    background: var(--color-secondary);
+    background: var(--color-secondary) !important;
     color: var(--text-color-white);
     font-size: 12px;
-    box-shadow: 0 0 5px var(--color-secondary);
+    box-shadow: 0 0 5px var(--color-secondary) !important;
     font-weight: 900;
     outline: 0;
-    border: none;
+    border: none !important;
 }
 
 .btn_style:hover{
-    background: var(--text-color-white);
-    color:var(--color-secondary) ;
+    background: var(--text-color-white) !important;
+    color:var(--color-secondary) !important;
 }
 
 
 .close_btn{
-    background: var(--color-danger);
+    background: var(--color-danger) !important;
     outline: 0;
-    border: none;
-    font-family: iran-sans;
+    border: none !important;
+    font-family: iran-sans !important;
     box-shadow: 0 0 3px  var(--color-danger);
     font-size: 12px;
     font-weight: 900;
 }
 
 .close_btn:hover{
-    background:var(--text-color-white) ;
-    color:  var(--color-danger);
+    background:var(--text-color-white) !important ;
+    color:  var(--color-danger) !important;
 }
 
 
 .save_btn{
-    background: var(--color-success);
+    background: var(--color-success) !important;
     outline: 0;
-    border: none;
-    font-family: iran-sans;
+    border: none !important;
+    font-family: iran-sans !important;
     box-shadow: 0 0 3px  var(--color-success);
     font-size: 12px;
     font-weight: 900;
 }
 
 .save_btn:hover{
-    background:var(--text-color-white) ;
-    color:  var(--color-success);
+    background:var(--text-color-white) !important;
+    color:  var(--color-success) !important;
 }
 
 .modal_title{
     font-size: 14px;
-    font-family: iran-sans;
+    font-family: iran-sans !important;
     font-weight: 900;
     color:var(--color-secondary) ;
 }
