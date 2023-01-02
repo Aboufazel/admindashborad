@@ -11,12 +11,13 @@ import { TableRow } from "./TableRow";
 const TableWrapper = styled("table", {
     borderCollapse: "collapse",
     border: "none",
-    fontFamily: "Anek Telugu",
+    fontFamily: 'iran-sans',
+    width:'100%',
 });
 
 const CustomTable = ({ data, columns }) => {
     return (
-        <Container>
+        <Container className={'d-flex justify-content-center my-5'}>
             <TableWrapper>
                 <thead>
                 <TableHeader columns={columns} />

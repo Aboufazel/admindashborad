@@ -5,7 +5,7 @@ import CustomTable from "../../components/CustomTable/CustomTable";
 import { styled } from "@stitches/react";
 
 const Span = styled("span", {
-    background: "#596b7e",
+    background: "#3c8dbc",
     color: "white",
     paddingLeft: 10,
     paddingRight: 10,
@@ -14,13 +14,13 @@ const Span = styled("span", {
 
 const columns = [
     {
-        key: "fullName",
-        title: "Full Name",
+        key: "title",
+        title: "عنوان مقاله",
         width: 200,
     },
     {
-        key: "role",
-        title: "Role",
+        key: "release",
+        title: "تاریخ انتشار",
         width: 200,
     },
     {
@@ -41,14 +41,9 @@ const columns = [
 
 const data = [
     {
-        fullName: "Francisco Mendes",
-        role: "Full Stack",
-        tags: ["dev", "blogger"],
-    },
-    {
-        fullName: "Ricardo Malva",
-        role: "Social Media Manager",
-        tags: ["designer", "photographer"],
+        title: "مقاله اول",
+        release: "1401/10/25",
+        tags: [  "حذف" , "ویرایش"],
     },
 ];
 
