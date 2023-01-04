@@ -5,11 +5,16 @@ import Category from "../layout/Category/Category";
 import Product from "../layout/Product/Product";
 import BlogPost from "../layout/BlogPost/BlogPost";
 import About from "../layout/About/About";
+import Login from "../layout/Login/Login";
 
 
 const Root = () => {
     const router = createBrowserRouter(
         [
+            {
+                path:"/login",
+                element:<Login/>
+            },
             {
                 path: "/",
                 element: <IndexLayout/>,
