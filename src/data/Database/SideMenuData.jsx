@@ -2,7 +2,7 @@ import {
     faAddressCard,
     faBars, faBell,
     faBlog,
-    faCertificate, faDoorOpen,
+    faCertificate,
     faGauge, faGifts, faLock,
     faPager, faPhoneVolume, faQuestion, faSearch, faShare,
     faShoppingCart, faSliders, faSolarPanel
@@ -26,5 +26,4 @@ export const SideMenuData = [
     {id:13 , name:'تگ سئو', icon: faSearch , link:'/search'},
     {id:14, name:'تعویض کلمه عبور', icon: faLock , link:'/pass'},
     {id:15 , name:'پنل کاربری', icon: faSolarPanel, link: '/admin'},
-    {id:17 , name:'خروج', icon: faDoorOpen , link: '/exit'},
 ]

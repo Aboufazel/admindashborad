@@ -1,10 +1,29 @@
 import {Col, Container, Row} from "react-bootstrap";
 import './side.style.css'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {SideMenuData} from '../../data/Database/SideMenuData'
+import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
+import useStorage from "../../hooks/storage";
 
 const SideMenu = () => {
+    const navigate = useNavigate();
+    const [tokenInfo , setTokenInfo]= useStorage("auth", {
+        refreshToken: "",
+        accessToken: "",
+        isLogin: true,
+    });
+    console.log(tokenInfo)
+    const manageLogout = ()=>{
+        setTokenInfo({
+            accessToken:"",
+            refreshToken:"",
+            isLogin: false,
+        })
+        navigate("/login")
+    }
+
+    console.log(tokenInfo)
     return (
         <Container fluid dir={'rtl'}>
             <Row>
@@ -32,6 +51,12 @@ const SideMenu = () => {
                                         </Link>
                                     ))
                                 }
+                                <ul onClick={()=> manageLogout()}>
+                                    <li>
+                                        {"خروج"}
+                                        <FontAwesomeIcon icon={faDoorOpen}/>
+                                    </li>
+                                </ul>
                             </ul>
                         </Col>
                     </Row>
