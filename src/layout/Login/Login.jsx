@@ -1,9 +1,10 @@
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import "./login.style.css"
-import Api from "../../api/Services"
+import Api, {GetData} from "../../api/Services"
 import {useNavigate} from "react-router-dom";
 import useStorage from "../../hooks/storage";
 import {useState} from "react";
+import axios from "axios";
 
 
 const Login = ({}) => {
@@ -24,19 +25,22 @@ const Login = ({}) => {
 
     const manageSubmit = (e) => {
         e.preventDefault();
-        Api
-            .post("/auth/login/", state)
-            .then((res) => {
-                setAuthInfo({
-                    accessToken: res.data.access,
-                    refreshToken: res.data.refresh,
-                    isLogin: true,
-                });
-                navigate("/");
+        const data = axios.get("http://siavashma.ir/userservice/api/users/getbyusernamepassword?username=administrator&password=S245011m@")
+            .then(res => {
+                if (res.data.isSuccess === true){
+                    setAuthInfo({
+                        accessToken: res.data.data.token,
+                        refreshToken: res.data.data.token,
+                        isLogin: true,
+                    });
+                    navigate("/");
+                }
+                else {
+                    console.log(res)
+                    console.log("ورود با خطا مواجه شد")
+                }
             })
-            .catch((e) => {
-                console.log(e);
-            });
+
     };
     return (
         <Container className={"d-flex justify-content-center align-items-center"}>
@@ -47,7 +51,7 @@ const Login = ({}) => {
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>نام کاربری یا شماره موبایل</Form.Label>
                                 <Form.Control  onChange={(e) => setState({ ...state, email: e.target.value })}
-                                                          value={state.email} type="email" placeholder="نام کاربری"/>
+                                                          value={state.email} type="text" placeholder="نام کاربری"/>
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
