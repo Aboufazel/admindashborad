@@ -1,0 +1,36 @@
+
+
+form{
+    direction: rtl !important;
+    font-family: 'iran-sans';
+    width: 90%;
+}
+
+.login-box{
+    background: var(--text-color-white);
+    height: max-content;
+    width: max-content;
+    border-radius: 15px;
+    box-shadow: 0  0 15px var(--color-secondary);
+    padding: 45px 65px;
+}
+
+.form-control {
+    display: block;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    direction: rtl;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.button-primary{
+    background: var(--color-secondary) !important;
+}
