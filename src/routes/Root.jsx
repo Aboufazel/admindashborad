@@ -1,3 +1,4 @@
+import React, {Suspense} from "react";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import IndexLayout from "../layout/IndexLayout";
 import Main from "../layout/Main/Main";
@@ -6,14 +7,19 @@ import Product from "../layout/Product/Product";
 import BlogPost from "../layout/BlogPost/BlogPost";
 import About from "../layout/About/About";
 import Login from "../layout/Login/Login";
+import AuthProvider from "../components/AuthProvider/AuthProvider";
 
 
 const Root = () => {
     const router = createBrowserRouter(
         [
             {
-                path:"/login",
-                element:<Login/>
+                path: "/login",
+                element: (
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Login/>
+                    </Suspense>
+                )
             },
             {
                 path: "/",
@@ -21,10 +27,22 @@ const Root = () => {
                 children: [
                     {
                         path: "/",
-                        element: <Main/>
+                        element: (
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <AuthProvider>
+                                    <Main/>
+                                </AuthProvider>
+                            </Suspense>
+                        )
                     }, {
                         path: '/category',
-                        element: <Category/>
+                        element: (
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <AuthProvider>
+                                        <Category/>
+                                    </AuthProvider>
+                                </Suspense>
+                            )
                     }, {
                         path: '/blogpost',
                         element: <BlogPost/>
@@ -36,41 +54,41 @@ const Root = () => {
                         element: <About/>
                     }, {
                         path: '/pages',
-                        element:<Product/>
+                        element: <Product/>
                     },
                     {
                         path: '/certificate',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/gift',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/share',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/contact',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/faq',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/notification',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/slider',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/search',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/pass',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/admin',
-                        element:<Product/>
+                        element: <Product/>
                     }, {
                         path: '/exit',
-                        element:<Product/>
+                        element: <Product/>
                     }
                 ]
 
