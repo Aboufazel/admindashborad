@@ -2,10 +2,19 @@ import {Col, Container, Row} from "react-bootstrap";
 import './layout.style.css'
 import {Outlet} from "react-router-dom";
 import SideMenu from "../components/SideMenu/SideMenu";
+import {useEffect, useState} from "react";
+import LoadingPage from "./Login/LoadingPage";
 
 const IndexLayout = () => {
+    const [loading , setLoading]= useState(true)
+    useEffect(()=>{
+        setTimeout(()=>{
+            setLoading(false)
+        } , 2000)
+    } , [])
+
   return(
-      <Container fluid>
+      loading === true  ? <LoadingPage/> : <Container fluid>
           <Row>
               <Col className={'p-0'} xl={2}>
                   <SideMenu/>

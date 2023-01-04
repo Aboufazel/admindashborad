@@ -1,23 +1,30 @@
-import {Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Modal, Row} from "react-bootstrap";
 import './side.style.css'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Link, useNavigate} from "react-router-dom";
 import {SideMenuData} from '../../data/Database/SideMenuData'
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import useStorage from "../../hooks/storage";
+import CustomModal from "../CustomModal/CustomModal";
+import {useState} from "react";
 
 const SideMenu = () => {
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const navigate = useNavigate();
-    const [tokenInfo , setTokenInfo]= useStorage("auth", {
+    const [tokenInfo, setTokenInfo] = useStorage("auth", {
         refreshToken: "",
         accessToken: "",
         isLogin: true,
     });
     console.log(tokenInfo)
-    const manageLogout = ()=>{
+    const manageLogout = () => {
         setTokenInfo({
-            accessToken:"",
-            refreshToken:"",
+            accessToken: "",
+            refreshToken: "",
             isLogin: false,
         })
         navigate("/login")
@@ -26,6 +33,21 @@ const SideMenu = () => {
     console.log(tokenInfo)
     return (
         <Container fluid dir={'rtl'}>
+            <Modal style={{fontFamily:'iran-sans'}} show={show} onHide={handleClose}>
+                <Modal.Body  class={'d-flex flex-column justify-content-start p-3'}>
+                    {"آیا برای خروج از حساب اطمینان دارید؟"}
+                     <Row className={"d-flex flex-row justify-content-center"}>
+                        <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                            <Button className={'close_btn'} onClick={()=>manageLogout()}>
+                                {"خروج از حساب"}
+                            </Button>
+                            <Button className={'save_btn'} onClick={handleClose}>
+                                {"انصراف"}
+                            </Button>
+                        </Col>
+                     </Row>
+                </Modal.Body>
+            </Modal>
             <Row>
                 <Col xl={12} className={'side_menu'}>
                     <Row className={'side_title'}>
@@ -51,7 +73,7 @@ const SideMenu = () => {
                                         </Link>
                                     ))
                                 }
-                                <ul onClick={()=> manageLogout()}>
+                                <ul onClick={() => handleShow()}>
                                     <li>
                                         {"خروج"}
                                         <FontAwesomeIcon icon={faDoorOpen}/>
@@ -63,7 +85,6 @@ const SideMenu = () => {
                 </Col>
             </Row>
         </Container>
-
     )
 }
 
