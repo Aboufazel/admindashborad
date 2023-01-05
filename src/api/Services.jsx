@@ -12,7 +12,7 @@ Api.interceptors.response.use()
 
 export const GetData = (username , password)=>{
 
-    return Api.get("/userservice/api/users/getbyusernamepassword" , {username , password});
+    return Api.get(`/UserService/api/Users/getbyusernamepassword?username=${username}&password=${password}`);
 }
 
 

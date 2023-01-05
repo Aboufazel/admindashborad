@@ -26,7 +26,7 @@ const Login = ({}) => {
 
     const manageSubmit = (e) => {
         e.preventDefault();
-        const data = axios.get(`http://siavashma.ir/userservice/api/users/getbyusernamepassword?username=${state.email}&password=${state.password}`)
+        const data = GetData(state.email , state.password)
             .then(res => {
                 if (res.data.isSuccess === true){
                     setAuthInfo({
