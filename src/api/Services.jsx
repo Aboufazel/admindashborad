@@ -10,7 +10,7 @@ const Api = axios.create({
 
 Api.interceptors.response.use()
 
-export const GetData = (username , password)=>{
+export const LoginApi = (username , password)=>{
 
     return Api.get(`/UserService/api/Users/getbyusernamepassword?username=${username}&password=${password}`);
 }

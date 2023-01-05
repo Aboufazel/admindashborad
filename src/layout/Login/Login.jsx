@@ -1,6 +1,6 @@
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import "./login.style.css"
-import Api, {GetData} from "../../api/Services"
+import Api, {GetData, LoginApi} from "../../api/Services"
 import {useNavigate} from "react-router-dom";
 import useStorage from "../../hooks/storage";
 import {useState} from "react";
@@ -26,7 +26,7 @@ const Login = ({}) => {
 
     const manageSubmit = (e) => {
         e.preventDefault();
-        const data = GetData(state.email , state.password)
+        LoginApi(state.email , state.password)
             .then(res => {
                 if (res.data.isSuccess === true){
                     setAuthInfo({
