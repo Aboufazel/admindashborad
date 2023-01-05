@@ -9,7 +9,7 @@ const LoadingPage = () => {
               <Col className={"my-auto w-75 d-flex flex-column align-items-center justify-content-center"}>
                   <HashLoader color="#3c8dbc" size={110}/>
                   <h1 className={"mt-4"} style={{fontFamily:'iran-sans'}}>
-                      {"به پنل کاربری خوش آمدید"}
+                      {"در حال دریافت اطلاعات هستیم"}
                   </h1>
               </Col>
           </Row>
