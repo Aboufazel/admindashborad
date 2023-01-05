@@ -3,7 +3,7 @@ import "./login.style.css"
 import Api, {GetData, LoginApi} from "../../api/Services"
 import {useNavigate} from "react-router-dom";
 import useStorage from "../../hooks/storage";
-import {useState} from "react";
+import {useId, useState} from "react";
 import axios from "axios";
 
 
@@ -11,18 +11,17 @@ const Login = ({}) => {
 
     const navigate = useNavigate();
     const [authInfo, setAuthInfo] = useStorage("auth", {
-        refreshToken: "",
+        userId: "",
         accessToken: "",
         isLogin: false,
     })
 
-    console.log(authInfo);
+    //console.log(authInfo);
 
     const [state, setState] = useState({
         email: "",
         password: "",
     });
-
 
     const manageSubmit = (e) => {
         e.preventDefault();
@@ -30,8 +29,8 @@ const Login = ({}) => {
             .then(res => {
                 if (res.data.isSuccess === true){
                     setAuthInfo({
+                        userId: res.data.data.userId,
                         accessToken: res.data.data.token,
-                        refreshToken: res.data.data.token,
                         isLogin: true,
                     });
                     navigate("/");
@@ -50,13 +49,13 @@ const Login = ({}) => {
                     <div className={"login-box"}>
                         <Form onSubmit={manageSubmit} className={"d-flex flex-column w-auto"}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>نام کاربری یا شماره موبایل</Form.Label>
+                                <Form.Label>{"نام کاربری یا شماره موبایل"}</Form.Label>
                                 <Form.Control  onChange={(e) => setState({ ...state, email: e.target.value })}
                                                           value={state.email} type="text" placeholder="نام کاربری"/>
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>رمز عبور</Form.Label>
+                                <Form.Label>{"رمز عبور"}</Form.Label>
                                 <Form.Control onChange={(e) => setState({ ...state, password: e.target.value })}
                                                          value={state.password} type="password" placeholder="رمز عبور"/>
                             </Form.Group>

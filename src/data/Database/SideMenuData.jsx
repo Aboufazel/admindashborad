@@ -5,13 +5,13 @@ import {
     faCertificate,
     faGauge, faGifts, faLock,
     faPager, faPhoneVolume, faQuestion, faSearch, faShare,
-    faShoppingCart, faSliders, faSolarPanel
+    faShoppingCart, faSliders, faSolarPanel, faUsers
 } from "@fortawesome/free-solid-svg-icons";
 
 
 export const SideMenuData = [
     {id:1 , name:'داشبورد' , icon:faGauge , link:'/'},
-    {id:2 , name:'دسته بندی مقالات' , icon: faBars , link:'/category'},
+    {id:2 , name:'تمامی کاربران' , icon: faUsers , link:'/category'},
     {id:3 , name:'مقالات', icon: faBlog , link:'/blogpost'},
     {id:4 , name:'محصولات', icon: faShoppingCart , link:'/product'},
     {id:5 , name:'درباره ما', icon: faAddressCard , link:'/about'},

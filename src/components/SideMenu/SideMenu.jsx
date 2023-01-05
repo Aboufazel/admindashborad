@@ -5,7 +5,6 @@ import {Link, useNavigate} from "react-router-dom";
 import {SideMenuData} from '../../data/Database/SideMenuData'
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import useStorage from "../../hooks/storage";
-import CustomModal from "../CustomModal/CustomModal";
 import {useState} from "react";
 
 const SideMenu = () => {
@@ -20,7 +19,7 @@ const SideMenu = () => {
         accessToken: "",
         isLogin: true,
     });
-    console.log(tokenInfo)
+
     const manageLogout = () => {
         setTokenInfo({
             accessToken: "",
@@ -30,7 +29,6 @@ const SideMenu = () => {
         navigate("/login")
     }
 
-    console.log(tokenInfo)
     return (
         <Container fluid dir={'rtl'}>
             <Modal style={{fontFamily:'iran-sans'}} show={show} onHide={handleClose}>
