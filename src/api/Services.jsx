@@ -15,6 +15,8 @@ export const LoginApi = (username , password)=>{
     return Api.get(`/UserService/api/Users/getbyusernamepassword?username=${username}&password=${password}`);
 }
 
-
+export const GetFromUser = (userId , token)=>{
+    return Api.get(``)
+}
 
 export default Api;
