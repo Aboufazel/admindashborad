@@ -1,21 +1,17 @@
 
 import axios from "axios";
+import {useEffect, useState} from "react";
 
 
 const Api = axios.create({
     baseURL:"http://siavashma.ir"
 })
 
-const userAccessData = localStorage.getItem("auth");
+
 
 // for setup header data from localStorage
 
-const config = {
-    headers:{
-        selfUserId: userAccessData.userId,
-        token:userAccessData.token,
-    }
-}
+
 
 Api.interceptors.response.use()
 
@@ -30,13 +26,18 @@ export const LoginApi = (username , password)=>{
 
 
 
-export const GetAllFromUser = ()=>{
-    return Api.get(`/UserService/api/Users/getall` , {config})
+//use for get All contact
+export const GetAllFromUser = (userid , token)=>{
+
+    return Api.get(`/UserService/api/Users/getall` , {userid , token})
 }
 
 
-export const GetById = (idCode)=>{
-    return Api.get(`/UserService/api/Users/getbyid?useid=${idCode}` , {config})
+//use for get contact by id
+export const GetById = (userid , token )=>{
+
+
+    return Api.get(`/UserService/api/Users/getbyid?useid=${userid}` , {userid , token})
 }
 
 export default Api;

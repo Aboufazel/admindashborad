@@ -3,6 +3,8 @@ import '../main.style.css'
 import FilterBox from "../../components/FilterBox/FilterBox";
 import CustomTable from "../../components/CustomTable/CustomTable";
 import { styled } from "@stitches/react";
+import {useEffect, useState} from "react";
+import {GetAllFromUser} from "../../api/Services";
 
 const Span = styled("span", {
     background: "#3c8dbc",
@@ -12,24 +14,36 @@ const Span = styled("span", {
     borderRadius: 99999,
 });
 
+
+
+
+
 const columns = [
     {
-        key: "title",
-        title: "عنوان مقاله",
+        key: "username",
+        title: "نام کاربری",
         width: 200,
     },
     {
-        key: "release",
-        title: "تاریخ انتشار",
+        key: "mobile",
+        title: "شماره موبایل",
         width: 200,
+    },{
+        key: "email",
+        title: "ایمیل",
+        width: 200,
+    },{
+        key:"status",
+        title:"وضعیت کاربر",
+        width:200,
     },
     {
-        key: "tags",
-        title: "Tags",
+        key: "kind",
+        title: "نوع کاربر",
         width: 200,
-        render: (_, { tags }) => (
+        render: (_, { kind }) => (
             <>
-                {tags.map((tag, tagIndex) => (
+                {kind.map((tag, tagIndex) => (
                     <Span key={`tag-${tagIndex}`} style={{ marginLeft: tagIndex * 4 }}>
                         {tag}
                     </Span>
@@ -39,15 +53,29 @@ const columns = [
     },
 ];
 
-const data = [
-    {
-        title: "مقاله اول",
-        release: "1401/10/25",
-        tags: [  "حذف" , "ویرایش"],
-    },
-];
+
 
 const Category = () => {
+    const [data , setData] = useState([]);
+    const [token , setToken] = useState({});
+
+useEffect(()=>{
+    const accessData = localStorage.getItem("auth");
+    const object = JSON.parse(accessData);
+    setToken({...token, [object.name]:object.value});
+} , [])
+
+
+useEffect( ()=>{
+    if (token === undefined){
+       console.log(token)
+    }else {
+        alert("salam")
+    }
+} , [])
+
+
+
   return(
       <Container>
           <Row>
