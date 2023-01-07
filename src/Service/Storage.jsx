@@ -1,9 +1,9 @@
 const Storage = () => {
 
     return {
-        setLogin: (refreshToken, accessToken) => {
+        setLogin: (userId, accessToken) => {
             const data = {
-                refreshToken,
+                userId,
                 accessToken,
                 isLogin: true,
             };
@@ -11,19 +11,19 @@ const Storage = () => {
         },
         setLogout: () => {
             const data = {
-                refreshToken: "",
+                userId: "",
                 accessToken: "",
                 isLogin: false,
             };
             localStorage.setItem("auth", JSON.stringify(data));
         },
-        get refreshToken() {
+        get  userId() {
             const key = localStorage.getItem("auth");
             if (key == null) {
                 return false;
             }
             const auth= JSON.parse(key);
-            return auth.refreshToken;
+            return auth. userId;
         },
         get accessToken() {
             const key = localStorage.getItem("auth");

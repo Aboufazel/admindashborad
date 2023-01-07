@@ -2,14 +2,14 @@ import {Button, FormText, Modal} from "react-bootstrap";
 import {useState} from "react";
 import './modal.style.css'
 
-const CustomModal = ({btnTitle,modalTitle}) => {
+const CustomModal = ({btnTitle,modalTitle,btnDisplay}) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
   return(
       <>
-          <Button className={'btn_style'} onClick={handleShow}>
+          <Button  className={'btn_style'} style={{display:btnDisplay}} onClick={handleShow}>
               {btnTitle}
           </Button>
 
