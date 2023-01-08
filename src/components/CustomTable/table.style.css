@@ -2,9 +2,11 @@
   background: var(--color-secondary);
     color: var(--text-color-white);
     border-radius: 15px;
+    text-align: center;
 }
 
 .table_block tbody tr:nth-child(odd){
     background-color: var(--background-color-primary);
     color: var(--color-dark);
+    text-align: center;
 }

@@ -32,7 +32,6 @@ const Product = () => {
             </Row>
             <Row>
               <Col>
-                <CustomTable/>
               </Col>
             </Row>
           </Col>

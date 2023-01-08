@@ -1,6 +1,5 @@
 import {Breadcrumb, Col, Container, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
-import CustomTable from "../../components/CustomTable/CustomTable";
 
 
 const BlogPost = () => {
@@ -32,7 +31,7 @@ const BlogPost = () => {
                   </Row>
                   <Row>
                       <Col>
-                          <CustomTable/>
+
                       </Col>
                   </Row>
               </Col>
