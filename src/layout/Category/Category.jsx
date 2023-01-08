@@ -4,7 +4,7 @@ import '../main.style.css'
 import '../../components/CustomTable/table.style.css'
 
 import FilterBox from "../../components/FilterBox/FilterBox";
-import {styled} from "@stitches/react";
+
 import {useCallback, useEffect, useState} from "react";
 import {GetAllFromUser} from "../../api/Services";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
@@ -12,57 +12,17 @@ import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BeatLoader} from "react-spinners";
 
 
-const Span = styled("span", {
-    background: "#3c8dbc",
-    color: "white",
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 99999,
-});
 
-
-const columns = [
-    {
-        key: "username",
-        title: "نام کاربری",
-        width: 200,
-    },
-    {
-        key: "mobile",
-        title: "شماره موبایل",
-        width: 200,
-    }, {
-        key: "email",
-        title: "ایمیل",
-        width: 200,
-    }, {
-        key: "status",
-        title: "وضعیت کاربر",
-        width: 200,
-    },
-    {
-        key: "kind",
-        title: "نوع کاربر",
-        width: 200,
-        render: (_, {kind}) => (
-            <>
-                {kind.map((tag, tagIndex) => (
-                    <Span key={`tag-${tagIndex}`} style={{marginLeft: tagIndex * 4}}>
-                        {tag}
-                    </Span>
-                ))}
-            </>
-        ),
-    },
-];
 
 
 const Category = () => {
+
     const [id, setId] = useState({});
     const [token, setToken] = useState({});
     const [data, setData] = useState(undefined)
-    const [call, setCall] = useState(false)
 
+
+    const [call, setCall] = useState(false)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 

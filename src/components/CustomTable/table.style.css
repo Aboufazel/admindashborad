@@ -5,6 +5,9 @@
     text-align: center;
 }
 
+.table_block tbody tr{
+    text-align: center;
+}
 .table_block tbody tr:nth-child(odd){
     background-color: var(--background-color-primary);
     color: var(--color-dark);
