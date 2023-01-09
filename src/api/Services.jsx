@@ -36,6 +36,24 @@ export const GetById = (userid, token) => {
         headers: {
             "selfuserid": `${userid}`,
             "token": `${token}`
+        },
+    })
+}
+
+
+export const  CreateNewUser = (userid , token , usertype , owner,username,password,mobile,email)=>{
+    return Api.post(`/UserService/api/Users/add`, {
+        headers: {
+            "selfuserid": `${userid}`,
+            "token": `${token}`
+        },
+        data:{
+            "userTypeId":`${usertype}`,
+            "userOwnerId":`${owner}`,
+            "userName":`${username}`,
+            "passWord":`${password}`,
+            "mobile":`${mobile}`,
+            "email":`${email}`,
         }
     })
 }

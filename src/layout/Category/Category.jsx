@@ -1,4 +1,4 @@
-import {Breadcrumb, Col, Container, Row} from "react-bootstrap";
+import {Alert, Breadcrumb, Col, Container, Row} from "react-bootstrap";
 
 import '../main.style.css'
 import '../../components/CustomTable/table.style.css'
@@ -6,13 +6,10 @@ import '../../components/CustomTable/table.style.css'
 import FilterBox from "../../components/FilterBox/FilterBox";
 
 import {useCallback, useEffect, useState} from "react";
-import {GetAllFromUser} from "../../api/Services";
+import {GetAllFromUser, GetById} from "../../api/Services";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BeatLoader} from "react-spinners";
-
-
-
 
 
 const Category = () => {
@@ -47,6 +44,16 @@ const Category = () => {
         }
     }, [call])
 
+    const manageEditUser = async (userid) => {
+        setLoading(true)
+        const user = await GetById(userid, token);
+        if(user.data.rows === 0){
+            alert("پاسخی از سمت سرور دریافت نشد")
+            setLoading(false)
+        }else {
+
+        }
+    }
 
     useEffect(() => {
         manageGetdata();
@@ -89,7 +96,7 @@ const Category = () => {
                                 loading === true ?
                                     <Row className={'d-flex w-100 justify-content-center mt-5'}>
                                         <Col className={"col-12 d-flex justify-content-center"}>
-                                            <BeatLoader color="#3c8dbc" />
+                                            <BeatLoader color="#3c8dbc"/>
                                         </Col>
                                     </Row> :
                                     <Row>
@@ -130,7 +137,8 @@ const Category = () => {
                                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                                     <ActionTableButton color={"--text-color-white"}
                                                                                        bgColor={"--color-warning"}
-                                                                                       icon={faEdit}/>
+                                                                                       icon={faEdit}
+                                                                                       onClick={() => manageEditUser(item.userId)}/>
                                                                     <ActionTableButton color={"--text-color-white"}
                                                                                        bgColor={"--color-danger"}
                                                                                        icon={faTrash}/>
