@@ -1,4 +1,4 @@
-import {Alert, Breadcrumb, Col, Container, Row} from "react-bootstrap";
+import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 
 import '../main.style.css'
 import '../../components/CustomTable/table.style.css'
@@ -6,18 +6,17 @@ import '../../components/CustomTable/table.style.css'
 import FilterBox from "../../components/FilterBox/FilterBox";
 
 import {useCallback, useEffect, useState} from "react";
-import {GetAllFromUser, GetById} from "../../api/Services";
+import {deleteUser, GetAllFromUser, GetById} from "../../api/Services";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BeatLoader} from "react-spinners";
 
 
 const Category = () => {
-
     const [id, setId] = useState({});
     const [token, setToken] = useState({});
     const [data, setData] = useState(undefined)
-
+    const [lgShow, setLgShow] = useState(false);
 
     const [call, setCall] = useState(false)
     const [error, setError] = useState(false)
@@ -44,16 +43,26 @@ const Category = () => {
         }
     }, [call])
 
+
+    const manageShow =()=>setLgShow(true)
+
     const manageEditUser = async (userid) => {
         setLoading(true)
         const user = await GetById(userid, token);
-        if(user.data.rows === 0){
+        if (user.data.rows === 0) {
             alert("پاسخی از سمت سرور دریافت نشد")
             setLoading(false)
-        }else {
-
+        } else if (user.data.rows !== 0) {
+            setLoading(false)
         }
     }
+
+
+    const manageDelete = async (userid) => {
+        const item = await deleteUser(userid, token);
+        console.log(item.data);
+    }
+
 
     useEffect(() => {
         manageGetdata();
@@ -66,6 +75,21 @@ const Category = () => {
 
     return (
         <Container>
+            <Modal
+                size="lg"
+                show={lgShow}
+                onHide={() => setLgShow(false)}
+                aria-labelledby="example-modal-sizes-title-lg"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-lg">
+                        <div>
+
+                        </div>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>...</Modal.Body>
+            </Modal>
             <Row>
                 <Col>
                     <Breadcrumb>
@@ -138,10 +162,11 @@ const Category = () => {
                                                                     <ActionTableButton color={"--text-color-white"}
                                                                                        bgColor={"--color-warning"}
                                                                                        icon={faEdit}
-                                                                                       onClick={() => manageEditUser(item.userId)}/>
+                                                                                       onClick={() => manageShow()}/>
                                                                     <ActionTableButton color={"--text-color-white"}
                                                                                        bgColor={"--color-danger"}
-                                                                                       icon={faTrash}/>
+                                                                                       icon={faTrash}
+                                                                                       onClick={() => manageDelete(item.userTypeId)}/>
                                                                 </td>
                                                             </tr>
                                                         ))
