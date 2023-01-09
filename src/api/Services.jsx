@@ -41,6 +41,25 @@ export const GetById = (userid, token) => {
 }
 
 
+export const  Edit = (userid , token , usertype , owner,username,password,mobile,email,kind)=>{
+    return Api.put('/UserService/api/Users/edit' ,{
+        headers: {
+            "selfuserid": `${userid}`,
+            "token": `${token}`
+        },
+        data:{
+            "userId":`${userid}`,
+            "userTypeId":`${usertype}`,
+            "userOwnerId":`${owner}`,
+            "userName":`${username}`,
+            "passWord":`${password}`,
+            "mobile":`${mobile}`,
+            "email":`${email}`,
+            "kind":`${kind}`
+        }
+    } )
+}
+
 export const  CreateNewUser = (userid , token , usertype , owner,username,password,mobile,email)=>{
     return Api.post(`/UserService/api/Users/add`, {
         headers: {
