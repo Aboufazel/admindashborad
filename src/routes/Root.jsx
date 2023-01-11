@@ -8,6 +8,7 @@ import BlogPost from "../layout/BlogPost/BlogPost";
 import About from "../layout/About/About";
 import Login from "../layout/Login/Login";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
+import EditUser from "../layout/EditUser/EditUser";
 
 
 const Root = () => {
@@ -35,7 +36,7 @@ const Root = () => {
                             </Suspense>
                         )
                     }, {
-                        path: '/category',
+                        path: '/allUser',
                         element: (
                                 <Suspense fallback={<div>Loading...</div>}>
                                     <AuthProvider>
@@ -87,9 +88,9 @@ const Root = () => {
                         path: '/admin',
                         element: <Product/>
                     }, {
-                        path: '/exit',
-                        element: <Product/>
-                    }
+                        path: '/editUser',
+                        element: <EditUser/>
+                    },
                 ]
 
             }

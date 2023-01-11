@@ -1,27 +1,31 @@
-import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
+import {Breadcrumb, Col, Container, Form, Row} from "react-bootstrap";
 
 import '../main.style.css'
 import '../../components/CustomTable/table.style.css'
-
+import {GiveIdContext} from "../../Context/GiveId"
 import FilterBox from "../../components/FilterBox/FilterBox";
 
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {deleteUser, GetAllFromUser, GetById} from "../../api/Services";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BeatLoader} from "react-spinners";
+import {useNavigate} from "react-router-dom";
+
 
 
 const Category = () => {
     const [id, setId] = useState({});
+    const {state , dispatch} = useContext(GiveIdContext)
     const [token, setToken] = useState({});
     const [data, setData] = useState(undefined)
-    const [lgShow, setLgShow] = useState(false);
+
 
     const [call, setCall] = useState(false)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 
+    const navigate = useNavigate();
 
     const manageGetdata = useCallback(async () => {
         const data = await localStorage.getItem("auth")
@@ -44,16 +48,18 @@ const Category = () => {
     }, [call])
 
 
-    const manageShow =()=>setLgShow(true)
+
 
     const manageEditUser = async (userid) => {
         setLoading(true)
-        const user = await GetById(userid, token);
+        const user = await GetById(userid);
         if (user.data.rows === 0) {
             alert("پاسخی از سمت سرور دریافت نشد")
             setLoading(false)
         } else if (user.data.rows !== 0) {
+            dispatch({type: 'UserData' , payload:user})
             setLoading(false)
+            navigate("/editUser")
         }
     }
 
@@ -75,21 +81,6 @@ const Category = () => {
 
     return (
         <Container>
-            <Modal
-                size="lg"
-                show={lgShow}
-                onHide={() => setLgShow(false)}
-                aria-labelledby="example-modal-sizes-title-lg"
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-lg">
-                        <div>
-
-                        </div>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>...</Modal.Body>
-            </Modal>
             <Row>
                 <Col>
                     <Breadcrumb>
@@ -154,17 +145,19 @@ const Category = () => {
                                                         data.map(item => (
                                                             <tr key={item.userId}>
                                                                 <td className={"p-2"}>{item.userName}</td>
-                                                                <td className={"p-2"}>{item.email}</td>
                                                                 <td className={"p-2"}>{item.mobile}</td>
+                                                                <td className={"p-2"}>{item.email}</td>
                                                                 <td className={"p-2"}>{item.kind === 1 ? "مدیر" : "کاربر عادی"}</td>
                                                                 <td className={"p-2"}>{item.status === 1 ? "فعال" : "غیر فعال"}</td>
                                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                                     <ActionTableButton color={"--text-color-white"}
                                                                                        bgColor={"--color-warning"}
+                                                                                       tooltip={"ویرایش"}
                                                                                        icon={faEdit}
-                                                                                       onClick={() => manageShow()}/>
+                                                                                       onClick={() => manageEditUser(item.userId)}/>
                                                                     <ActionTableButton color={"--text-color-white"}
                                                                                        bgColor={"--color-danger"}
+                                                                                       tooltip={"حذف کاربر"}
                                                                                        icon={faTrash}
                                                                                        onClick={() => manageDelete(item.userTypeId)}/>
                                                                 </td>

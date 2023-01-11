@@ -30,22 +30,25 @@ export const GetAllFromUser = (userid, token) => {
 
 
 //use for get contact by id
-export const GetById = (userid, token) => {
-
+export const GetById = (userid) => {
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
     return Api.get(`/UserService/api/Users/getbyid?userid=${userid}`, {
         headers: {
-            "selfuserid": `${userid}`,
-            "token": `${token}`
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
         },
     })
 }
 
 //use for edit user
-export const Edit = (userid, token, usertype, owner, username, password, mobile, email, kind) => {
+export const Edit = (userid, usertype, owner, username, password, mobile, email, kind) => {
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
     return Api.put('/UserService/api/Users/edit', {
         headers: {
-            "selfuserid": `${userid}`,
-            "token": `${token}`
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
         },
         data: {
             "userId": `${userid}`,
@@ -61,11 +64,13 @@ export const Edit = (userid, token, usertype, owner, username, password, mobile,
 }
 
 //use for delete user
-export const deleteUser = (userid, usertypeid , token) => {
+export const deleteUser = (usertypeid) => {
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
     Api.post(`/UserService/api/Users/remove?userTypeId=${usertypeid}`, {
         headers: {
-            "selfuserid": `${userid}`,
-            "token": `${token}`
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
         }
     })
 }
