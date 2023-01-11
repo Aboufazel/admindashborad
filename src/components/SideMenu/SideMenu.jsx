@@ -33,19 +33,19 @@ const SideMenu = () => {
 
     return (
         <Container fluid dir={'rtl'}>
-            <Modal style={{fontFamily:'iran-sans'}} show={show} onHide={handleClose}>
-                <Modal.Body  class={'d-flex flex-column justify-content-start p-3'}>
+            <Modal style={{fontFamily: 'iran-sans'}} show={show} onHide={handleClose}>
+                <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                     {"آیا برای خروج از حساب اطمینان دارید؟"}
-                     <Row className={"d-flex flex-row justify-content-center"}>
+                    <Row className={"d-flex flex-row justify-content-center"}>
                         <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
-                            <Button className={'close_btn'} onClick={()=>manageLogout()}>
+                            <Button className={'close_btn'} onClick={() => manageLogout()}>
                                 {"خروج از حساب"}
                             </Button>
                             <Button className={'save_btn'} onClick={handleClose}>
                                 {"انصراف"}
                             </Button>
                         </Col>
-                     </Row>
+                    </Row>
                 </Modal.Body>
             </Modal>
             <Row>
@@ -65,8 +65,8 @@ const SideMenu = () => {
                                 </li>
                                 {
                                     SideMenuData.map(item => (
-                                        <Link to={item.link}>
-                                            <li id={item.id}>
+                                        <Link key={item.id} to={item.link}>
+                                            <li>
                                                 {item.name}
                                                 <FontAwesomeIcon icon={item.icon}/>
                                             </li>

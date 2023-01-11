@@ -67,7 +67,7 @@ export const Edit = (userid, usertype, owner, username, password, mobile, email,
 export const deleteUser = (usertypeid) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    Api.post(`/UserService/api/Users/remove?userTypeId=${usertypeid}`, {
+    Api.delete(`/UserService/api/Users/remove?userTypeId=${usertypeid}`, {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`

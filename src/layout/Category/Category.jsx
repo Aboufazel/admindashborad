@@ -65,8 +65,12 @@ const Category = () => {
 
 
     const manageDelete = async (userid) => {
-        const item = await deleteUser(userid, token);
-        console.log(item.data);
+        const item = await deleteUser(userid);
+        if(item === undefined){
+            alert("حذف با مشکل مواجه شد")
+        }else {
+            alert("عملیات با موفقیت انجام شد")
+        }
     }
 
 
