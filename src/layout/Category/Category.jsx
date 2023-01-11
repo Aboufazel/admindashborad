@@ -65,7 +65,7 @@ const Category = () => {
 
 
     const manageDelete = async (userid) => {
-        const item = await deleteUser(userid);
+        const item = await deleteUser(userid , token);
         if(item === undefined){
             alert("حذف با مشکل مواجه شد")
         }else {

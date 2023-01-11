@@ -45,8 +45,14 @@ const Root = () => {
                                 </Suspense>
                             )
                     }, {
-                        path: '/blogpost',
-                        element: <BlogPost/>
+                        path: '/accountingGroup',
+                        element:
+                            (<Suspense fallback={<div>Loading...</div>}>
+                                <AuthProvider>
+                                    <BlogPost/>
+                                </AuthProvider>
+                            </Suspense>)
+
                     }, {
                         path: '/product',
                         element: <Product/>

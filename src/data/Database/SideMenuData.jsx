@@ -13,7 +13,7 @@ import {
 export const SideMenuData = [
     {id:1 , name:'داشبورد' , icon:faGauge , link:'/'},
     {id:2 , name:'تمامی کاربران' , icon: faUsers , link:'/allUser'},
-    {id:3 , name:'افزودن کاربران', icon: faAdd , link:'/blogpost'},
+    {id:3 , name:'گروه حساب', icon: faAdd , link:'/accountingGroup'},
     {id:4 , name:'محصولات', icon: faShoppingCart , link:'/product'},
     {id:5 , name:'درباره ما', icon: faAddressCard , link:'/about'},
     {id:6 , name:'صفحات', icon: faPager , link:'/pages'},
