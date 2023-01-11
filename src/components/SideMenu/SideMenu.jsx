@@ -20,7 +20,9 @@ const SideMenu = () => {
         isLogin: true,
     });
 
+
     const manageLogout = () => {
+        localStorage.clear();
         setTokenInfo({
             accessToken: "",
             refreshToken: "",
