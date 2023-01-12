@@ -1,4 +1,4 @@
-import {Breadcrumb, Col, Container, Form, Row} from "react-bootstrap";
+import {Breadcrumb, Col, Container,Row} from "react-bootstrap";
 
 import '../main.style.css'
 import '../../components/CustomTable/table.style.css'
@@ -27,8 +27,9 @@ const Category = () => {
 
     const navigate = useNavigate();
 
-    const manageGetdata = useCallback(async () => {
-        const data = await localStorage.getItem("auth")
+    const manageGetdata = useCallback(() => {
+        const data =  localStorage.getItem("auth");
+        console.log(data)
         const final = JSON.parse(data);
         setId(final.userId)
         setToken(final.accessToken)

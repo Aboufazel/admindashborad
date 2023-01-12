@@ -2,6 +2,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import '../main.style.css'
 import StatusCard from "../../components/StatusCard/StatusCard";
 
+
 const Main = () => {
   return(
       <Container>

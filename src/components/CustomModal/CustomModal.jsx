@@ -20,7 +20,7 @@ const CustomModal = ({btnTitle,modalTitle,btnDisplay}) => {
                   </Modal.Title>
               </Modal.Header>
               <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
-                  <input className={'p-2'} placeholder={'عنوان جدول'}/>
+                  <input className={'p-2'}/>
               </Modal.Body>
               <Modal.Footer>
                   <Button className={'close_btn'} onClick={handleClose}>

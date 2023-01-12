@@ -1,10 +1,9 @@
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import "./login.style.css"
-import Api, {GetData, LoginApi} from "../../api/Services"
+import {LoginApi} from "../../api/Services"
 import {useNavigate} from "react-router-dom";
 import useStorage from "../../hooks/storage";
-import {useId, useState} from "react";
-import axios from "axios";
+import {useState} from "react";
 
 
 const Login = ({}) => {

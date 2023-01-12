@@ -4,11 +4,11 @@ import IndexLayout from "../layout/IndexLayout";
 import Main from "../layout/Main/Main";
 import Category from "../layout/Category/Category";
 import Product from "../layout/Product/Product";
-import BlogPost from "../layout/BlogPost/BlogPost";
 import About from "../layout/About/About";
 import Login from "../layout/Login/Login";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
 import EditUser from "../layout/EditUser/EditUser";
+import AccountingGroup from "../layout/AccountingGroup/AccountingGroup";
 
 
 const Root = () => {
@@ -49,7 +49,7 @@ const Root = () => {
                         element:
                             (<Suspense fallback={<div>Loading...</div>}>
                                 <AuthProvider>
-                                    <BlogPost/>
+                                    <AccountingGroup/>
                                 </AuthProvider>
                             </Suspense>)
 
