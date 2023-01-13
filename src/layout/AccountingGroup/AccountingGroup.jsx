@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BeatLoader} from "react-spinners";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -15,6 +16,9 @@ const AccountingGroup = () => {
     const [value, setValue] = useState({code: "" , name:""});
     const [show, setShow] = useState(false);
     const [messageShow , setMessageShow] = useState(false);
+    const navigate = useNavigate();
+
+
 
     const handleClose = () => {
         setShow(false);
@@ -30,6 +34,10 @@ const AccountingGroup = () => {
     const AccountGroupGetTabel= async () => {
         const data = await GetAllAccountGroup().catch(() => setError(true));
         console.log(data)
+        if(data.data.isSuccess === false){
+            localStorage.clear();
+            navigate('/login')
+        }
         setAccount(data.data.accountGroups)
     };
 
@@ -46,7 +54,6 @@ const AccountingGroup = () => {
             setMessageShow(true)
             emptyInput();
             setTimeout(()=>{
-                refreshPage()
             } , 1000)
         }else {
             alert(`${addResponse.data.message}`)
@@ -73,10 +80,6 @@ const AccountingGroup = () => {
         setValue({code: "" , name:""});
     }
 
-    const refreshPage = ()=>{
-        window.location.reload();
-
-    }
     return (
         <Container>
             <Row>
@@ -145,54 +148,64 @@ const AccountingGroup = () => {
                 </Col>
                 <Row>
                     <Col className={"d-flex p-5 w-100 col-12"}>
-                        <Row className={"d-flex w-100"}>
-                            <table className={"table_block"}>
-                                <thead>
-                                <tr>
-                                    <td className={"p-2"}>
-                                        {"کد گروه حساب"}
-                                    </td>
-                                    <td className={"p-2"}>
-                                        {"نام گروه حساب"}
-                                    </td>
-                                    <td className={"p-2"}>
-                                        {"وضعیت حساب"}
-                                    </td>
-                                    <td className={"p-2"}>
-                                        {"حساب های کل"}
-                                    </td>
-                                    <td className={"p-2"}>
-                                        {"زبان"}
-                                    </td>
-                                    <td className={"p-2"}>
-                                        {"عملیات"}
-                                    </td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                { account === undefined ? <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#3c8dbc"/></div> :
-                                    account.map(item => (
-                                        <tr key={item.accountGroupId}>
-                                            <td className={"p-2"}>{item.accountGroupCode}</td>
-                                            <td className={"p-2"}>{item.accountGroupName}</td>
-                                            <td className={"p-2"}>{item.isActive=== true ? <Button onClick={()=>manageActive(item.accountGroupId , !item.isActive)} variant={"success"} value={true}>{"فعال"}</Button> : <Button onClick={()=>manageActive(item.accountGroupId , !item.isActive)} variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
-                                            <td className={"p-2"}><Button variant={"warning"}>{"مشاهده"}</Button> </td>
-                                            <td className={"p-2"}>{item.lang === "fa" ? "فارسی" : "انگلیسی" }</td>
-                                            <td className={"d-flex justify-content-center gap-2 p-2"}>
-                                                <ActionTableButton color={"--text-color-white"}
-                                                                   bgColor={"--color-warning"}
-                                                                   tooltip={"ویرایش"}
-                                                                   icon={faEdit}/>
-                                                <ActionTableButton color={"--text-color-white"}
-                                                                   bgColor={"--color-danger"}
-                                                                   tooltip={"حذف کاربر"}
-                                                                   icon={faTrash} onClick={()=>manageRemoveAccount(item.accountGroupId) }/>
-                                            </td>
-                                        </tr>
-                                    ))
-                                }
-                                </tbody>
-                            </table>
+                        <Row  style={{height: '80vh'}} className={"overflow-scroll d-flex w-100"}>
+                            {account === undefined ?
+                                <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#3c8dbc"/>
+                                </div> :
+                                <table className={"table_block"}>
+                                    <thead>
+                                    <tr>
+                                        <td className={"p-2"}>
+                                            {"کد گروه حساب"}
+                                        </td>
+                                        <td className={"p-2"}>
+                                            {"نام گروه حساب"}
+                                        </td>
+                                        <td className={"p-2"}>
+                                            {"وضعیت حساب"}
+                                        </td>
+                                        <td className={"p-2"}>
+                                            {"حساب های کل"}
+                                        </td>
+                                        <td className={"p-2"}>
+                                            {"زبان"}
+                                        </td>
+                                        <td className={"p-2"}>
+                                            {"عملیات"}
+                                        </td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {
+                                        account.map(item => (
+                                            <tr key={item.accountGroupId}>
+                                                <td className={"p-2"}>{item.accountGroupCode}</td>
+                                                <td className={"p-2"}>{item.accountGroupName}</td>
+                                                <td className={"p-2"}>{item.isActive === true ? <Button
+                                                    onClick={() => manageActive(item.accountGroupId, !item.isActive)}
+                                                    variant={"success"} value={true}>{"فعال"}</Button> : <Button
+                                                    onClick={() => manageActive(item.accountGroupId, !item.isActive)}
+                                                    variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
+                                                <td className={"p-2"}><Button variant={"warning"}>{"مشاهده"}</Button>
+                                                </td>
+                                                <td className={"p-2"}>{item.lang === "fa" ? "فارسی" : "انگلیسی"}</td>
+                                                <td className={"d-flex justify-content-center gap-2 p-2"}>
+                                                    <ActionTableButton color={"--text-color-white"}
+                                                                       bgColor={"--color-warning"}
+                                                                       tooltip={"ویرایش"}
+                                                                       icon={faEdit}/>
+                                                    <ActionTableButton color={"--text-color-white"}
+                                                                       bgColor={"--color-danger"}
+                                                                       tooltip={"حذف کاربر"}
+                                                                       icon={faTrash}
+                                                                       onClick={() => manageRemoveAccount(item.accountGroupId)}/>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                    </tbody>
+                                </table>
+                            }
                         </Row>
                     </Col>
                 </Row>

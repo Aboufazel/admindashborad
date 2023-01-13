@@ -121,7 +121,7 @@ const Category = () => {
                                     </Row> :
                                     <Row>
                                         <Col className={"d-flex p-5 w-100 col-12"}>
-                                            <Row className={"d-flex w-100"}>
+                                            <Row className={"overflow-scroll d-flex w-100"}>
                                                 <table className={"table_block"}>
                                                     <thead>
                                                     <tr>
