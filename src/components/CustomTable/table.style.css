@@ -1,3 +1,7 @@
+table{
+    overflow: scroll
+}
+
 .table_block thead tr{
   background: var(--color-secondary);
     color: var(--text-color-white);

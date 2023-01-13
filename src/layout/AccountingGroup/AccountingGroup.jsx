@@ -1,4 +1,4 @@
-import {Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
+import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
 import {AddAccountGroup, DeleteAccountGroup, EditIsActive, GetAllAccountGroup} from "../../api/AccountGroup";
 import '../../components/CustomTable/table.style.css'
@@ -14,6 +14,7 @@ const AccountingGroup = () => {
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "" , name:""});
     const [show, setShow] = useState(false);
+    const [messageShow , setMessageShow] = useState(false);
 
     const handleClose = () => {
         setShow(false);
@@ -39,8 +40,18 @@ const AccountingGroup = () => {
 
     const manageAddAccount = async ()=>{
         const addResponse = await AddAccountGroup (value.code , value.name);
-        console.log(addResponse)
-        emptyInput();
+        if(addResponse.data.isSuccess === true){
+            alert(`${addResponse.data.message}`)
+            setShow(false);
+            setMessageShow(true)
+            emptyInput();
+            setTimeout(()=>{
+                refreshPage()
+            } , 1000)
+        }else {
+            alert(`${addResponse.data.message}`)
+        }
+
     }
 
 
@@ -62,6 +73,10 @@ const AccountingGroup = () => {
         setValue({code: "" , name:""});
     }
 
+    const refreshPage = ()=>{
+        window.location.reload();
+
+    }
     return (
         <Container>
             <Row>
