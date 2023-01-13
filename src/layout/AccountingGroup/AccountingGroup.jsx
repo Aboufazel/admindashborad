@@ -15,7 +15,8 @@ const AccountingGroup = () => {
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "" , name:""});
     const [show, setShow] = useState(false);
-    const [messageShow , setMessageShow] = useState(false);
+    const [errorShow , setErrorShow] = useState(false);
+    const [message , setMessage] = useState("");
     const navigate = useNavigate();
 
 
@@ -51,7 +52,6 @@ const AccountingGroup = () => {
         if(addResponse.data.isSuccess === true){
             alert(`${addResponse.data.message}`)
             setShow(false);
-            setMessageShow(true)
             emptyInput();
             setTimeout(()=>{
             } , 1000)
@@ -64,8 +64,14 @@ const AccountingGroup = () => {
 
     const manageRemoveAccount = async (id)=>{
         const removeResponse = await DeleteAccountGroup(id);
-        if (removeResponse.data===false){
-            alert("حذف موفق نبود")
+        console.log(removeResponse)
+        if (removeResponse.data=== false){
+            setMessage("false");
+            setErrorShow(true);
+            setTimeout(()=>{
+                setErrorShow(false);
+                setMessage("");
+            } , 2500)
         }else{
             alert("حذف با موفقیت انجام شد")
         }
@@ -101,6 +107,15 @@ const AccountingGroup = () => {
                             <p>
                                 {'مقالات'}
                             </p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col></Col>
+                        <Col></Col>
+                        <Col>
+                            <Alert variant={"danger"} onClose={() => setErrorShow(false)} dismissible show={errorShow}>
+                                {message === "false" ? "حذف امکان پذیر نیست" : message}
+                            </Alert>
                         </Col>
                     </Row>
                     <Row className={"d-flex my-3 mb-5"}>

@@ -23,11 +23,11 @@ export const AddAccountGroup = (groupCode, groupName) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
     return AccountGroup({
-        method:'post',
-        url:'/AccountGroupService/api/AccountGroups/add',
-        data:{
-            "AccountGroupCode":+groupCode,
-            "AccountGroupName":`${groupName}`,
+        method: 'post',
+        url: '/AccountGroupService/api/AccountGroups/add',
+        data: {
+            "AccountGroupCode": +groupCode,
+            "AccountGroupName": `${groupName}`,
             "lang": "fa",
         },
         headers: {
@@ -51,10 +51,17 @@ export const DeleteAccountGroup = (groupId) => {
 export const EditIsActive = (groupId, isActive) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountGroup.put(`/AccountGroupService/api/AccountGroups/EditIsActive?AccountGroupId=${groupId}&IsActive=${isActive}`, {
+    return AccountGroup({
+        method: 'put',
+        url: '/AccountGroupService/api/AccountGroups/EditIsActive',
+        data: {
+            "AccountGroupId": groupId,
+            "IsActive": isActive
+        },
         headers: {
             "selfuserid": `${final.userId}`,
-            "token": `${final.accessToken}`
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json'
         }
     })
 }
