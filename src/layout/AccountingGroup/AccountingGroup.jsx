@@ -16,6 +16,7 @@ const AccountingGroup = () => {
     const [value, setValue] = useState({code: "" , name:""});
     const [show, setShow] = useState(false);
     const [errorShow , setErrorShow] = useState(false);
+    const [successShow , setSuccessShow] = useState(false);
     const [message , setMessage] = useState("");
     const navigate = useNavigate();
 
@@ -65,15 +66,20 @@ const AccountingGroup = () => {
     const manageRemoveAccount = async (id)=>{
         const removeResponse = await DeleteAccountGroup(id);
         console.log(removeResponse)
-        if (removeResponse.data=== false){
-            setMessage("false");
+        if (removeResponse.data.isSuccess === false){
+            setMessage(removeResponse.data.message);
             setErrorShow(true);
             setTimeout(()=>{
                 setErrorShow(false);
                 setMessage("");
             } , 2500)
-        }else{
-            alert("حذف با موفقیت انجام شد")
+        }else if (removeResponse.data.isSuccess === true){
+            setMessage(removeResponse.data.message);
+            setSuccessShow(true);
+            setTimeout(()=>{
+                setSuccessShow(false);
+                setMessage("");
+            } , 2500)
         }
     }
 
@@ -112,9 +118,12 @@ const AccountingGroup = () => {
                     <Row>
                         <Col></Col>
                         <Col></Col>
-                        <Col>
-                            <Alert variant={"danger"} onClose={() => setErrorShow(false)} dismissible show={errorShow}>
-                                {message === "false" ? "حذف امکان پذیر نیست" : message}
+                        <Col className={"position-relative"}>
+                            <Alert className={"position-absolute"} variant={"danger"} onClose={() => setErrorShow(false)} dismissible show={errorShow}>
+                                {message}
+                            </Alert>
+                            <Alert className={"position-absolute"} variant={"success"} onClose={() => setSuccessShow(false)} dismissible show={successShow}>
+                                {message}
                             </Alert>
                         </Col>
                     </Row>
