@@ -2,8 +2,8 @@ import React, {Suspense} from "react";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import IndexLayout from "../layout/IndexLayout";
 import Main from "../layout/Main/Main";
-import Category from "../layout/Category/Category";
-import Product from "../layout/Product/Product";
+import Category from "../layout/AllUsers/Category";
+import AccountingMain from "../layout/AccountingMain/AccountingMain";
 import About from "../layout/About/About";
 import Login from "../layout/Login/Login";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
@@ -38,12 +38,12 @@ const Root = () => {
                     }, {
                         path: '/allUser',
                         element: (
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <AuthProvider>
-                                        <Category/>
-                                    </AuthProvider>
-                                </Suspense>
-                            )
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <AuthProvider>
+                                    <Category/>
+                                </AuthProvider>
+                            </Suspense>
+                        )
                     }, {
                         path: '/accountingGroup',
                         element:
@@ -54,45 +54,51 @@ const Root = () => {
                             </Suspense>)
 
                     }, {
-                        path: '/product',
-                        element: <Product/>
+                        path: '/accountingMain',
+                        element:
+                            (<Suspense fallback={<div>Loading...</div>}>
+                                <AuthProvider>
+                                    <AccountingMain/>
+                                </AuthProvider>
+                            </Suspense>)
+
                     }, {
                         path: '/about',
                         element: <About/>
                     }, {
                         path: '/pages',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     },
                     {
                         path: '/certificate',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/gift',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/share',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/contact',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/faq',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/notification',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/slider',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/search',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/pass',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/admin',
-                        element: <Product/>
+                        element: <AccountingMain/>
                     }, {
                         path: '/editUser',
                         element: <EditUser/>

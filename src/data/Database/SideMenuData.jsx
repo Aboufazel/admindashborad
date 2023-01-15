@@ -2,11 +2,11 @@ import {
     faAddressCard,
     faBell,
     faAdd,
-    faBlog,
+    faBook,
     faCertificate,
     faGauge, faGifts, faLock,
     faPager, faPhoneVolume, faQuestion, faSearch, faShare,
-    faShoppingCart, faSliders, faSolarPanel, faUsers
+    faSliders, faSolarPanel, faUsers
 } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -14,7 +14,7 @@ export const SideMenuData = [
     {id:1 , name:'داشبورد' , icon:faGauge , link:'/'},
     {id:2 , name:'تمامی کاربران' , icon: faUsers , link:'/allUser'},
     {id:3 , name:'گروه حساب', icon: faAdd , link:'/accountingGroup'},
-    {id:4 , name:'محصولات', icon: faShoppingCart , link:'/product'},
+    {id:4 , name:'حساب معین', icon: faBook , link:'/accountingMain'},
     {id:5 , name:'درباره ما', icon: faAddressCard , link:'/about'},
     {id:6 , name:'صفحات', icon: faPager , link:'/pages'},
     {id:7 , name:'مجوزها', icon: faCertificate , link:'/certificate'},

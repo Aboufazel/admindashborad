@@ -93,7 +93,7 @@ const Category = () => {
                             {'داشبورد'}
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
-                            {'دسته بندی مقالات'}
+                            {'کاربران'}
                         </Breadcrumb.Item>
                     </Breadcrumb>
                 </Col>
@@ -103,7 +103,7 @@ const Category = () => {
                     <Row>
                         <Col>
                             <p>
-                                {'دسته بندی مقالات'}
+                                {'کاربران'}
                             </p>
                         </Col>
                     </Row>

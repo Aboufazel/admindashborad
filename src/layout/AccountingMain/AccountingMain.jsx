@@ -1,9 +1,8 @@
 import {Breadcrumb, Col, Container, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
-import CustomTable from "../../components/CustomTable/CustomTable";
 
 
-const Product = () => {
+const AccountingMain = () => {
   return(
       <Container>
         <Row>
@@ -13,7 +12,7 @@ const Product = () => {
                 {'داشبورد'}
               </Breadcrumb.Item>
               <Breadcrumb.Item active>
-                {'محصولات'}
+                {'حساب معین'}
               </Breadcrumb.Item>
             </Breadcrumb>
           </Col>
@@ -23,7 +22,7 @@ const Product = () => {
             <Row>
               <Col>
                 <p>
-                  {'محصولات'}
+                  {'حساب معین'}
                 </p>
               </Col>
             </Row>
@@ -40,4 +39,4 @@ const Product = () => {
   )
 }
 
-export default Product;
+export default AccountingMain;

@@ -159,7 +159,7 @@ const AccountingGroup = () => {
                             {'داشبورد'}
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
-                            {'مقالات'}
+                            {'گروه حساب'}
                         </Breadcrumb.Item>
                     </Breadcrumb>
                 </Col>
@@ -169,7 +169,7 @@ const AccountingGroup = () => {
                     <Row>
                         <Col>
                             <p>
-                                {'مقالات'}
+                                {'گروه حساب'}
                             </p>
                         </Col>
                     </Row>
