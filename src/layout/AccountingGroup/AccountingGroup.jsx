@@ -1,6 +1,12 @@
 import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
-import {AddAccountGroup, DeleteAccountGroup, EditIsActive, GetAllAccountGroup} from "../../api/AccountGroup";
+import {
+    AddAccountGroup,
+    DeleteAccountGroup,
+    EditAccountGroup,
+    EditIsActive,
+    GetAllAccountGroup, GetById
+} from "../../api/AccountGroup";
 import '../../components/CustomTable/table.style.css'
 import {useEffect, useState} from "react";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
@@ -9,35 +15,45 @@ import {BeatLoader} from "react-spinners";
 import {useNavigate} from "react-router-dom";
 
 
-
 const AccountingGroup = () => {
-    const [account , setAccount] = useState(undefined);
+    const [account, setAccount] = useState(undefined);
     const [error, setError] = useState(false);
-    const [value, setValue] = useState({code: "" , name:""});
+    const [value, setValue] = useState({code: "", name: ""});
+    const [edit, setEdit] = useState({id: "", code: "", name: "", active: ""});
     const [show, setShow] = useState(false);
-    const [errorShow , setErrorShow] = useState(false);
-    const [successShow , setSuccessShow] = useState(false);
-    const [message , setMessage] = useState("");
-    const navigate = useNavigate();
+    const [editShow, setEditShow] = useState(false);
+    const [errorShow, setErrorShow] = useState(false);
+    const [successShow, setSuccessShow] = useState(false);
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
 
 
     const handleClose = () => {
         setShow(false);
         emptyInput()
     };
+
+    const handleEditClose = () => {
+        setEditShow(false);
+        emptyInput()
+    };
     const handleShow = () => setShow(true);
 
-    const manageChange = (e)=>{
+    const manageChange = (e) => {
         setValue({...value, [e.target.name]: e.target.value});
-        console.log(value)
     }
 
-    const AccountGroupGetTabel= async () => {
+    const manageEditChange = (e) => {
+        setEdit({...edit, [e.target.name]: e.target.value});
+    }
+
+    const AccountGroupGetTabel = async () => {
         const data = await GetAllAccountGroup().catch(() => setError(true));
-        console.log(data)
-        if(data.data.isSuccess === false){
+        if (data.data.isSuccess === false) {
             localStorage.clear();
+            alert("نیاز به ورود مجدد دارید");
             navigate('/login')
         }
         setAccount(data.data.accountGroups)
@@ -48,48 +64,90 @@ const AccountingGroup = () => {
     }, []);
 
 
-    const manageAddAccount = async ()=>{
-        const addResponse = await AddAccountGroup (value.code , value.name);
-        if(addResponse.data.isSuccess === true){
-            alert(`${addResponse.data.message}`)
+    const manageAddAccount = async () => {
+        const addResponse = await AddAccountGroup(value.code, value.name);
+        if (addResponse.data.isSuccess === true) {
+           setMessage(addResponse.data.message);
             setShow(false);
+            setSuccessShow(true)
             emptyInput();
-            setTimeout(()=>{
-            } , 1000)
-        }else {
-            alert(`${addResponse.data.message}`)
+            setTimeout(() => {
+                setSuccessShow(false)
+            }, 2500)
+        } else {
+            setMessage(addResponse.data.message);
+            setShow(false);
+            setErrorShow(true);
+            setTimeout(() => {
+                setErrorShow(false)
+            }, 2500)
         }
 
     }
 
+    const manageEditAccount = async (id) => {
+        setEditShow(true);
+        setLoading(true)
+        const getResponse = await GetById(id);
+        getResponse.data.accountGroups.map(item => setEdit({
+            id: item.accountGroupId,
+            code: item.accountGroupCode, name: item.accountGroupName, active: item.isActive
+        }))
+        if (getResponse.status === 200) {
+            setLoading(false)
+        } else {
+            setEditShow(false)
+        }
+    }
 
-    const manageRemoveAccount = async (id)=>{
+    const manageSendEditAccount = async () => {
+        const sendEditResponse = await EditAccountGroup(edit.id, edit.code, edit.name, edit.active);
+        if (sendEditResponse.data.isSuccess === true) {
+            setSuccessShow(true);
+            setEditShow(false);
+            setMessage(sendEditResponse.data.message);
+            setTimeout(() => {
+                setSuccessShow(false);
+            }, 2500)
+        } else {
+            setMessage(sendEditResponse.data.message);
+            setErrorShow(true);
+            setTimeout(() => {
+                setErrorShow(false);
+            }, 2500)
+        }
+    }
+
+
+    const manageRemoveAccount = async (id) => {
+        console.log(id)
         const removeResponse = await DeleteAccountGroup(id);
         console.log(removeResponse)
-        if (removeResponse.data.isSuccess === false){
+        if (removeResponse.data.isSuccess === false) {
             setMessage(removeResponse.data.message);
             setErrorShow(true);
-            setTimeout(()=>{
+            setTimeout(() => {
                 setErrorShow(false);
                 setMessage("");
-            } , 2500)
-        }else if (removeResponse.data.isSuccess === true){
+            }, 2500)
+        } else if (removeResponse.data.isSuccess === true) {
             setMessage(removeResponse.data.message);
             setSuccessShow(true);
-            setTimeout(()=>{
+            setTimeout(() => {
                 setSuccessShow(false);
                 setMessage("");
-            } , 2500)
+            }, 2500)
         }
     }
 
-    const manageActive = async (id , active)=>{
-        const activeResponse = await EditIsActive (id , active);
+    const manageActive = async (id, active) => {
+        console.log(active)
+        const activeResponse = await EditIsActive(id, active);
         console.log(activeResponse)
     }
 
     const emptyInput = () => {
-        setValue({code: "" , name:""});
+        setValue({code: "", name: ""});
     }
 
     return (
@@ -119,10 +177,12 @@ const AccountingGroup = () => {
                         <Col></Col>
                         <Col></Col>
                         <Col className={"position-relative"}>
-                            <Alert className={"position-absolute"} variant={"danger"} onClose={() => setErrorShow(false)} dismissible show={errorShow}>
+                            <Alert style={{position:"fixed" , top:0 , left:0}} variant={"danger"}
+                                   onClose={() => setErrorShow(false)} dismissible show={errorShow}>
                                 {message}
                             </Alert>
-                            <Alert className={"position-absolute"} variant={"success"} onClose={() => setSuccessShow(false)} dismissible show={successShow}>
+                            <Alert  style={{position:"fixed" , top:0 , left:0}} variant={"success"}
+                                   onClose={() => setSuccessShow(false)} dismissible show={successShow}>
                                 {message}
                             </Alert>
                         </Col>
@@ -130,7 +190,7 @@ const AccountingGroup = () => {
                     <Row className={"d-flex my-3 mb-5"}>
                         <Col>
                             <>
-                                <Button className={'btn_style'}  onClick={handleShow}>
+                                <Button className={'btn_style'} onClick={handleShow}>
                                     {"افزودن گروه حساب"}
                                 </Button>
 
@@ -143,14 +203,18 @@ const AccountingGroup = () => {
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         <Row className={"my-3"}>
                                             <Col className={"d-flex align-items-center col-12"}>
-                                                <label style={{fontFamily:'iran-sans'}} className={"me-2"}>{"کد گروه:"}</label>
-                                                <input name={"code"} onChange={manageChange} value={value.code} className={'p-2'}/>
+                                                <label style={{fontFamily: 'iran-sans'}}
+                                                       className={"me-2"}>{"کد گروه:"}</label>
+                                                <input name={"code"} onChange={manageChange} value={value.code}
+                                                       className={'p-2'}/>
                                             </Col>
                                         </Row>
                                         <Row className={"my-3"}>
                                             <Col className={"d-flex align-items-center col-12"}>
-                                                <label  style={{fontFamily:'iran-sans'}}  className={"me-2"}>{"نام گروه:"}</label>
-                                                <input name={"name"} onChange={manageChange} value={value.name} className={'p-2'}/>
+                                                <label style={{fontFamily: 'iran-sans'}}
+                                                       className={"me-2"}>{"نام گروه:"}</label>
+                                                <input name={"name"} onChange={manageChange} value={value.name}
+                                                       className={'p-2'}/>
                                             </Col>
                                         </Row>
                                     </Modal.Body>
@@ -158,8 +222,63 @@ const AccountingGroup = () => {
                                         <Button className={'close_btn'} onClick={handleClose}>
                                             {"بستن"}
                                         </Button>
-                                        <Button onClick={()=>manageAddAccount()} className={'save_btn'}>
+                                        <Button onClick={() => manageAddAccount()} className={'save_btn'}>
                                             {"ایجاد گروه"}
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={editShow} onHide={handleEditClose}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title className={'modal_title'}>
+                                            {"ویرایش حساب"}
+                                        </Modal.Title>
+                                    </Modal.Header>
+                                    {loading === true ?
+                                        <div className={"d-flex w-100 justify-content-center"}><BeatLoader
+                                            color="#3c8dbc"/>
+                                        </div> :
+                                        <Modal.Body
+                                            class={'d-flex flex-column justify-content-start p-3'}>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"شناسه گروه:"}</label>
+                                                    <input disabled={true} name={"id"}
+                                                           value={edit.id} className={'p-2'}/>
+                                                </Col>
+                                            </Row>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"کد گروه:"}</label>
+                                                    <input name={"code"} onChange={manageEditChange}
+                                                           value={edit.code} className={'p-2'}/>
+                                                </Col>
+                                            </Row>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"نام گروه:"}</label>
+                                                    <input name={"name"} onChange={manageEditChange}
+                                                           value={edit.name} className={'p-2'}/>
+                                                </Col>
+                                            </Row>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"وضعیت حساب:"}</label>
+                                                    <input name={"active"} onChange={manageEditChange}
+                                                           value={edit.active} className={'p-2'}/>
+                                                </Col>
+                                            </Row>
+                                        </Modal.Body>
+                                    }
+                                    <Modal.Footer>
+                                        <Button className={'close_btn'} onClick={handleEditClose}>
+                                            {"بستن"}
+                                        </Button>
+                                        <Button onClick={() => manageSendEditAccount()} className={'save_btn'}>
+                                            {"ویرایش گروه"}
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
@@ -172,7 +291,7 @@ const AccountingGroup = () => {
                 </Col>
                 <Row>
                     <Col className={"d-flex p-5 w-100 col-12"}>
-                        <Row  style={{height: '80vh'}} className={"overflow-scroll d-flex w-100"}>
+                        <Row style={{height: '80vh'}} className={"overflow-scroll d-flex w-100"}>
                             {account === undefined ?
                                 <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#3c8dbc"/>
                                 </div> :
@@ -217,7 +336,9 @@ const AccountingGroup = () => {
                                                     <ActionTableButton color={"--text-color-white"}
                                                                        bgColor={"--color-warning"}
                                                                        tooltip={"ویرایش"}
-                                                                       icon={faEdit}/>
+                                                                       icon={faEdit}
+                                                                       onClick={() => manageEditAccount(item.accountGroupId)}/>
+
                                                     <ActionTableButton color={"--text-color-white"}
                                                                        bgColor={"--color-danger"}
                                                                        tooltip={"حذف کاربر"}
