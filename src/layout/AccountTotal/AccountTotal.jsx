@@ -12,7 +12,7 @@ const AccountTotal = () => {
                           {'داشبورد'}
                       </Breadcrumb.Item>
                       <Breadcrumb.Item active>
-                          {'حساب کل'}
+                          {'حساب معین'}
                       </Breadcrumb.Item>
                   </Breadcrumb>
               </Col>
@@ -22,7 +22,7 @@ const AccountTotal = () => {
                   <Row className={'mb-3'}>
                       <Col lg={1}>
                           <p className={'mt-1'}>
-                              {'حساب کل'}
+                              {'حساب معین'}
                           </p>
                       </Col>
                       <Col>
