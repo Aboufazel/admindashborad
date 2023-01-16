@@ -4,11 +4,12 @@ import IndexLayout from "../layout/IndexLayout";
 import Main from "../layout/Main/Main";
 import Category from "../layout/AllUsers/Category";
 import AccountingMain from "../layout/AccountingMain/AccountingMain";
-import About from "../layout/About/About";
+import About from "../layout/AccountTotal/AccountTotal";
 import Login from "../layout/Login/Login";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
 import EditUser from "../layout/EditUser/EditUser";
 import AccountingGroup from "../layout/AccountingGroup/AccountingGroup";
+import AccountTotal from "../layout/AccountTotal/AccountTotal";
 
 
 const Root = () => {
@@ -63,8 +64,14 @@ const Root = () => {
                             </Suspense>)
 
                     }, {
-                        path: '/about',
-                        element: <About/>
+                        path: '/accountTotal',
+                        element:
+                            (<Suspense fallback={<div>Loading...</div>}>
+                                <AuthProvider>
+                                    <AccountTotal/>
+                                </AuthProvider>
+                            </Suspense>)
+
                     }, {
                         path: '/pages',
                         element: <AccountingMain/>

@@ -1,10 +1,8 @@
 import {Breadcrumb, Col, Container, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
-import CustomTable from "../../components/CustomTable/CustomTable";
-import CustomModal from "../../components/CustomModal/CustomModal";
 
 
-const About = () => {
+const AccountTotal = () => {
   return(
       <Container>
           <Row>
@@ -14,7 +12,7 @@ const About = () => {
                           {'داشبورد'}
                       </Breadcrumb.Item>
                       <Breadcrumb.Item active>
-                          {'درباره ما'}
+                          {'حساب کل'}
                       </Breadcrumb.Item>
                   </Breadcrumb>
               </Col>
@@ -24,11 +22,11 @@ const About = () => {
                   <Row className={'mb-3'}>
                       <Col lg={1}>
                           <p className={'mt-1'}>
-                              {'درباره ما'}
+                              {'حساب کل'}
                           </p>
                       </Col>
                       <Col>
-                          <CustomModal btnTitle={'ایجاد جدول'} modalTitle={'جدول جدید'}/>
+
                       </Col>
                   </Row>
                   <Row>
@@ -40,4 +38,4 @@ const About = () => {
   )
 }
 
-export default About;
+export default AccountTotal;

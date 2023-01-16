@@ -13,6 +13,7 @@ import ActionTableButton from "../../components/ActionTableButton/ActionTableBut
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BeatLoader} from "react-spinners";
 import {useNavigate} from "react-router-dom";
+import "../../components/CustomModal/modal.style.css"
 
 
 const AccountingGroup = () => {
