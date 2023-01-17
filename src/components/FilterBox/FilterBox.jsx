@@ -1,7 +1,11 @@
 import {Col, Container, Row} from "react-bootstrap";
 import './filter.style.css'
 
+
 const FilterBox = () => {
+
+
+
   return(
       <Container>
         <Row>

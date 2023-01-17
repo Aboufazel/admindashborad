@@ -8,8 +8,24 @@ AccountMain.interceptors.response.use();
 
 
 
-const AddAccountMain = ()=>{
-
+export const AddAccountMain = (mainCode , mainName , mainId)=>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+     return AccountMain({
+         method:"post",
+         url:"/AccountMainService/api/AccountMains/add",
+         data: {
+             "AccountMainId":+mainId,
+             "AccountGroupCode": +mainCode,
+             "AccountGroupName": `${mainName}`,
+             "lang": "fa",
+         },
+         headers: {
+             "selfuserid": `${final.userId}`,
+             "token": `${final.accessToken}`,
+             'Content-Type': 'application/json'
+         },
+     })
 }
 
 
