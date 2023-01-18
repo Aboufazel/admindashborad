@@ -25,7 +25,7 @@ const FilterBox = () => {
             </Col>
             <Col className={'selection_block'}>
               <div>
-                {'جستوجو:'}
+                {'جستجو:'}
               </div>
               <div>
                 <input/>

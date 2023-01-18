@@ -27,6 +27,7 @@ const AccountingGroup = () => {
     const [successShow, setSuccessShow] = useState(false);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [reload , setReload] = useState(false)
 
     const navigate = useNavigate();
 
@@ -52,6 +53,7 @@ const AccountingGroup = () => {
 
     const AccountGroupGetTabel = async () => {
         const data = await GetAllAccountGroup().catch(() => setError(true));
+        console.log(data.data.accountGroups)
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");
@@ -62,7 +64,7 @@ const AccountingGroup = () => {
 
     useEffect(() => {
         AccountGroupGetTabel();
-    }, []);
+    }, [reload]);
 
 
     const manageAddAccount = async () => {
@@ -70,8 +72,9 @@ const AccountingGroup = () => {
         if (addResponse.data.isSuccess === true) {
            setMessage(addResponse.data.message);
             setShow(false);
-            setSuccessShow(true)
+            setSuccessShow(true);
             emptyInput();
+            setReload(!reload);
             setTimeout(() => {
                 setSuccessShow(false)
             }, 2500)
@@ -243,14 +246,6 @@ const AccountingGroup = () => {
                                             <Row className={"my-3"}>
                                                 <Col className={"d-flex align-items-center col-12"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
-                                                           className={"me-2"}>{"شناسه گروه:"}</label>
-                                                    <input disabled={true} name={"id"}
-                                                           value={edit.id} className={'p-2'}/>
-                                                </Col>
-                                            </Row>
-                                            <Row className={"my-3"}>
-                                                <Col className={"d-flex align-items-center col-12"}>
-                                                    <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"کد گروه:"}</label>
                                                     <input name={"code"} onChange={manageEditChange}
                                                            value={edit.code} className={'p-2'}/>
@@ -262,14 +257,6 @@ const AccountingGroup = () => {
                                                            className={"me-2"}>{"نام گروه:"}</label>
                                                     <input name={"name"} onChange={manageEditChange}
                                                            value={edit.name} className={'p-2'}/>
-                                                </Col>
-                                            </Row>
-                                            <Row className={"my-3"}>
-                                                <Col className={"d-flex align-items-center col-12"}>
-                                                    <label style={{fontFamily: 'iran-sans'}}
-                                                           className={"me-2"}>{"وضعیت حساب:"}</label>
-                                                    <input name={"active"} onChange={manageEditChange}
-                                                           value={edit.active} className={'p-2'}/>
                                                 </Col>
                                             </Row>
                                         </Modal.Body>
@@ -292,7 +279,7 @@ const AccountingGroup = () => {
                 </Col>
                 <Row>
                     <Col className={"d-flex p-5 w-100 col-12"}>
-                        <Row style={{height: '80vh'}} className={"overflow-scroll d-flex w-100"}>
+                        <Row style={{height: '45vh'}} className={"overflow-scroll d-flex w-100"}>
                             {account === undefined ?
                                 <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#3c8dbc"/>
                                 </div> :
@@ -306,13 +293,10 @@ const AccountingGroup = () => {
                                             {"نام گروه حساب"}
                                         </td>
                                         <td className={"p-2"}>
-                                            {"وضعیت حساب"}
-                                        </td>
-                                        <td className={"p-2"}>
                                             {"حساب های کل"}
                                         </td>
                                         <td className={"p-2"}>
-                                            {"زبان"}
+                                            {"وضعیت حساب"}
                                         </td>
                                         <td className={"p-2"}>
                                             {"عملیات"}
@@ -325,14 +309,13 @@ const AccountingGroup = () => {
                                             <tr key={item.accountGroupId}>
                                                 <td className={"p-2"}>{item.accountGroupCode}</td>
                                                 <td className={"p-2"}>{item.accountGroupName}</td>
+                                                <td className={"p-2"}><Button variant={"warning"}>{"مشاهده"}</Button>
+                                                </td>
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
                                                     onClick={() => manageActive(item.accountGroupId, !item.isActive)}
                                                     variant={"success"} value={true}>{"فعال"}</Button> : <Button
                                                     onClick={() => manageActive(item.accountGroupId, !item.isActive)}
                                                     variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
-                                                <td className={"p-2"}><Button variant={"warning"}>{"مشاهده"}</Button>
-                                                </td>
-                                                <td className={"p-2"}>{item.lang === "fa" ? "فارسی" : "انگلیسی"}</td>
                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                     <ActionTableButton color={"--text-color-white"}
                                                                        bgColor={"--color-warning"}

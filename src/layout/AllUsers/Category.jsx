@@ -29,7 +29,6 @@ const Category = () => {
 
     const manageGetdata = useCallback(() => {
         const data =  localStorage.getItem("auth");
-        console.log(data)
         const final = JSON.parse(data);
         setId(final.userId)
         setToken(final.accessToken)

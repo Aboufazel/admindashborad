@@ -4,6 +4,7 @@
     font-size: 14px;
     background: var(--color-primary);
     color: var(--text-color-primary);
+    min-height: 100vh;
 }
 .side_menu ul{
     padding: 0;

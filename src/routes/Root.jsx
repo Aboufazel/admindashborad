@@ -4,12 +4,13 @@ import IndexLayout from "../layout/IndexLayout";
 import Main from "../layout/Main/Main";
 import Category from "../layout/AllUsers/Category";
 import AccountingMain from "../layout/AccountingMain/AccountingMain";
-import About from "../layout/AccountTotal/AccountTotal";
 import Login from "../layout/Login/Login";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
 import EditUser from "../layout/EditUser/EditUser";
 import AccountingGroup from "../layout/AccountingGroup/AccountingGroup";
 import AccountTotal from "../layout/AccountTotal/AccountTotal";
+import FirstLayoutAccountMain from "../layout/AccountingMain/FirstLayoutAccountMain";
+import AccountMain from "../api/AccountMain";
 
 
 const Root = () => {

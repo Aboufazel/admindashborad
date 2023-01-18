@@ -82,7 +82,7 @@ const AccountingMain = () => {
                         <Col>
                             <>
                                 <Button className={'btn_style'} onClick={handleShow}>
-                                    {"افزودن حساب معین به حساب کل"}
+                                    {"افزودن حساب کل به حساب گروه"}
                                 </Button>
 
                                 <Modal show={show} onHide={handleClose}>
@@ -151,9 +151,6 @@ const AccountingMain = () => {
                                             {"وضعیت حساب"}
                                         </td>
                                         <td className={"p-2"}>
-                                            {"زبان"}
-                                        </td>
-                                        <td className={"p-2"}>
                                             {"عملیات"}
                                         </td>
                                     </tr>
@@ -165,7 +162,7 @@ const AccountingMain = () => {
                                                 <td className={"p-2"}>{item.accountMainCode}</td>
                                                 <td className={"p-2"}>{item.accountMainName}</td>
                                                 <td className={"p-2"}>
-                                                    <Button variant={"danger"}>
+                                                    <Button variant={"warning"}>
                                                         <Link className={"link"} to={"/accountTotal"}>
                                                             {"مشاهده"}
                                                         </Link>
@@ -174,7 +171,6 @@ const AccountingMain = () => {
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
                                                     variant={"success"} value={true}>{"فعال"}</Button> : <Button
                                                     variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
-                                                <td className={"p-2"}>{item.lang === "fa" ? "فارسی" : "انگلیسی"}</td>
                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                     <ActionTableButton color={"--text-color-white"}
                                                                        bgColor={"--color-warning"}
