@@ -2,13 +2,14 @@ import {Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
 import {GetAllAccountMain} from "../../api/AccountMain";
 import {Link, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {BeatLoader} from "react-spinners";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import "./accountMain.style.css"
+import {GiveIdContext} from "../../Context/GiveId";
 
-const AccountingMain = () => {
+const AccountingMain = ({GroupId}) => {
     const [account, setAccount] = useState(undefined);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
@@ -20,7 +21,8 @@ const AccountingMain = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
+    const Id = useContext(GiveIdContext);
+    console.log(Id.authData)
 
     const handleClose = () => {
         setShow(false);
@@ -49,6 +51,7 @@ const AccountingMain = () => {
     useEffect(() => {
         AccountMainGetTabel();
     }, []);
+
 
 
     const emptyInput = () => {
@@ -158,7 +161,7 @@ const AccountingMain = () => {
                                     <tbody>
                                     {
                                         account.map(item => (
-                                            <tr key={item.accountMainId}>
+                                            item.accountGroupId === Id.authData ? <tr key={item.accountMainId}>
                                                 <td className={"p-2"}>{item.accountMainCode}</td>
                                                 <td className={"p-2"}>{item.accountMainName}</td>
                                                 <td className={"p-2"}>
@@ -184,7 +187,8 @@ const AccountingMain = () => {
                                                                        icon={faTrash}
                                                     />
                                                 </td>
-                                            </tr>
+                                            </tr> :
+                                                <Row className={"d-flex align-items-center justify-content-center p-3"}>حساب معینی وجود ندارد</Row>
                                         ))
                                     }
                                     </tbody>

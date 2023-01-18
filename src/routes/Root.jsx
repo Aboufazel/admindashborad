@@ -9,8 +9,7 @@ import AuthProvider from "../components/AuthProvider/AuthProvider";
 import EditUser from "../layout/EditUser/EditUser";
 import AccountingGroup from "../layout/AccountingGroup/AccountingGroup";
 import AccountTotal from "../layout/AccountTotal/AccountTotal";
-import FirstLayoutAccountMain from "../layout/AccountingMain/FirstLayoutAccountMain";
-import AccountMain from "../api/AccountMain";
+import PageNotFound from "../layout/PageNotFound/PageNotFound";
 
 
 const Root = () => {
@@ -72,41 +71,9 @@ const Root = () => {
                                     <AccountTotal/>
                                 </AuthProvider>
                             </Suspense>)
-
-                    }, {
-                        path: '/pages',
-                        element: <AccountingMain/>
-                    },
-                    {
-                        path: '/certificate',
-                        element: <AccountingMain/>
-                    }, {
-                        path: '/gift',
-                        element: <AccountingMain/>
-                    }, {
-                        path: '/share',
-                        element: <AccountingMain/>
-                    }, {
-                        path: '/contact',
-                        element: <AccountingMain/>
-                    }, {
-                        path: '/faq',
-                        element: <AccountingMain/>
-                    }, {
-                        path: '/notification',
-                        element: <AccountingMain/>
-                    }, {
-                        path: '/slider',
-                        element: <AccountingMain/>
-                    }, {
-                        path: '/search',
-                        element: <AccountingMain/>
                     }, {
                         path: '/pass',
-                        element: <AccountingMain/>
-                    }, {
-                        path: '/admin',
-                        element: <AccountingMain/>
+                        element: <PageNotFound/>
                     }, {
                         path: '/editUser',
                         element: <EditUser/>

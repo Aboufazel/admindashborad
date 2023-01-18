@@ -8,15 +8,17 @@ import {
     GetAllAccountGroup, GetById
 } from "../../api/AccountGroup";
 import '../../components/CustomTable/table.style.css'
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BeatLoader} from "react-spinners";
 import {useNavigate} from "react-router-dom";
 import "../../components/CustomModal/modal.style.css"
+import {GiveIdContext} from "../../Context/GiveId";
 
 
 const AccountingGroup = () => {
+    const {state , dispatch} = useContext(GiveIdContext)
     const [account, setAccount] = useState(undefined);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
@@ -67,6 +69,7 @@ const AccountingGroup = () => {
     }, [reload]);
 
 
+
     const manageAddAccount = async () => {
         const addResponse = await AddAccountGroup(value.code, value.name);
         if (addResponse.data.isSuccess === true) {
@@ -88,6 +91,13 @@ const AccountingGroup = () => {
         }
 
     }
+
+
+    const manageAccountMain = (id)=>{
+        dispatch({type: 'UserData' , payload:id});
+        navigate("/accountingMain");
+    }
+
 
     const manageEditAccount = async (id) => {
         setEditShow(true);
@@ -309,7 +319,7 @@ const AccountingGroup = () => {
                                             <tr key={item.accountGroupId}>
                                                 <td className={"p-2"}>{item.accountGroupCode}</td>
                                                 <td className={"p-2"}>{item.accountGroupName}</td>
-                                                <td className={"p-2"}><Button variant={"warning"}>{"مشاهده"}</Button>
+                                                <td className={"p-2"}><Button onClick={()=>manageAccountMain(item.accountGroupId)} variant={"warning"}>{"مشاهده"}</Button>
                                                 </td>
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
                                                     onClick={() => manageActive(item.accountGroupId, !item.isActive)}
