@@ -1,4 +1,4 @@
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Alert, Button, Col, Container, Form, Row} from "react-bootstrap";
 import "./login.style.css"
 import {LoginApi} from "../../api/Services"
 import {useNavigate} from "react-router-dom";
@@ -7,7 +7,8 @@ import {useState} from "react";
 
 
 const Login = ({}) => {
-
+const [showAlert , setShowAlert] = useState(false);
+const [message , setMessage] = useState(false);
     const navigate = useNavigate();
     const [authInfo, setAuthInfo] = useStorage("auth", {
         userId: "",
@@ -35,14 +36,20 @@ const Login = ({}) => {
                     navigate("/");
                 }
                 else {
-                    console.log(res)
-                    console.log("ورود با خطا مواجه شد")
+                    setMessage(res.data.message);
+                    setShowAlert(true);
+                    setTimeout(()=>{
+                        setShowAlert(false)
+                    } , 1000)
                 }
             })
 
     };
     return (
         <Container className={"d-flex justify-content-center align-items-center"}>
+            <Alert style={{position:"absolute" , top:25 , left:25 , fontFamily:'iran-sans'}} variant={"danger"} show={showAlert}>
+                {message}
+            </Alert>
             <Row className={"my-auto vh-100"}>
                 <Col className={"my-auto w-75 d-flex justify-content-center"}>
                     <div className={"login-box"}>
