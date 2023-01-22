@@ -143,7 +143,7 @@ const AccountingGroup = () => {
             setTimeout(() => {
                 setErrorShow(false);
                 setMessage("");
-            }, 2500)
+            }, 1000)
         } else if (removeResponse.data.isSuccess === true) {
             setMessage(removeResponse.data.message);
             setSuccessShow(true);
@@ -151,7 +151,7 @@ const AccountingGroup = () => {
             setTimeout(() => {
                 setSuccessShow(false);
                 setMessage("");
-            }, 2500)
+            }, 1000)
         }
     }
 
@@ -190,12 +190,12 @@ const AccountingGroup = () => {
                     </Row>
                     <Row>
                         <Col className={"position-relative"}>
-                            <Alert style={{position:"fixed" , top:0 , left:0}} variant={"danger"}
-                                   onClose={() => setErrorShow(false)} dismissible show={errorShow}>
+                            <Alert style={{position:"fixed" , top:0 , left:0 , fontFamily:'iran-sans'}} variant={"danger"}
+                                   dismissible show={errorShow}>
                                 {message}
                             </Alert>
-                            <Alert  style={{position:"fixed" , top:0 , left:0}} variant={"success"}
-                                   onClose={() => setSuccessShow(false)} dismissible show={successShow}>
+                            <Alert  style={{position:"fixed" , top:0 , left:0 , fontFamily:'iran-sans'}} variant={"success"}
+                                    dismissible show={successShow}>
                                 {message}
                             </Alert>
                         </Col>
