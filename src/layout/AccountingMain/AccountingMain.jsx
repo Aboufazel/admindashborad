@@ -305,12 +305,6 @@ const AccountingMain = () => {
                                                                      icon={faEdit}
                                                                      onClick={()=> manageEditAccount(item.accountMainId)}
                                                   />
-
-                                                  <ActionTableButton color={"--text-color-white"}
-                                                                     bgColor={"--color-danger"}
-                                                                     tooltip={"حذف کاربر"}
-                                                                     icon={faTrash}
-                                                  />
                                               </td>
                                           </tr>
                                       )
