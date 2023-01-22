@@ -76,8 +76,8 @@ const AccountingGroup = () => {
            setMessage(addResponse.data.message);
             setShow(false);
             setSuccessShow(true);
-            emptyInput();
             setReload(!reload);
+            emptyInput();
             setTimeout(() => {
                 setSuccessShow(false)
             }, 2500)
@@ -288,7 +288,7 @@ const AccountingGroup = () => {
                 </Col>
                 <Row>
                     <Col className={"d-flex p-5 w-100 col-12"}>
-                        <Row style={{height: '45vh'}} className={"overflow-scroll d-flex w-100"}>
+                        <Row className={"overflow-scroll d-flex w-100"}>
                             {account === undefined ?
                                 <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#3c8dbc"/>
                                 </div> :
