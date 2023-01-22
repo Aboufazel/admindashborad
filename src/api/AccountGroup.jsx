@@ -47,6 +47,7 @@ export const AddAccountGroup = (groupCode, groupName) => {
         },
     })
 }
+
 export const DeleteAccountGroup = (groupId) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
@@ -79,6 +80,7 @@ export const EditAccountGroup = (id,groupCode, groupName,active) => {
         },
     })
 }
+
 export const EditIsActive = (groupId, isActive) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);

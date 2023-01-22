@@ -1,7 +1,7 @@
-import {Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
+import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
-import {GetAllAccountMain} from "../../api/AccountMain";
-import {Link, useNavigate} from "react-router-dom";
+import {AccountMainGetById, AddAccountMain, EditAccountMain, GetAllAccountMain} from "../../api/AccountMain";
+import {useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {BeatLoader} from "react-spinners";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
@@ -9,8 +9,10 @@ import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import "./accountMain.style.css"
 import {GiveIdContext} from "../../Context/GiveId";
 
-const AccountingMain = ({GroupId}) => {
+
+const AccountingMain = () => {
     const [account, setAccount] = useState(undefined);
+    const {state , dispatch} = useContext(GiveIdContext)
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
     const [edit, setEdit] = useState({id: "", code: "", name: "", active: ""});
@@ -20,9 +22,10 @@ const AccountingMain = ({GroupId}) => {
     const [successShow, setSuccessShow] = useState(false);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [reload , setReload] = useState(false)
+
     const navigate = useNavigate();
     const Id = useContext(GiveIdContext);
-    console.log(Id.authData)
 
     const handleClose = () => {
         setShow(false);
@@ -50,13 +53,84 @@ const AccountingMain = ({GroupId}) => {
 
     useEffect(() => {
         AccountMainGetTabel();
-    }, []);
+    }, [reload]);
 
 
 
     const emptyInput = () => {
         setValue({code: "", name: ""});
     }
+
+    const manageAccountTotal = (id)=>{
+        dispatch({type: 'UserData' , payload:id});
+        navigate("/accountTotal");
+    }
+
+    const manageAddAccount = async () => {
+        const addResponse = await AddAccountMain(value.code, value.name , Id.authData);
+        console.log(addResponse)
+        if (addResponse.data.isSuccess === true) {
+            setMessage(addResponse.data.message);
+            setShow(false);
+            setSuccessShow(true);
+            emptyInput();
+            setReload(!reload);
+            setTimeout(() => {
+                setSuccessShow(false)
+            }, 2500)
+        } else {
+            setMessage(addResponse.data.message);
+            setShow(false);
+            setErrorShow(true);
+            setTimeout(() => {
+                setErrorShow(false)
+            }, 2500)
+        }
+
+    }
+
+    const manageEditAccount = async (id) => {
+        setEditShow(true);
+        setLoading(true)
+        const getResponse = await AccountMainGetById(id);
+        getResponse.data.accountMains.map(item => setEdit({
+            id: item.accountMainId,
+            code: item.accountMainCode, name: item.accountMainName, active: item.isActive
+        }))
+        if (getResponse.status === 200) {
+            setLoading(false)
+        } else {
+            setEditShow(false)
+        }
+    }
+
+    const handleEditClose = () => {
+        setEditShow(false);
+        emptyInput()
+    };
+
+    const manageEditChange = (e) => {
+        setEdit({...edit, [e.target.name]: e.target.value});
+    }
+
+    const manageSendEditAccount = async () => {
+        const sendEditResponse = await EditAccountMain(edit.id,Id.authData,edit.code, edit.name);
+        if (sendEditResponse.data.isSuccess === true) {
+            setSuccessShow(true);
+            setEditShow(false);
+            setMessage(sendEditResponse.data.message);
+            setTimeout(() => {
+                setSuccessShow(false);
+            }, 2500)
+        } else {
+            setMessage(sendEditResponse.data.message);
+            setErrorShow(true);
+            setTimeout(() => {
+                setErrorShow(false);
+            }, 2500)
+        }
+    }
+
 
     return (
         <Container>
@@ -65,6 +139,9 @@ const AccountingMain = ({GroupId}) => {
                     <Breadcrumb>
                         <Breadcrumb.Item href={'/'} className={'beard_crumb'}>
                             {'داشبورد'}
+                        </Breadcrumb.Item>
+                        <Breadcrumb.Item href={'/accountingGroup'} className={'beard_crumb'}>
+                            {'گروه حساب'}
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
                             {'حساب کل'}
@@ -116,8 +193,47 @@ const AccountingMain = ({GroupId}) => {
                                         <Button className={'close_btn'} onClick={handleClose}>
                                             {"بستن"}
                                         </Button>
-                                        <Button className={'save_btn'}>
+                                        <Button onClick={()=>manageAddAccount()} className={'save_btn'}>
                                             {"ایجاد گروه"}
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={editShow} onHide={handleEditClose}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title className={'modal_title'}>
+                                            {"ویرایش حساب"}
+                                        </Modal.Title>
+                                    </Modal.Header>
+                                    {loading === true ?
+                                        <div className={"d-flex w-100 justify-content-center"}><BeatLoader
+                                            color="#3c8dbc"/>
+                                        </div> :
+                                        <Modal.Body
+                                            class={'d-flex flex-column justify-content-start p-3'}>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"کد گروه:"}</label>
+                                                    <input name={"code"} onChange={manageEditChange}
+                                                           value={edit.code} className={'p-2'}/>
+                                                </Col>
+                                            </Row>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"نام گروه:"}</label>
+                                                    <input name={"name"} onChange={manageEditChange}
+                                                           value={edit.name} className={'p-2'}/>
+                                                </Col>
+                                            </Row>
+                                        </Modal.Body>
+                                    }
+                                    <Modal.Footer>
+                                        <Button className={'close_btn'} onClick={handleEditClose}>
+                                            {"بستن"}
+                                        </Button>
+                                        <Button onClick={() => manageSendEditAccount()} className={'save_btn'}>
+                                            {"ویرایش گروه"}
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
@@ -128,7 +244,15 @@ const AccountingMain = ({GroupId}) => {
                         <FilterBox/>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col className={"position-relative"}>
+                            <Alert style={{position:"fixed" , top:0 , left:0}} variant={"danger"}
+                                   onClose={() => setErrorShow(false)} dismissible show={errorShow}>
+                                {message}
+                            </Alert>
+                            <Alert  style={{position:"fixed" , top:0 , left:0}} variant={"success"}
+                                    onClose={() => setSuccessShow(false)} dismissible show={successShow}>
+                                {message}
+                            </Alert>
                         </Col>
                     </Row>
                 </Col>
@@ -160,36 +284,36 @@ const AccountingMain = ({GroupId}) => {
                                     </thead>
                                     <tbody>
                                     {
-                                        account.map(item => (
-                                            item.accountGroupId === Id.authData ? <tr key={item.accountMainId}>
-                                                <td className={"p-2"}>{item.accountMainCode}</td>
-                                                <td className={"p-2"}>{item.accountMainName}</td>
-                                                <td className={"p-2"}>
-                                                    <Button variant={"warning"}>
-                                                        <Link className={"link"} to={"/accountTotal"}>
-                                                            {"مشاهده"}
-                                                        </Link>
-                                                    </Button>
-                                                </td>
-                                                <td className={"p-2"}>{item.isActive === true ? <Button
-                                                    variant={"success"} value={true}>{"فعال"}</Button> : <Button
-                                                    variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
-                                                <td className={"d-flex justify-content-center gap-2 p-2"}>
-                                                    <ActionTableButton color={"--text-color-white"}
-                                                                       bgColor={"--color-warning"}
-                                                                       tooltip={"ویرایش"}
-                                                                       icon={faEdit}
-                                                    />
+                                        //filter output is [];
+                                        //this code filter the accountGroup have a accountMain;
+                                      account.filter(item => item.accountGroupId === Id.authData ).map(
+                                          item => <tr key={item.accountMainId}>
+                                              <td className={"p-2"}>{item.accountMainCode}</td>
+                                              <td className={"p-2"}>{item.accountMainName}</td>
+                                              <td className={"p-2"}>
+                                                  <Button onClick={()=> manageAccountTotal(item.accountMainId)} variant={"warning"}>
+                                                      {"مشاهده"}
+                                                  </Button>
+                                              </td>
+                                              <td className={"p-2"}>{item.isActive === true ? <Button
+                                                  variant={"success"} value={true}>{"فعال"}</Button> : <Button
+                                                  variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
+                                              <td className={"d-flex justify-content-center gap-2 p-2"}>
+                                                  <ActionTableButton color={"--text-color-white"}
+                                                                     bgColor={"--color-warning"}
+                                                                     tooltip={"ویرایش"}
+                                                                     icon={faEdit}
+                                                                     onClick={()=> manageEditAccount(item.accountMainId)}
+                                                  />
 
-                                                    <ActionTableButton color={"--text-color-white"}
-                                                                       bgColor={"--color-danger"}
-                                                                       tooltip={"حذف کاربر"}
-                                                                       icon={faTrash}
-                                                    />
-                                                </td>
-                                            </tr> :
-                                                <Row className={"d-flex align-items-center justify-content-center p-3"}>حساب معینی وجود ندارد</Row>
-                                        ))
+                                                  <ActionTableButton color={"--text-color-white"}
+                                                                     bgColor={"--color-danger"}
+                                                                     tooltip={"حذف کاربر"}
+                                                                     icon={faTrash}
+                                                  />
+                                              </td>
+                                          </tr>
+                                      )
                                     }
                                     </tbody>
                                 </table>

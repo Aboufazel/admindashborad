@@ -17,19 +17,18 @@ const AccountTotal = () => {
     const navigate = useNavigate();
 
 
-    const AccountُSpecGetTabel = async () => {
+    const AccountSpecGetTabel = async () => {
         const data = await GetAllAccountSpec().catch(() => setError(true));
-        console.log(data.data);
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");
             navigate('/login')
         }
-        setAccount(data.data.accountMains)
+        setAccount(data.data.accountSpecs)
     };
 
 useEffect(()=>{
-    AccountُSpecGetTabel()
+    AccountSpecGetTabel()
 } , [])
 
     return(
@@ -39,6 +38,9 @@ useEffect(()=>{
                   <Breadcrumb>
                       <Breadcrumb.Item href={'/'} className={'beard_crumb'}>
                           {'داشبورد'}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item href={'/accountingMain'} className={'beard_crumb'}>
+                          {'حساب کل'}
                       </Breadcrumb.Item>
                       <Breadcrumb.Item active>
                           {'حساب معین'}
@@ -87,31 +89,28 @@ useEffect(()=>{
                                   </thead>
                                   <tbody>
                                   {
-                                      account.map(item => (
-                                          item.accountMainId === MainId.authData ? <tr key={item.accountSpecId}>
-                                                  <td className={"p-2"}>{item.accountSpecCode}</td>
-                                                  <td className={"p-2"}>{item.accountSpecName}</td>
-                                                  <td className={"p-2"}>{item.isActive === true ? <Button
-                                                      variant={"success"} value={true}>{"فعال"}</Button> : <Button
-                                                      variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
-                                                  <td className={"d-flex justify-content-center gap-2 p-2"}>
-                                                      <ActionTableButton color={"--text-color-white"}
-                                                                         bgColor={"--color-warning"}
-                                                                         tooltip={"ویرایش"}
-                                                                         icon={faEdit}
-                                                      />
+                                   account.filter(item => item.accountMainId === MainId.authData).map(
+                                       item => <tr key={item.accountSpecId}>
+                                           <td className={"p-2"}>{item.accountSpecCode}</td>
+                                           <td className={"p-2"}>{item.accountSpecName}</td>
+                                           <td className={"p-2"}>{item.isActive === true ? <Button
+                                               variant={"success"} value={true}>{"فعال"}</Button> : <Button
+                                               variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
+                                           <td className={"d-flex justify-content-center gap-2 p-2"}>
+                                               <ActionTableButton color={"--text-color-white"}
+                                                                  bgColor={"--color-warning"}
+                                                                  tooltip={"ویرایش"}
+                                                                  icon={faEdit}
+                                               />
 
-                                                      <ActionTableButton color={"--text-color-white"}
-                                                                         bgColor={"--color-danger"}
-                                                                         tooltip={"حذف کاربر"}
-                                                                         icon={faTrash}
-                                                      />
-                                                  </td>
-                                              </tr> :
-                                              <Row className={"d-flex align-items-center justify-content-center p-3"}>
-                                                  {"حساب کل برای این گروه حساب وجود ندارد"}
-                                              </Row>
-                                      ))
+                                               <ActionTableButton color={"--text-color-white"}
+                                                                  bgColor={"--color-danger"}
+                                                                  tooltip={"حذف کاربر"}
+                                                                  icon={faTrash}
+                                               />
+                                           </td>
+                                       </tr>
+                                   )
                                   }
                                   </tbody>
                               </table>

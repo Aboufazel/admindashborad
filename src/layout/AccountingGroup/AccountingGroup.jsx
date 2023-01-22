@@ -136,7 +136,7 @@ const AccountingGroup = () => {
     const manageRemoveAccount = async (id) => {
         console.log(id)
         const removeResponse = await DeleteAccountGroup(id);
-        console.log(removeResponse)
+        console.log(removeResponse);
         if (removeResponse.data.isSuccess === false) {
             setMessage(removeResponse.data.message);
             setErrorShow(true);
@@ -147,6 +147,7 @@ const AccountingGroup = () => {
         } else if (removeResponse.data.isSuccess === true) {
             setMessage(removeResponse.data.message);
             setSuccessShow(true);
+            setReload(!reload);
             setTimeout(() => {
                 setSuccessShow(false);
                 setMessage("");
@@ -188,8 +189,6 @@ const AccountingGroup = () => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col></Col>
-                        <Col></Col>
                         <Col className={"position-relative"}>
                             <Alert style={{position:"fixed" , top:0 , left:0}} variant={"danger"}
                                    onClose={() => setErrorShow(false)} dismissible show={errorShow}>
