@@ -45,7 +45,7 @@ export const GetAllAccountMain = ()=>{
 export const AccountMainGetById = (id) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountGroup.get(`/AccountMainService/api/AccountMains/GetAllAccountMain?AccountMainId=${id}`, {
+    return AccountGroup.get(`/AccountMainService/api/AccountMains/GetAccountMainCode?AccountMainCode=${id}`, {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`

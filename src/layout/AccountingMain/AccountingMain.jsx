@@ -124,6 +124,7 @@ const AccountingMain = () => {
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setEditShow(false);
+            setReload(!reload)
             setMessage(sendEditResponse.data.message);
             setTimeout(() => {
                 setSuccessShow(false);
@@ -325,7 +326,7 @@ const AccountingMain = () => {
                                                                      bgColor={"--color-warning"}
                                                                      tooltip={"ویرایش"}
                                                                      icon={faEdit}
-                                                                     onClick={()=> manageEditAccount(item.accountMainId)}
+                                                                     onClick={()=> manageEditAccount(item.accountMainCode)}
                                                   />
                                               </td>
                                           </tr>
