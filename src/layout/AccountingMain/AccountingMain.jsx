@@ -1,6 +1,12 @@
 import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
-import {AccountMainGetById, AddAccountMain, EditAccountMain, GetAllAccountMain} from "../../api/AccountMain";
+import {
+    AccountMainGetById,
+    AddAccountMain,
+    EditAccountMain,
+    GetAllAccountMain,
+    MainEditIsActive
+} from "../../api/AccountMain";
 import {useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {BeatLoader} from "react-spinners";
@@ -131,6 +137,18 @@ const AccountingMain = () => {
         }
     }
 
+
+    const manageActive = async (id, active) => {
+        const activeResponse = await MainEditIsActive(id, active)
+            .catch(()=>{
+                setMessage(activeResponse.data.message);
+                setErrorShow(true);
+                setTimeout(()=>{
+                    setErrorShow(false)
+                }, 2500)
+            })
+        setReload(!reload);
+    }
 
     return (
         <Container>
@@ -296,8 +314,12 @@ const AccountingMain = () => {
                                                   </Button>
                                               </td>
                                               <td className={"p-2"}>{item.isActive === true ? <Button
-                                                  variant={"success"} value={true}>{"فعال"}</Button> : <Button
-                                                  variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
+                                                  variant={"success"}
+                                                  value={true}
+                                                  onClick={() => manageActive(item.accountMainId , !item.isActive)}>{"فعال"}</Button> : <Button
+                                                  variant={"secondary"}
+                                                  value={false}
+                                                  onClick={() => manageActive(item.accountMainId , !item.isActive)}>{"غیر فعال"}</Button>}</td>
                                               <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                   <ActionTableButton color={"--text-color-white"}
                                                                      bgColor={"--color-warning"}
