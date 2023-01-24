@@ -1,9 +1,14 @@
-import {Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
+import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
 import {useContext, useEffect, useState} from "react";
 import {GiveIdContext} from "../../Context/GiveId";
-import {AddAccountMain, GetAllAccountMain} from "../../api/AccountMain";
-import {AddAccountSpec, GetAllAccountSpec} from "../../api/AccountSpec";
+import {
+    AccountSpecGetById,
+    AddAccountSpec,
+    EditAccountSpec,
+    GetAllAccountSpec,
+    SpecEditIsActive
+} from "../../api/AccountSpec";
 import {useNavigate} from "react-router-dom";
 import {BeatLoader} from "react-spinners";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
@@ -72,12 +77,77 @@ const AccountTotal = () => {
     }
 
     useEffect(() => {
-        AccountSpecGetTabel()
+        AccountSpecGetTabel();
+        manageMainCode();
     }, [reload])
 
 
     const emptyInput = () => {
         setValue({code: "", name: ""});
+    }
+
+
+
+    const manageEditAccount = async (id) => {
+        setEditShow(true);
+        setLoading(true)
+        const getResponse = await AccountSpecGetById(id);
+        getResponse.data.accountSpecs.map(item => setEdit({
+            id: item.accountSpecId,
+            code: item.accountSpecCode, name: item.accountSpecName, active: item.isActive
+        }))
+        if (getResponse.status === 200) {
+            setLoading(false)
+        } else {
+            setEditShow(false)
+        }
+    }
+
+    const handleEditClose = () => {
+        setEditShow(false);
+        emptyInput()
+    };
+
+    const manageEditChange = (e) => {
+        setEdit({...edit, [e.target.name]: e.target.value});
+    }
+
+    const manageSendEditAccount = async () => {
+        const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name);
+        if (sendEditResponse.data.isSuccess === true) {
+            setSuccessShow(true);
+            setEditShow(false);
+            setReload(!reload)
+            setMessage(sendEditResponse.data.message);
+            setTimeout(() => {
+                setSuccessShow(false);
+            }, 2500)
+        } else {
+            setMessage(sendEditResponse.data.message);
+            setErrorShow(true);
+            setTimeout(() => {
+                setErrorShow(false);
+            }, 2500)
+        }
+    }
+
+
+    const manageMainCode = ()=>{
+        if(MainId.authData === undefined){
+            navigate("/accountingGroup");
+        }
+    }
+
+    const manageActive = async (id, active) => {
+        const activeResponse = await SpecEditIsActive(id, active)
+            .catch(()=>{
+                setMessage(activeResponse.data.message);
+                setErrorShow(true);
+                setTimeout(()=>{
+                    setErrorShow(false)
+                }, 2500)
+            })
+        setReload(!reload);
     }
 
 
@@ -150,11 +220,62 @@ const AccountTotal = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal show={editShow} onHide={handleEditClose}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title className={'modal_title'}>
+                                            {"ویرایش حساب"}
+                                        </Modal.Title>
+                                    </Modal.Header>
+                                    {loading === true ?
+                                        <div className={"d-flex w-100 justify-content-center"}><BeatLoader
+                                            color="#3c8dbc"/>
+                                        </div> :
+                                        <Modal.Body
+                                            class={'d-flex flex-column justify-content-start p-3'}>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"کد گروه:"}</label>
+                                                    <input name={"code"} onChange={manageEditChange}
+                                                           value={edit.code} className={'p-2'}/>
+                                                </Col>
+                                            </Row>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"نام گروه:"}</label>
+                                                    <input name={"name"} onChange={manageEditChange}
+                                                           value={edit.name} className={'p-2'}/>
+                                                </Col>
+                                            </Row>
+                                        </Modal.Body>
+                                    }
+                                    <Modal.Footer>
+                                        <Button className={'close_btn'} onClick={handleEditClose}>
+                                            {"بستن"}
+                                        </Button>
+                                        <Button onClick={() => manageSendEditAccount()} className={'save_btn'}>
+                                            {"ویرایش گروه"}
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
                             </>
                         </Col>
                     </Row>
                     <Row>
                         <FilterBox/>
+                    </Row>
+                    <Row>
+                        <Col className={"position-relative"}>
+                            <Alert style={{position:"fixed" , top:0 , left:0}} variant={"danger"}
+                                   onClose={() => setErrorShow(false)} dismissible show={errorShow}>
+                                {message}
+                            </Alert>
+                            <Alert  style={{position:"fixed" , top:0 , left:0}} variant={"success"}
+                                    onClose={() => setSuccessShow(false)} dismissible show={successShow}>
+                                {message}
+                            </Alert>
+                        </Col>
                     </Row>
                 </Col>
                 <Row>
@@ -187,13 +308,20 @@ const AccountTotal = () => {
                                                 <td className={"p-2"}>{item.accountSpecCode}</td>
                                                 <td className={"p-2"}>{item.accountSpecName}</td>
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
-                                                    variant={"success"} value={true}>{"فعال"}</Button> : <Button
-                                                    variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
+                                                    variant={"success"}
+                                                    value={true}
+                                                    onClick={() => manageActive(item.accountSpecId , !item.isActive)}
+                                                >{"فعال"}</Button> : <Button
+                                                    variant={"secondary"}
+                                                    value={false}
+                                                    onClick={() => manageActive(item.accountSpecId , !item.isActive)}
+                                                >{"غیر فعال"}</Button>}</td>
                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                     <ActionTableButton color={"--text-color-white"}
                                                                        bgColor={"--color-warning"}
                                                                        tooltip={"ویرایش"}
                                                                        icon={faEdit}
+                                                                       onClick={()=> manageEditAccount(item.accountSpecCode)}
                                                     />
 
                                                     <ActionTableButton color={"--text-color-white"}
