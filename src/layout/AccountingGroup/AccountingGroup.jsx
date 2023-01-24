@@ -156,9 +156,15 @@ const AccountingGroup = () => {
     }
 
     const manageActive = async (id, active) => {
-        console.log(active)
-        const activeResponse = await EditIsActive(id, active);
-        console.log(activeResponse)
+       const activeResponse = await EditIsActive(id, active)
+           .catch(()=>{
+               setMessage(activeResponse.data.message);
+               setErrorShow(true);
+               setTimeout(()=>{
+                   setErrorShow(false)
+               }, 2500)
+           })
+       setReload(!reload);
     }
 
     const emptyInput = () => {
@@ -323,8 +329,8 @@ const AccountingGroup = () => {
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
                                                     onClick={() => manageActive(item.accountGroupId, !item.isActive)}
                                                     variant={"success"} value={true}>{"فعال"}</Button> : <Button
-                                                    onClick={() => manageActive(item.accountGroupId, !item.isActive)}
-                                                    variant={"danger"} value={false}>{"غیر فعال"}</Button>}</td>
+                                                    onClick={() => manageActive(item.accountGroupId , !item.isActive)}
+                                                    variant={"secondary"} value={false}>{"غیر فعال"}</Button>}</td>
                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                     <ActionTableButton color={"--text-color-white"}
                                                                        bgColor={"--color-warning"}

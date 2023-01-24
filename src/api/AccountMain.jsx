@@ -76,6 +76,23 @@ export const EditAccountMain = (id, GroupId,mainCode, mainName) => {
 }
 
 
+export const MainEditIsActive = (mainId, isActive) => {
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+    return AccountGroup({
+        method: 'PUT',
+        url: '/AccountMainService/api/AccountMains/EditIsActive',
+        params: {
+            "AccountMainId": mainId,
+            "IsActive": isActive
+        },
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+}
 
 
 export default AccountMain;

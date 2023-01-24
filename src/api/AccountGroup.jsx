@@ -87,8 +87,8 @@ export const EditIsActive = (groupId, isActive) => {
     return AccountGroup({
         method: 'PUT',
         url: '/AccountGroupService/api/AccountGroups/EditIsActive',
-        data: {
-            "AccountGroupId": +groupId,
+        params: {
+            "AccountGroupId": groupId,
             "IsActive": isActive
         },
         headers: {
