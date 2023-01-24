@@ -59,6 +59,7 @@ const AccountingMain = () => {
 
     useEffect(() => {
         AccountMainGetTabel();
+        manageGroupCode();
     }, [reload]);
 
 
@@ -149,6 +150,12 @@ const AccountingMain = () => {
                 }, 2500)
             })
         setReload(!reload);
+    }
+
+    const manageGroupCode = ()=>{
+        if(Id.authData === undefined){
+            navigate("/accountingGroup");
+        }
     }
 
     return (
