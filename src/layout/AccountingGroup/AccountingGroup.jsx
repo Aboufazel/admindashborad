@@ -12,7 +12,7 @@ import {useContext, useEffect, useState} from "react";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BeatLoader} from "react-spinners";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "../../components/CustomModal/modal.style.css"
 import {GiveIdContext} from "../../Context/GiveId";
 
@@ -176,8 +176,10 @@ const AccountingGroup = () => {
             <Row>
                 <Col>
                     <Breadcrumb>
-                        <Breadcrumb.Item href={'/'} className={'beard_crumb'}>
-                            {'داشبورد'}
+                        <Breadcrumb.Item className={'beard_crumb'}>
+                            <Link to={'/'}>
+                                {'داشبورد'}
+                            </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
                             {'گروه حساب'}

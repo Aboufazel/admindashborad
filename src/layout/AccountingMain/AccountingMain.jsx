@@ -7,7 +7,7 @@ import {
     GetAllAccountMain,
     MainEditIsActive
 } from "../../api/AccountMain";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {BeatLoader} from "react-spinners";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
@@ -29,6 +29,9 @@ const AccountingMain = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [reload , setReload] = useState(false)
+    const [activeShow , setActiveShow] = useState(false);
+    const [allowActive , setAllowActive] = useState(false);
+
 
     const navigate = useNavigate();
     const Id = useContext(GiveIdContext);
@@ -37,6 +40,10 @@ const AccountingMain = () => {
         setShow(false);
         emptyInput()
     };
+
+    const handelActiveShow = ()=>{
+        setActiveShow(false)
+    }
 
     const handleShow = () => setShow(true);
 
@@ -141,15 +148,17 @@ const AccountingMain = () => {
 
 
     const manageActive = async (id, active) => {
-        const activeResponse = await MainEditIsActive(id, active)
-            .catch(()=>{
-                setMessage(activeResponse.data.message);
-                setErrorShow(true);
-                setTimeout(()=>{
-                    setErrorShow(false)
-                }, 2500)
-            })
-        setReload(!reload);
+        if(allowActive  === true){
+            const activeResponse = await MainEditIsActive(id, active)
+                .catch(()=>{
+                    setMessage(activeResponse.data.message);
+                    setErrorShow(true);
+                    setTimeout(()=>{
+                        setErrorShow(false)
+                    }, 2500)
+                })
+            setReload(!reload);
+        }
     }
 
     const manageGroupCode = ()=>{
@@ -160,14 +169,33 @@ const AccountingMain = () => {
 
     return (
         <Container>
+            <Modal style={{fontFamily: 'iran-sans'}} show={activeShow} onHide={handelActiveShow}>
+                <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
+                    {"آیا برای غیر فعال کردن حساب اطمینان دارید؟"}
+                    <Row className={"d-flex flex-row justify-content-center"}>
+                        <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                            <Button className={'close_btn'} onClick={handelActiveShow}>
+                                {"انصراف"}
+                            </Button>
+                            <Button className={'save_btn'} onClick={()=> setAllowActive(true)}>
+                                {"غیرفعال کردن"}
+                            </Button>
+                        </Col>
+                    </Row>
+                </Modal.Body>
+            </Modal>
             <Row>
                 <Col>
                     <Breadcrumb>
-                        <Breadcrumb.Item href={'/'} className={'beard_crumb'}>
-                            {'داشبورد'}
+                        <Breadcrumb.Item className={'beard_crumb'}>
+                            <Link to={'/'}>
+                                {'داشبورد'}
+                            </Link>
                         </Breadcrumb.Item>
-                        <Breadcrumb.Item href={'/accountingGroup'} className={'beard_crumb'}>
-                            {'گروه حساب'}
+                        <Breadcrumb.Item className={'beard_crumb'}>
+                            <Link to={'/accountingGroup'}>
+                                {'گروه حساب'}
+                            </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
                             {'حساب کل'}

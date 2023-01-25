@@ -9,7 +9,7 @@ import {
     GetAllAccountSpec,
     SpecEditIsActive
 } from "../../api/AccountSpec";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {BeatLoader} from "react-spinners";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
@@ -156,11 +156,15 @@ const AccountTotal = () => {
             <Row>
                 <Col>
                     <Breadcrumb>
-                        <Breadcrumb.Item href={'/'} className={'beard_crumb'}>
-                            {'داشبورد'}
+                        <Breadcrumb.Item className={'beard_crumb'}>
+                            <Link to={'/'}>
+                                {'داشبورد'}
+                            </Link>
                         </Breadcrumb.Item>
-                        <Breadcrumb.Item href={'/accountingMain'} className={'beard_crumb'}>
-                            {'حساب کل'}
+                        <Breadcrumb.Item className={'beard_crumb'}>
+                            <Link to={'/accountingMain'}>
+                                {'حساب کل'}
+                            </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
                             {'حساب معین'}
