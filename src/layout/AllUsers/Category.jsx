@@ -48,8 +48,6 @@ const Category = () => {
     }, [call])
 
 
-
-
     const manageEditUser = async (userid) => {
         setLoading(true)
         const user = await GetById(userid);

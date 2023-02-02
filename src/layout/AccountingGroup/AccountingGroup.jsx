@@ -117,6 +117,7 @@ const AccountingGroup = () => {
     const manageSendEditAccount = async () => {
         const sendEditResponse = await EditAccountGroup(edit.id, edit.code, edit.name, edit.active);
         if (sendEditResponse.data.isSuccess === true) {
+            setLoading(!setReload(!reload))
             setSuccessShow(true);
             setEditShow(false);
             setMessage(sendEditResponse.data.message);
