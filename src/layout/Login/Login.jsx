@@ -62,17 +62,17 @@ const Login = ({}) => {
                                 <Form onSubmit={manageSubmit} className={"d-flex flex-column w-auto"}>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>{"نام کاربری یا شماره موبایل"}</Form.Label>
-                                        <Form.Control onChange={(e) => setState({...state, email: e.target.value})}
+                                        <Form.Control  onChange={(e) => setState({...state, email: e.target.value})}
                                                       value={state.email} type="text" placeholder="نام کاربری"/>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                                        <Form.Label>{"رمز عبور"}</Form.Label>
-                                        <Form.Control onChange={(e) => setState({...state, password: e.target.value})}
+                                        <Form.Label className={"mb-2"}>{"رمز عبور"}</Form.Label>
+                                        <Form.Control className={"w-100"} onChange={(e) => setState({...state, password: e.target.value})}
                                                       value={state.password} type="password" placeholder="رمز عبور"/>
                                     </Form.Group>
                                     <Row className={"d-flex mt-4 justify-content-center "}>
-                                        <Button className={"w-50 button-primary"} variant="primary" type="submit">
+                                        <Button className={"w-100 button-primary"} variant="primary" type="submit">
                                             {"ورود"}
                                         </Button>
                                     </Row>
