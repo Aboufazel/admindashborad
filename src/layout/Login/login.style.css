@@ -11,8 +11,21 @@ form{
     height: max-content;
     width: max-content;
     border-radius: 15px;
+    padding: 20px 30px;
+}
+
+.login-block{
+    background: var(--text-color-white);
+    height: max-content;
+    width: max-content;
+    border-radius: 15px;
+    margin: 45px 0;
+    padding: 65px 0;
     box-shadow: 0  0 15px var(--color-secondary);
-    padding: 45px 65px;
+}
+
+.login-block img{
+    width: 100%;
 }
 
 .form-control {
