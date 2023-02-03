@@ -21,7 +21,7 @@ form{
     border-radius: 15px;
     margin: 45px 0;
     padding: 65px 0;
-    box-shadow: 0  0 15px var(--color-secondary);
+    box-shadow: 0  0 5px var(--color-secondary);
 }
 
 .login-block img{
@@ -45,11 +45,19 @@ form{
 
 .button-primary{
     background: var(--color-secondary) !important;
+    box-shadow: 0  0 5px rgba(28, 37, 40, 0.2);
     outline: none;
-    border: none;
+    border: none !important;
     width: 90%;
+    transition: 0.25s;
 }
 
+.button-primary:hover{
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(26, 36, 38, 0.45);
+    transition: 0.25s;
+    transform: translate3d(0,-2px , -15px);
+}
 input{
     padding: 5px;
 }

@@ -54,10 +54,10 @@ const Login = ({}) => {
             <Row className={"my-auto vh-100 d-flex align-items-center justify-content-center"}>
                 <div className={"login-block"}>
                     <Row className={"d-flex justify-content-center align-items-center"}>
-                        <Col className={"my-auto w-75 d-flex justify-content-center"}>
+                        <Col className={"my-auto d-flex justify-content-center"}>
                             <img src={LoginVector} alt={"ورود به پنل"}/>
                         </Col>
-                        <Col className={"my-auto w-75 d-flex justify-content-center"}>
+                        <Col className={"my-auto d-flex justify-content-center"}>
                             <div className={"login-box"}>
                                 <Form onSubmit={manageSubmit} className={"d-flex flex-column w-auto"}>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
