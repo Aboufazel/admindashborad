@@ -25,14 +25,14 @@ code {
 :root{
   --color-primary:#222d32;
   --hover-primary: #1c2528;
-  --color-secondary:#3c8dbc;
-  --color-dark:#1a2226;
+  --color-secondary:#0D6DFD;
+  --color-dark:#1C1B1F;
   --text-color-primary:#b8c7ce;
   --text-color-secondary:#4b646f;
   --text-color-white:#ffff;
-  --color-danger:#dd4b39;
-  --color-success:#00a65a;
-  --color-warning:#f39c12;
+  --color-danger:#DC3545;
+  --color-success:#28A745;
+  --color-warning:#FFC107;
   --background-color-primary:#ecf0f5;
   --primary-border-color:#d2d6de;
   --background-light-black:rgba(0, 0, 0, 0.1);

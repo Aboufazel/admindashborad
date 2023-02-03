@@ -257,7 +257,7 @@ const AccountingGroup = () => {
                                     </Modal.Header>
                                     {loading === true ?
                                         <div className={"d-flex w-100 justify-content-center"}><BeatLoader
-                                            color="#3c8dbc"/>
+                                            color="#0D6DFD"/>
                                         </div> :
                                         <Modal.Body
                                             class={'d-flex flex-column justify-content-start p-3'}>
@@ -299,7 +299,7 @@ const AccountingGroup = () => {
                     <Col className={"d-flex p-5 w-100 col-12"}>
                         <Row className={"overflow-scroll d-flex w-100"}>
                             {account === undefined ?
-                                <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#3c8dbc"/>
+                                <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#0D6DFD"/>
                                 </div> :
                                 <table className={"table_block"}>
                                     <thead>
