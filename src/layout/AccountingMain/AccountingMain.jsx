@@ -9,11 +9,11 @@ import {
 } from "../../api/AccountMain";
 import {Link, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
-import {BeatLoader} from "react-spinners";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
-import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit , faTrash} from "@fortawesome/free-solid-svg-icons";
 import "./accountMain.style.css"
 import {GiveIdContext} from "../../Context/GiveId";
+import Loader from "../../Loader/Loader";
 
 
 const AccountingMain = () => {
@@ -259,9 +259,7 @@ const AccountingMain = () => {
                                         </Modal.Title>
                                     </Modal.Header>
                                     {loading === true ?
-                                        <div className={"d-flex w-100 justify-content-center"}><BeatLoader
-                                            color="#3c8dbc"/>
-                                        </div> :
+                                        <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
                                         <Modal.Body
                                             class={'d-flex flex-column justify-content-start p-3'}>
                                             <Row className={"my-3"}>
@@ -314,8 +312,7 @@ const AccountingMain = () => {
                     <Col className={"d-flex p-5 w-100 col-12"}>
                         <Row className={"overflow-scroll d-flex w-100"}>
                             {account === undefined ?
-                                <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#3c8dbc"/>
-                                </div> :
+                                <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
                                 <table className={"table_block"}>
                                     <thead>
                                     <tr>

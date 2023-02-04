@@ -4,7 +4,7 @@ import {LoginApi} from "../../api/Services"
 import {useNavigate} from "react-router-dom";
 import useStorage from "../../hooks/storage";
 import {useState} from "react";
-import LoginVector from "../../assets/pics/loginVector.png"
+import LoginVector from "../../assets/pics/loginVector.jpg"
 
 
 const Login = ({}) => {
@@ -67,13 +67,13 @@ const Login = ({}) => {
                                 <Form onSubmit={manageSubmit} className={"d-flex flex-column w-auto"}>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>{"نام کاربری یا شماره موبایل"}</Form.Label>
-                                        <Form.Control  onChange={(e) => setState({...state, email: e.target.value})}
+                                        <Form.Control className={"w-100"} onChange={(e) => setState({...state, email: e.target.value})}
                                                       value={state.email} type="text" placeholder="نام کاربری"/>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
                                         <Form.Label className={"mb-2"}>{"رمز عبور"}</Form.Label>
-                                        <Form.Control className={"w-100"} onChange={(e) => setState({...state, password: e.target.value})}
+                                        <Form.Control  className={"w-100"} onChange={(e) => setState({...state, password: e.target.value})}
                                                       value={state.password} type="password" placeholder="رمز عبور"/>
                                     </Form.Group>
                                     <Row className={"d-flex mt-4 justify-content-center "}>

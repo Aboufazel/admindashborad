@@ -9,8 +9,8 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import {deleteUser, GetAllFromUser, GetById} from "../../api/Services";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {BeatLoader} from "react-spinners";
 import {useNavigate} from "react-router-dom";
+import Loader from "../../Loader/Loader";
 
 
 
@@ -113,7 +113,7 @@ const Category = () => {
                                 loading === true ?
                                     <Row className={'d-flex w-100 justify-content-center mt-5'}>
                                         <Col className={"col-12 d-flex justify-content-center"}>
-                                            <BeatLoader color="#3c8dbc"/>
+                                            <Loader/>
                                         </Col>
                                     </Row> :
                                     <Row>

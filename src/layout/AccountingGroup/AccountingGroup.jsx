@@ -11,10 +11,10 @@ import '../../components/CustomTable/table.style.css'
 import {useContext, useEffect, useState} from "react";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {BeatLoader} from "react-spinners";
 import {Link, useNavigate} from "react-router-dom";
 import "../../components/CustomModal/modal.style.css"
 import {GiveIdContext} from "../../Context/GiveId";
+import Loader from "../../Loader/Loader";
 
 
 const AccountingGroup = () => {
@@ -256,8 +256,7 @@ const AccountingGroup = () => {
                                         </Modal.Title>
                                     </Modal.Header>
                                     {loading === true ?
-                                        <div className={"d-flex w-100 justify-content-center"}><BeatLoader
-                                            color="#0D6DFD"/>
+                                        <div className={"d-flex w-100 justify-content-center"}><Loader/>
                                         </div> :
                                         <Modal.Body
                                             class={'d-flex flex-column justify-content-start p-3'}>
@@ -299,8 +298,7 @@ const AccountingGroup = () => {
                     <Col className={"d-flex p-5 w-100 col-12"}>
                         <Row className={"overflow-scroll d-flex w-100"}>
                             {account === undefined ?
-                                <div className={"d-flex w-100 justify-content-center"}><BeatLoader color="#0D6DFD"/>
-                                </div> :
+                                <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
                                 <table className={"table_block"}>
                                     <thead>
                                     <tr>

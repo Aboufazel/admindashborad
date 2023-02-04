@@ -49,7 +49,7 @@ form{
     outline: none;
     border: none !important;
     width: 90%;
-    transition: 0.25s;
+    transition: 0.25s !important;
 }
 
 .button-primary:hover{
