@@ -47,15 +47,15 @@ const Login = ({}) => {
     };
     return (
         <Container className={"d-flex justify-content-center align-items-center"}>
-            <Alert style={{position: "absolute", top: 25, left: 25, fontFamily: 'iran-sans'}} variant={"danger"}
-                   show={showAlert}>
-                {message}
-            </Alert>
             <Row className={"my-auto vh-100 d-flex align-items-center justify-content-center"}>
                 <div className={"login-block"}>
+                    <Alert style={{position: "absolute", top: 25, left: 25, fontFamily: 'iran-sans'}} variant={"danger"}
+                           show={showAlert}>
+                        {message}
+                    </Alert>
                     <Row className={"d-flex justify-content-center align-items-center"}>
-                        <Col className={"my-auto d-flex justify-content-end align-items-center"}>
-                            <img src={LoginVector} alt={"ورود به پنل"}/>
+                        <Col className={"my-auto d-flex justify-content-center align-items-center"}>
+                            <img className={"login-img"} src={LoginVector} alt={"ورود به پنل"}/>
                         </Col>
                         <Col className={"my-auto d-flex justify-content-center"}>
                             <div className={"login-box w-75"}>
@@ -67,17 +67,17 @@ const Login = ({}) => {
                                 <Form onSubmit={manageSubmit} className={"d-flex flex-column w-auto"}>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>{"نام کاربری یا شماره موبایل"}</Form.Label>
-                                        <Form.Control className={"w-100"} onChange={(e) => setState({...state, email: e.target.value})}
+                                        <Form.Control className={"w-100 form-input"} onChange={(e) => setState({...state, email: e.target.value})}
                                                       value={state.email} type="text" placeholder="نام کاربری"/>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
                                         <Form.Label className={"mb-2"}>{"رمز عبور"}</Form.Label>
-                                        <Form.Control  className={"w-100"} onChange={(e) => setState({...state, password: e.target.value})}
+                                        <Form.Control  className={"w-100 form-input"} onChange={(e) => setState({...state, password: e.target.value})}
                                                       value={state.password} type="password" placeholder="رمز عبور"/>
                                     </Form.Group>
                                     <Row className={"d-flex mt-4 justify-content-center "}>
-                                        <Button className={"w-100 button-primary"} variant="primary" type="submit">
+                                        <Button className={"w-75 button-primary"} variant="primary" type="submit">
                                             {"ورود"}
                                         </Button>
                                     </Row>

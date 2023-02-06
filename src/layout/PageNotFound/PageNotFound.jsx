@@ -5,8 +5,8 @@ const PageNotFound = ()=>{
 
     return(
         <Row className={""}>
-            <Col className={"d-flex align-items-center justify-content-center col-12"}>
-                <img src={NotFound} alt={"صفحه پیدا نشد"}/>
+            <Col style={{height:"85vh"}} className={"d-flex align-items-center justify-content-center col-12"}>
+                <img width={"20%"} src={NotFound} alt={"صفحه پیدا نشد"}/>
             </Col>
         </Row>
     )

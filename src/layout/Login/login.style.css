@@ -15,6 +15,7 @@ form{
 }
 
 .login-block{
+    position: relative;
     background: var(--text-color-white);
     height: max-content;
     width: max-content;
@@ -27,6 +28,7 @@ form{
 .login-block img{
     width: 100%;
 }
+
 
 .form-control {
     display: block;
@@ -48,8 +50,12 @@ form{
     box-shadow: 0  0 5px rgba(28, 37, 40, 0.2);
     outline: none;
     border: none !important;
-    width: 90%;
+    padding: 10px !important;
     transition: 0.25s !important;
+}
+
+.form-input{
+    padding: 10px !important;
 }
 
 .button-primary:hover{
@@ -69,4 +75,8 @@ input{
     color: var(--color-secondary);
     border-bottom: 1px dashed var(--color-secondary);
     padding: 0 0 8px 0;
+}
+
+.login-img{
+    width: 65% !important;
 }
