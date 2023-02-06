@@ -34,7 +34,7 @@ const AccountTotal = () => {
 
     const handleClose = () => {
         setShow(false);
-        // emptyInput()
+        emptyInput()
     };
     const handleShow = () => setShow(true);
 

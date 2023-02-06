@@ -10,6 +10,7 @@ import EditUser from "../layout/EditUser/EditUser";
 import AccountingGroup from "../layout/AccountingGroup/AccountingGroup";
 import AccountTotal from "../layout/AccountTotal/AccountTotal";
 import PageNotFound from "../layout/PageNotFound/PageNotFound";
+import AccountingType from "../layout/AccountingType/AccountingType";
 
 
 const Root = () => {
@@ -72,6 +73,15 @@ const Root = () => {
                                 </AuthProvider>
                             </Suspense>)
                     }, {
+                        path: '/accountType',
+                        element:
+                            (<Suspense fallback={<div>Loading...</div>}>
+                                <AuthProvider>
+                                    <AccountingType/>
+                                </AuthProvider>
+                            </Suspense>)
+                    },
+                    {
                         path: '/pass',
                         element: <PageNotFound/>
                     }, {

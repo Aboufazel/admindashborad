@@ -14,11 +14,13 @@ import {faEdit , faTrash} from "@fortawesome/free-solid-svg-icons";
 import "./accountMain.style.css"
 import {GiveIdContext} from "../../Context/GiveId";
 import Loader from "../../Loader/Loader";
+import {ReturnTotalAccountContext} from "../../Context/ReturnTotalAccount";
 
 
 const AccountingMain = () => {
     const [account, setAccount] = useState(undefined);
-    const {state , dispatch} = useContext(GiveIdContext)
+    const {state , dispatch} = useContext(GiveIdContext);
+    const {ReturnState , Dispatch} = useContext(ReturnTotalAccountContext);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
     const [edit, setEdit] = useState({id: "", code: "", name: "", active: ""});
@@ -35,6 +37,8 @@ const AccountingMain = () => {
 
     const navigate = useNavigate();
     const Id = useContext(GiveIdContext);
+
+
 
     const handleClose = () => {
         setShow(false);
@@ -60,7 +64,8 @@ const AccountingMain = () => {
             alert("نیاز به ورود مجدد دارید");
             navigate('/login')
         }
-        setAccount(data.data.accountMains)
+        setAccount(data.data.accountMains);
+        Dispatch({type: 'AccountData' , payload:data.data.accountMains});
     };
 
 
