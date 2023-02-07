@@ -12,7 +12,6 @@ import Loader from "../../Loader/Loader";
 import FilterBox from "../../components/FilterBox/FilterBox";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {GetById} from "../../api/AccountGroup";
 
 const AccountingType = () => {
     const [account, setAccount] = useState(undefined);
