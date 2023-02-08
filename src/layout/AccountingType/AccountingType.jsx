@@ -140,6 +140,19 @@ const AccountingType = () => {
         }
     }
 
+
+    const manageSpecShowByType = (id)=>{
+     navigate("/accountSpecType");
+    }
+
+    const showAlert = ()=>{
+        setMessage("قابلیت غیرفعال کردن وجودندارد");
+        setErrorShow(true);
+        setTimeout(()=>{
+            setErrorShow(false)
+        } , 2000)
+    }
+
     const emptyInput = () => {
         setValue({name: ""});
     }
@@ -280,13 +293,16 @@ const AccountingType = () => {
                                             item => <tr key={item.accountTypeId}>
                                                 <td className={"p-2"}>{item.accountTypeName}</td>
                                                 <td style={{width:"50%"}} className={"p-2"}>
-                                                    <Button variant={"warning"}>
+                                                    <Button
+                                                        onClick={()=>manageSpecShowByType()}
+                                                        variant={"warning"}>
                                                         {"مشاهده"}
                                                     </Button>
                                                 </td>
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
                                                     variant={"success"}
                                                     value={true}
+                                                    onClick={showAlert}
                                                 >{"فعال"}</Button> : <Button
                                                     variant={"secondary"}
                                                     value={false}

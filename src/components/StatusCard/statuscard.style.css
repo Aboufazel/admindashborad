@@ -1,5 +1,6 @@
 .status_card_block{
     border-radius: 2px;
+    cursor: pointer;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;

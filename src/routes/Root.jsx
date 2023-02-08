@@ -11,6 +11,7 @@ import AccountingGroup from "../layout/AccountingGroup/AccountingGroup";
 import AccountTotal from "../layout/AccountTotal/AccountTotal";
 import PageNotFound from "../layout/PageNotFound/PageNotFound";
 import AccountingType from "../layout/AccountingType/AccountingType";
+import AccountingSpecType from "../layout/AccountingSpecType/AccountingSpecType";
 
 
 const Root = () => {
@@ -78,6 +79,14 @@ const Root = () => {
                             (<Suspense fallback={<div>Loading...</div>}>
                                 <AuthProvider>
                                     <AccountingType/>
+                                </AuthProvider>
+                            </Suspense>)
+                    },{
+                        path: '/accountSpecType',
+                        element:
+                            (<Suspense fallback={<div>Loading...</div>}>
+                                <AuthProvider>
+                                    <AccountingSpecType/>
                                 </AuthProvider>
                             </Suspense>)
                     },
