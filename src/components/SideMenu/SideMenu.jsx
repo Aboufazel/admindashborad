@@ -38,11 +38,11 @@ const SideMenu = () => {
                     {"آیا برای خروج از حساب اطمینان دارید؟"}
                     <Row className={"d-flex flex-row justify-content-center"}>
                         <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
-                            <Button className={'close_btn'} onClick={() => manageLogout()}>
-                                {"خروج از حساب"}
-                            </Button>
                             <Button className={'save_btn'} onClick={handleClose}>
                                 {"انصراف"}
+                            </Button>
+                            <Button className={'close_btn'} onClick={() => manageLogout()}>
+                                {"خروج"}
                             </Button>
                         </Col>
                     </Row>

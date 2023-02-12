@@ -6,13 +6,13 @@ import ReturnTotalProvider from "./Context/ReturnTotalAccount";
 
 function App() {
     return (
-        <ReturnTotalProvider>
-            <GiveContextProvider>
-                <ThemeProvider dir={"rtl"}>
-                    <Root/>
-                </ThemeProvider>
-            </GiveContextProvider>
-        </ReturnTotalProvider>
+            <ReturnTotalProvider>
+                <GiveContextProvider>
+                    <ThemeProvider dir={"rtl"}>
+                        <Root/>
+                    </ThemeProvider>
+                </GiveContextProvider>
+            </ReturnTotalProvider>
     );
 }
 

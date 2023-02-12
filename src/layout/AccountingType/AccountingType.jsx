@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {
     AccountTypeGetById,
     AddAccountType,
@@ -12,19 +12,25 @@ import Loader from "../../Loader/Loader";
 import FilterBox from "../../components/FilterBox/FilterBox";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {GiveIdContext} from "../../Context/GiveId";
+import {GetAllAccountGroup} from "../../api/AccountGroup";
 
 const AccountingType = () => {
     const [account, setAccount] = useState(undefined);
+    const {state , dispatch} = useContext(GiveIdContext);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({name: ""});
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState("");
-    const [edit, setEdit] = useState({id: "",name: "", active: ""});
-    const [reload , setReload] = useState(false);
+    const [edit, setEdit] = useState({id: "", name: "", active: ""});
+    const [reload, setReload] = useState(false);
     const [loading, setLoading] = useState(false);
     const [editShow, setEditShow] = useState(false);
     const [errorShow, setErrorShow] = useState(false);
     const [successShow, setSuccessShow] = useState(false);
+
+
+
     const navigate = useNavigate();
 
 
@@ -40,6 +46,8 @@ const AccountingType = () => {
 
     const AccountTypeGetTabel = async () => {
         const data = await GetAllAccountType().catch(() => setError(true));
+        console.log(data);
+
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");
@@ -49,9 +57,9 @@ const AccountingType = () => {
     };
 
 
-    useEffect(()=>{
+    useEffect(() => {
         AccountTypeGetTabel();
-    } , [reload])
+    }, [reload])
 
 
     const manageAddAccount = async () => {
@@ -100,7 +108,7 @@ const AccountingType = () => {
     }
 
     const manageSendEditAccount = async () => {
-        const sendEditResponse = await EditAccountType(edit.id ,edit.name);
+        const sendEditResponse = await EditAccountType(edit.id, edit.name);
         if (sendEditResponse.data.isSuccess === true) {
             setLoading(!setReload(!reload))
             setSuccessShow(true);
@@ -132,7 +140,11 @@ const AccountingType = () => {
         setLoading(true)
         const getResponse = await AccountTypeGetById(id);
         console.log(getResponse)
-        setEdit({id:getResponse.data.accountTypeId , name:getResponse.data.accountTypeName , active:getResponse.data.isActive})
+        setEdit({
+            id: getResponse.data.accountTypeId,
+            name: getResponse.data.accountTypeName,
+            active: getResponse.data.isActive
+        })
         if (getResponse.status === 200) {
             setLoading(false)
         } else {
@@ -141,16 +153,17 @@ const AccountingType = () => {
     }
 
 
-    const manageSpecShowByType = (id)=>{
-     navigate("/accountSpecType");
+    const manageSpecShowByType = (id) => {
+        dispatch({type: 'UserData', payload: id});
+        navigate("/accountSpecType");
     }
 
-    const showAlert = ()=>{
+    const showAlert = () => {
         setMessage("قابلیت غیرفعال کردن وجودندارد");
         setErrorShow(true);
-        setTimeout(()=>{
+        setTimeout(() => {
             setErrorShow(false)
-        } , 2000)
+        }, 2000)
     }
 
     const emptyInput = () => {
@@ -208,11 +221,11 @@ const AccountingType = () => {
                                         </Row>
                                     </Modal.Body>
                                     <Modal.Footer>
+                                        <Button onClick={() => manageAddAccount()} className={'save_btn'}>
+                                            {"ذخیره"}
+                                        </Button>
                                         <Button className={'close_btn'} onClick={handleClose}>
                                             {"بستن"}
-                                        </Button>
-                                        <Button onClick={()=>manageAddAccount()}  className={'save_btn'}>
-                                            {"ایجاد حساب"}
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
@@ -238,11 +251,11 @@ const AccountingType = () => {
                                         </Modal.Body>
                                     }
                                     <Modal.Footer>
+                                        <Button onClick={() => manageSendEditAccount()} className={'save_btn'}>
+                                            {"ویرایش"}
+                                        </Button>
                                         <Button className={'close_btn'} onClick={handleEditClose}>
                                             {"بستن"}
-                                        </Button>
-                                        <Button onClick={() => manageSendEditAccount()} className={'save_btn'}>
-                                            {"ویرایش گروه"}
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
@@ -254,12 +267,12 @@ const AccountingType = () => {
                     </Row>
                     <Row>
                         <Col className={"position-relative"}>
-                            <Alert style={{position:"fixed" , top:0 , left:0}} variant={"danger"}
+                            <Alert style={{position: "fixed", top: 0, left: 0}} variant={"danger"}
                                    onClose={() => setErrorShow(false)} dismissible show={errorShow}>
                                 {message}
                             </Alert>
-                            <Alert  style={{position:"fixed" , top:0 , left:0}} variant={"success"}
-                                    onClose={() => setSuccessShow(false)} dismissible show={successShow}>
+                            <Alert style={{position: "fixed", top: 0, left: 0}} variant={"success"}
+                                   onClose={() => setSuccessShow(false)} dismissible show={successShow}>
                                 {message}
                             </Alert>
                         </Col>
@@ -292,9 +305,9 @@ const AccountingType = () => {
                                         account.map(
                                             item => <tr key={item.accountTypeId}>
                                                 <td className={"p-2"}>{item.accountTypeName}</td>
-                                                <td style={{width:"50%"}} className={"p-2"}>
+                                                <td style={{width: "50%"}} className={"p-2"}>
                                                     <Button
-                                                        onClick={()=>manageSpecShowByType()}
+                                                        onClick={() => manageSpecShowByType(item.accountTypeId)}
                                                         variant={"warning"}>
                                                         {"مشاهده"}
                                                     </Button>
@@ -319,7 +332,7 @@ const AccountingType = () => {
                                                                        bgColor={"--color-danger"}
                                                                        tooltip={"حذف حساب"}
                                                                        icon={faTrash}
-                                                                       onClick={()=>manageRemoveAccount(item.accountTypeId)}
+                                                                       onClick={() => manageRemoveAccount(item.accountTypeId)}
                                                     />
                                                 </td>
                                             </tr>

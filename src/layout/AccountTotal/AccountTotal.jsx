@@ -220,7 +220,7 @@ const AccountTotal = () => {
                                             {"بستن"}
                                         </Button>
                                         <Button onClick={()=>manageAddAccount()} className={'save_btn'}>
-                                            {"ایجاد حساب معین"}
+                                            {"ذخیره"}
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
@@ -253,11 +253,11 @@ const AccountTotal = () => {
                                         </Modal.Body>
                                     }
                                     <Modal.Footer>
+                                        <Button onClick={() => manageSendEditAccount()} className={'save_btn'}>
+                                            {"ویرایش"}
+                                        </Button>
                                         <Button className={'close_btn'} onClick={handleEditClose}>
                                             {"بستن"}
-                                        </Button>
-                                        <Button onClick={() => manageSendEditAccount()} className={'save_btn'}>
-                                            {"ویرایش گروه"}
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>

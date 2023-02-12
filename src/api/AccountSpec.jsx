@@ -51,6 +51,17 @@ export const AccountSpecGetById = (id) => {
     })
 }
 
+export const AccountSpecGetByMainId = (id) => {
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+    return AccountGroup.get(`/AccountSpecService/api/AccountSpecs/GetAccountSpecByMainId/${id}`, {
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
+        },
+    })
+}
+
 export const EditAccountSpec = (id, MainId,specCode, specName) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);

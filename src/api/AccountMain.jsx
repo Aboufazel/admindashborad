@@ -1,5 +1,5 @@
 import axios from "axios";
-import AccountGroup from "./AccountGroup";
+
 
 const AccountMain = axios.create({
         baseURL: "http://siavashma.ir"
@@ -45,7 +45,19 @@ export const GetAllAccountMain = ()=>{
 export const AccountMainGetById = (id) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountGroup.get(`/AccountMainService/api/AccountMains/GetAccountMainCode?AccountMainCode=${id}`, {
+    return AccountMain.get(`/AccountMainService/api/AccountMains/GetAccountMainCode?AccountMainCode=${id}`, {
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
+        },
+    })
+}
+
+
+export const GetAccountMainByGroupId = (id)=>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+    return AccountMain.get(`/AccountMainService/api/AccountMains/GetAccountMainByGroupId/${id}`, {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
@@ -57,7 +69,7 @@ export const AccountMainGetById = (id) => {
 export const EditAccountMain = (id, GroupId,mainCode, mainName) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountGroup({
+    return AccountMain({
         method: 'PUT',
         url: '/AccountMainService/api/AccountMains/edit',
         data: {
@@ -79,7 +91,7 @@ export const EditAccountMain = (id, GroupId,mainCode, mainName) => {
 export const MainEditIsActive = (mainId, isActive) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountGroup({
+    return AccountMain({
         method: 'PUT',
         url: '/AccountMainService/api/AccountMains/EditIsActive',
         params: {
