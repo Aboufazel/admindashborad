@@ -49,5 +49,6 @@
     font-size: 14px;
     font-family: iran-sans !important;
     font-weight: 900;
+    margin-left: 14px;
     color:var(--color-secondary) ;
 }

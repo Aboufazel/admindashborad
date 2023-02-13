@@ -34,6 +34,7 @@ export const GetTypeSpecById =(id)=>{
 }
 
 
+
 export const AddAccountSpecType = (TypeId, SpecId) =>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
@@ -42,7 +43,7 @@ export const AddAccountSpecType = (TypeId, SpecId) =>{
             url:"/AccountTypeService/api/AccountTypeSpecs/add",
             data: {
                 "AccountTypeId":TypeId,
-                "AccountSpecId": +SpecId,
+                "AccountSpecId": SpecId,
                 "lang": "fa",
             },
             headers: {
