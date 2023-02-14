@@ -84,7 +84,7 @@ const AccountingMain = () => {
     }
 
     const manageAddAccount = async () => {
-        setWaiting(true)
+        setWaiting(true);
         const addResponse = await AddAccountMain(value.code, value.name, Id.authData);
         if (addResponse.data.isSuccess === true) {
             setMessage(addResponse.data.message);
@@ -111,7 +111,6 @@ const AccountingMain = () => {
     const manageEditAccount = async (id) => {
         setEditShow(true);
         setLoading(true);
-        setWaiting(true);
         const getResponse = await AccountMainGetById(id);
         getResponse.data.accountMains.map(item => setEdit({
             id: item.accountMainId,
@@ -119,10 +118,8 @@ const AccountingMain = () => {
         }))
         if (getResponse.status === 200) {
             setLoading(false);
-            setWaiting(false);
         } else {
             setEditShow(false);
-            setWaiting(false);
         }
     }
 
@@ -265,6 +262,10 @@ const AccountingMain = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"ویرایش حساب"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ?
+                                                <Loader/> : <div></div>
+                                        }
                                     </Modal.Header>
                                     {loading === true ?
                                         <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
