@@ -18,7 +18,7 @@ import Loader from "../../Loader/Loader";
 
 
 const AccountingGroup = () => {
-    const {state , dispatch} = useContext(GiveIdContext)
+    const {state, dispatch} = useContext(GiveIdContext)
     const [account, setAccount] = useState(undefined);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
@@ -29,7 +29,10 @@ const AccountingGroup = () => {
     const [successShow, setSuccessShow] = useState(false);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [reload , setReload] = useState(false)
+    const [reload, setReload] = useState(false);
+    const [waiting, setWaiting] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(undefined);
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
 
     const navigate = useNavigate();
 
@@ -38,6 +41,10 @@ const AccountingGroup = () => {
         setShow(false);
         emptyInput()
     };
+
+    const handleDeleteClose = ()=>{
+        setDeleteModalShow(false);
+    }
 
     const handleEditClose = () => {
         setEditShow(false);
@@ -69,12 +76,13 @@ const AccountingGroup = () => {
     }, [reload]);
 
 
-
     const manageAddAccount = async () => {
+        setWaiting(true)
         const addResponse = await AddAccountGroup(value.code, value.name);
         if (addResponse.data.isSuccess === true) {
-           setMessage(addResponse.data.message);
+            setMessage(addResponse.data.message);
             setShow(false);
+            setWaiting(false);
             setSuccessShow(true);
             setReload(!reload);
             emptyInput();
@@ -93,8 +101,8 @@ const AccountingGroup = () => {
     }
 
 
-    const manageAccountMain = (id)=>{
-        dispatch({type: 'UserData' , payload:id});
+    const manageAccountMain = (id) => {
+        dispatch({type: 'UserData', payload: id});
         navigate("/accountingMain");
     }
 
@@ -115,9 +123,11 @@ const AccountingGroup = () => {
     }
 
     const manageSendEditAccount = async () => {
+        setWaiting(true)
         const sendEditResponse = await EditAccountGroup(edit.id, edit.code, edit.name, edit.active);
         if (sendEditResponse.data.isSuccess === true) {
-            setLoading(!setReload(!reload))
+            setLoading(!setReload(!reload));
+            setWaiting(false)
             setSuccessShow(true);
             setEditShow(false);
             setMessage(sendEditResponse.data.message);
@@ -135,18 +145,20 @@ const AccountingGroup = () => {
 
 
     const manageRemoveAccount = async (id) => {
-        console.log(id)
+        setWaiting(true);
+        setDeleteModalShow(false);
         const removeResponse = await DeleteAccountGroup(id);
-        console.log(removeResponse);
         if (removeResponse.data.isSuccess === false) {
             setMessage(removeResponse.data.message);
             setErrorShow(true);
+            setWaiting(false);
             setTimeout(() => {
                 setErrorShow(false);
                 setMessage("");
             }, 1000)
         } else if (removeResponse.data.isSuccess === true) {
             setMessage(removeResponse.data.message);
+            setWaiting(false);
             setSuccessShow(true);
             setReload(!reload);
             setTimeout(() => {
@@ -157,19 +169,26 @@ const AccountingGroup = () => {
     }
 
     const manageActive = async (id, active) => {
-       const activeResponse = await EditIsActive(id, active)
-           .catch(()=>{
-               setMessage(activeResponse.data.message);
-               setErrorShow(true);
-               setTimeout(()=>{
-                   setErrorShow(false)
-               }, 2500)
-           })
-       setReload(!reload);
+        setWaiting(true);
+        const activeResponse = await EditIsActive(id, active)
+            .catch(() => {
+                setMessage(activeResponse.data.message);
+                setErrorShow(true);
+                setTimeout(() => {
+                    setErrorShow(false)
+                }, 2500)
+            });
+        setWaiting(false);
+        setReload(!reload);
     }
 
     const emptyInput = () => {
         setValue({code: "", name: ""});
+    };
+
+    const manageDeleteModal =   (id)=>{
+        setDeleteModalShow(true);
+        setDeleteModal(id);
     }
 
     return (
@@ -195,16 +214,24 @@ const AccountingGroup = () => {
                             <p>
                                 {'گروه حساب'}
                             </p>
+                            {
+                                waiting === true ?
+                                    <div style={{left:45}} className={'position-absolute'}>
+                                        <Loader/>
+                                    </div> : <div></div>
+                            }
                         </Col>
                     </Row>
                     <Row>
                         <Col className={"position-relative"}>
-                            <Alert style={{position:"fixed" , top:0 , left:0 , fontFamily:'iran-sans'}} variant={"danger"}
+                            <Alert style={{position: "fixed", top: 0, left: 0, fontFamily: 'iran-sans'}}
+                                   variant={"danger"}
                                    dismissible show={errorShow}>
                                 {message}
                             </Alert>
-                            <Alert  style={{position:"fixed" , top:0 , left:0 , fontFamily:'iran-sans'}} variant={"success"}
-                                    dismissible show={successShow}>
+                            <Alert style={{position: "fixed", top: 0, left: 0, fontFamily: 'iran-sans'}}
+                                   variant={"success"}
+                                   dismissible show={successShow}>
                                 {message}
                             </Alert>
                         </Col>
@@ -221,6 +248,9 @@ const AccountingGroup = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"افزودن حساب"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ? <Loader/> : <div></div>
+                                        }
                                     </Modal.Header>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         <Row className={"my-3"}>
@@ -254,6 +284,9 @@ const AccountingGroup = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"ویرایش حساب"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ? <Loader/> : <div></div>
+                                        }
                                     </Modal.Header>
                                     {loading === true ?
                                         <div className={"d-flex w-100 justify-content-center"}><Loader/>
@@ -286,6 +319,21 @@ const AccountingGroup = () => {
                                             {"ویرایش گروه"}
                                         </Button>
                                     </Modal.Footer>
+                                </Modal>
+                                <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
+                                    <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
+                                        {"آیا از حذف حساب اطمینان دارید؟"}
+                                        <Row className={"d-flex flex-row justify-content-center"}>
+                                            <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                                                <Button className={'save_btn'} onClick={handleDeleteClose}>
+                                                    {"انصراف"}
+                                                </Button>
+                                                <Button className={'close_btn'} onClick={() => manageRemoveAccount(deleteModal)}>
+                                                    {"حذف حساب"}
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Modal.Body>
                                 </Modal>
                             </>
                         </Col>
@@ -325,12 +373,14 @@ const AccountingGroup = () => {
                                             <tr key={item.accountGroupId}>
                                                 <td className={"p-2"}>{item.accountGroupCode}</td>
                                                 <td className={"p-2"}>{item.accountGroupName}</td>
-                                                <td className={"p-2"}><Button onClick={()=>manageAccountMain(item.accountGroupId)} variant={"warning"}>{"مشاهده"}</Button>
+                                                <td className={"p-2"}><Button
+                                                    onClick={() => manageAccountMain(item.accountGroupId)}
+                                                    variant={"warning"}>{"مشاهده"}</Button>
                                                 </td>
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
                                                     onClick={() => manageActive(item.accountGroupId, !item.isActive)}
                                                     variant={"success"} value={true}>{"فعال"}</Button> : <Button
-                                                    onClick={() => manageActive(item.accountGroupId , !item.isActive)}
+                                                    onClick={() => manageActive(item.accountGroupId, !item.isActive)}
                                                     variant={"secondary"} value={false}>{"غیر فعال"}</Button>}</td>
                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                     <ActionTableButton color={"--text-color-white"}
@@ -343,7 +393,7 @@ const AccountingGroup = () => {
                                                                        bgColor={"--color-danger"}
                                                                        tooltip={"حذف کاربر"}
                                                                        icon={faTrash}
-                                                                       onClick={() => manageRemoveAccount(item.accountGroupId)}/>
+                                                                       onClick={() => manageDeleteModal(item.accountGroupId)}/>
                                                 </td>
                                             </tr>
                                         ))
