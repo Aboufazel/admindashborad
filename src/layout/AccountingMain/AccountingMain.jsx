@@ -44,10 +44,6 @@ const AccountingMain = () => {
         emptyInput()
     };
 
-    const handelActiveShow = () => {
-        setActiveShow(false)
-    }
-
     const handleShow = () => setShow(true);
 
     const manageChange = (e) => {
