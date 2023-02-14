@@ -92,6 +92,7 @@ const AccountingGroup = () => {
         } else {
             setMessage(addResponse.data.message);
             setShow(false);
+            setWaiting(false);
             setErrorShow(true);
             setTimeout(() => {
                 setErrorShow(false)
