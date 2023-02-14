@@ -265,10 +265,6 @@ const AccountingMain = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"ویرایش حساب"}
                                         </Modal.Title>
-                                        {
-                                            waiting === true ?
-                                                <Loader/> : <div></div>
-                                        }
                                     </Modal.Header>
                                     {loading === true ?
                                         <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
