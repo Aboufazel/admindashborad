@@ -10,7 +10,7 @@ import {
 import {Link, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
-import {faEdit , faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import "./accountMain.style.css"
 import {GiveIdContext} from "../../Context/GiveId";
 import Loader from "../../Loader/Loader";
@@ -19,8 +19,8 @@ import {ReturnTotalAccountContext} from "../../Context/ReturnTotalAccount";
 
 const AccountingMain = () => {
     const [account, setAccount] = useState(undefined);
-    const {state , dispatch} = useContext(GiveIdContext);
-    const {ReturnState , Dispatch} = useContext(ReturnTotalAccountContext);
+    const {state, dispatch} = useContext(GiveIdContext);
+    const {ReturnState, Dispatch} = useContext(ReturnTotalAccountContext);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
     const [edit, setEdit] = useState({id: "", code: "", name: "", active: ""});
@@ -30,14 +30,13 @@ const AccountingMain = () => {
     const [successShow, setSuccessShow] = useState(false);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [reload , setReload] = useState(false)
-    const [activeShow , setActiveShow] = useState(false);
-    const [allowActive , setAllowActive] = useState(false);
+    const [reload, setReload] = useState(false)
+    const [activeShow, setActiveShow] = useState(false);
+    const [waiting, setWaiting] = useState(false);
 
 
     const navigate = useNavigate();
     const Id = useContext(GiveIdContext);
-
 
 
     const handleClose = () => {
@@ -45,7 +44,7 @@ const AccountingMain = () => {
         emptyInput()
     };
 
-    const handelActiveShow = ()=>{
+    const handelActiveShow = () => {
         setActiveShow(false)
     }
 
@@ -65,7 +64,7 @@ const AccountingMain = () => {
             navigate('/login')
         }
         setAccount(data.data.accountMains);
-        Dispatch({type: 'AccountData' , payload:data.data.accountMains});
+        Dispatch({type: 'AccountData', payload: data.data.accountMains});
     };
 
 
@@ -75,22 +74,22 @@ const AccountingMain = () => {
     }, [reload]);
 
 
-
     const emptyInput = () => {
         setValue({code: "", name: ""});
     }
 
-    const manageAccountTotal = (id)=>{
-        dispatch({type: 'UserData' , payload:id});
+    const manageAccountTotal = (id) => {
+        dispatch({type: 'UserData', payload: id});
         navigate("/accountTotal");
     }
 
     const manageAddAccount = async () => {
-        const addResponse = await AddAccountMain(value.code, value.name , Id.authData);
-        console.log(addResponse)
+        setWaiting(true)
+        const addResponse = await AddAccountMain(value.code, value.name, Id.authData);
         if (addResponse.data.isSuccess === true) {
             setMessage(addResponse.data.message);
             setShow(false);
+            setWaiting(false);
             setSuccessShow(true);
             emptyInput();
             setReload(!reload);
@@ -100,6 +99,7 @@ const AccountingMain = () => {
         } else {
             setMessage(addResponse.data.message);
             setShow(false);
+            setWaiting(false);
             setErrorShow(true);
             setTimeout(() => {
                 setErrorShow(false)
@@ -110,16 +110,19 @@ const AccountingMain = () => {
 
     const manageEditAccount = async (id) => {
         setEditShow(true);
-        setLoading(true)
+        setLoading(true);
+        setWaiting(true);
         const getResponse = await AccountMainGetById(id);
         getResponse.data.accountMains.map(item => setEdit({
             id: item.accountMainId,
             code: item.accountMainCode, name: item.accountMainName, active: item.isActive
         }))
         if (getResponse.status === 200) {
-            setLoading(false)
+            setLoading(false);
+            setWaiting(false);
         } else {
-            setEditShow(false)
+            setEditShow(false);
+            setWaiting(false);
         }
     }
 
@@ -133,9 +136,11 @@ const AccountingMain = () => {
     }
 
     const manageSendEditAccount = async () => {
-        const sendEditResponse = await EditAccountMain(edit.id,Id.authData,edit.code, edit.name);
+        setWaiting(true);
+        const sendEditResponse = await EditAccountMain(edit.id, Id.authData, edit.code, edit.name);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
+            setWaiting(false);
             setEditShow(false);
             setReload(!reload)
             setMessage(sendEditResponse.data.message);
@@ -145,6 +150,7 @@ const AccountingMain = () => {
         } else {
             setMessage(sendEditResponse.data.message);
             setErrorShow(true);
+            setWaiting(false);
             setTimeout(() => {
                 setErrorShow(false);
             }, 2500)
@@ -153,42 +159,28 @@ const AccountingMain = () => {
 
 
     const manageActive = async (id, active) => {
-        if(allowActive  === true){
-            const activeResponse = await MainEditIsActive(id, active)
-                .catch(()=>{
-                    setMessage(activeResponse.data.message);
-                    setErrorShow(true);
-                    setTimeout(()=>{
-                        setErrorShow(false)
-                    }, 2500)
-                })
-            setReload(!reload);
-        }
+        setWaiting(true);
+        const activeResponse = await MainEditIsActive(id, active)
+            .catch(() => {
+                setMessage(activeResponse.data.message);
+                setErrorShow(true);
+                setWaiting(false);
+                setTimeout(() => {
+                    setErrorShow(false)
+                }, 2500)
+            })
+        setReload(!reload);
+        setWaiting(false);
     }
 
-    const manageGroupCode = ()=>{
-        if(Id.authData === undefined){
+    const manageGroupCode = () => {
+        if (Id.authData === undefined) {
             navigate("/accountingGroup");
         }
     }
 
     return (
         <Container>
-            <Modal style={{fontFamily: 'iran-sans'}} show={activeShow} onHide={handelActiveShow}>
-                <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
-                    {"آیا برای غیر فعال کردن حساب اطمینان دارید؟"}
-                    <Row className={"d-flex flex-row justify-content-center"}>
-                        <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
-                            <Button className={'close_btn'} onClick={handelActiveShow}>
-                                {"انصراف"}
-                            </Button>
-                            <Button className={'save_btn'} onClick={()=> setAllowActive(true)}>
-                                {"غیرفعال کردن"}
-                            </Button>
-                        </Col>
-                    </Row>
-                </Modal.Body>
-            </Modal>
             <Row>
                 <Col>
                     <Breadcrumb>
@@ -215,6 +207,12 @@ const AccountingMain = () => {
                             <p>
                                 {'حساب کل'}
                             </p>
+                            {
+                                waiting === true ?
+                                    <div style={{left: 45}} className={'position-absolute'}>
+                                        <Loader/>
+                                    </div> : <div></div>
+                            }
                         </Col>
                     </Row>
                     <Row className={"d-flex my-3 mb-5"}>
@@ -229,6 +227,11 @@ const AccountingMain = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"افزودن حساب کل"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ?
+                                                    <Loader/>
+                                                : <div></div>
+                                        }
                                     </Modal.Header>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         <Row className={"my-3"}>
@@ -252,7 +255,7 @@ const AccountingMain = () => {
                                         <Button className={'close_btn'} onClick={handleClose}>
                                             {"بستن"}
                                         </Button>
-                                        <Button onClick={()=>manageAddAccount()} className={'save_btn'}>
+                                        <Button onClick={() => manageAddAccount()} className={'save_btn'}>
                                             {"ایجاد گروه"}
                                         </Button>
                                     </Modal.Footer>
@@ -262,6 +265,10 @@ const AccountingMain = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"ویرایش حساب"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ?
+                                                <Loader/> : <div></div>
+                                        }
                                     </Modal.Header>
                                     {loading === true ?
                                         <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
@@ -302,12 +309,12 @@ const AccountingMain = () => {
                     </Row>
                     <Row>
                         <Col className={"position-relative"}>
-                            <Alert style={{position:"fixed" , top:0 , left:0}} variant={"danger"}
+                            <Alert style={{position: "fixed", top: 0, left: 0}} variant={"danger"}
                                    onClose={() => setErrorShow(false)} dismissible show={errorShow}>
                                 {message}
                             </Alert>
-                            <Alert  style={{position:"fixed" , top:0 , left:0}} variant={"success"}
-                                    onClose={() => setSuccessShow(false)} dismissible show={successShow}>
+                            <Alert style={{position: "fixed", top: 0, left: 0}} variant={"success"}
+                                   onClose={() => setSuccessShow(false)} dismissible show={successShow}>
                                 {message}
                             </Alert>
                         </Col>
@@ -342,32 +349,34 @@ const AccountingMain = () => {
                                     {
                                         //filter output is [];
                                         //this code filter the accountGroup have a accountMain;
-                                      account.filter(item => item.accountGroupId === Id.authData ).map(
-                                          item => <tr key={item.accountMainId}>
-                                              <td className={"p-2"}>{item.accountMainCode}</td>
-                                              <td className={"p-2"}>{item.accountMainName}</td>
-                                              <td className={"p-2"}>
-                                                  <Button onClick={()=> manageAccountTotal(item.accountMainId)} variant={"warning"}>
-                                                      {"مشاهده"}
-                                                  </Button>
-                                              </td>
-                                              <td className={"p-2"}>{item.isActive === true ? <Button
-                                                  variant={"success"}
-                                                  value={true}
-                                                  onClick={() => manageActive(item.accountMainId , !item.isActive)}>{"فعال"}</Button> : <Button
-                                                  variant={"secondary"}
-                                                  value={false}
-                                                  onClick={() => manageActive(item.accountMainId , !item.isActive)}>{"غیر فعال"}</Button>}</td>
-                                              <td className={"d-flex justify-content-center gap-2 p-2"}>
-                                                  <ActionTableButton color={"--text-color-white"}
-                                                                     bgColor={"--color-warning"}
-                                                                     tooltip={"ویرایش"}
-                                                                     icon={faEdit}
-                                                                     onClick={()=> manageEditAccount(item.accountMainCode)}
-                                                  />
-                                              </td>
-                                          </tr>
-                                      )
+                                        account.filter(item => item.accountGroupId === Id.authData).map(
+                                            item => <tr key={item.accountMainId}>
+                                                <td className={"p-2"}>{item.accountMainCode}</td>
+                                                <td className={"p-2"}>{item.accountMainName}</td>
+                                                <td className={"p-2"}>
+                                                    <Button onClick={() => manageAccountTotal(item.accountMainId)}
+                                                            variant={"warning"}>
+                                                        {"مشاهده"}
+                                                    </Button>
+                                                </td>
+                                                <td className={"p-2"}>{item.isActive === true ? <Button
+                                                        variant={"success"}
+                                                        value={true}
+                                                        onClick={() => manageActive(item.accountMainId, !item.isActive)}>{"فعال"}</Button> :
+                                                    <Button
+                                                        variant={"secondary"}
+                                                        value={false}
+                                                        onClick={() => manageActive(item.accountMainId, !item.isActive)}>{"غیر فعال"}</Button>}</td>
+                                                <td className={"d-flex justify-content-center gap-2 p-2"}>
+                                                    <ActionTableButton color={"--text-color-white"}
+                                                                       bgColor={"--color-warning"}
+                                                                       tooltip={"ویرایش"}
+                                                                       icon={faEdit}
+                                                                       onClick={() => manageEditAccount(item.accountMainCode)}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        )
                                     }
                                     </tbody>
                                 </table>
