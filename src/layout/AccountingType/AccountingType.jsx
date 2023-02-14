@@ -13,7 +13,7 @@ import FilterBox from "../../components/FilterBox/FilterBox";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {GiveIdContext} from "../../Context/GiveId";
-import {GetAllAccountGroup} from "../../api/AccountGroup";
+
 
 const AccountingType = () => {
     const [account, setAccount] = useState(undefined);
@@ -28,8 +28,9 @@ const AccountingType = () => {
     const [editShow, setEditShow] = useState(false);
     const [errorShow, setErrorShow] = useState(false);
     const [successShow, setSuccessShow] = useState(false);
-
-
+    const [waiting, setWaiting] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(undefined);
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
 
     const navigate = useNavigate();
 
@@ -37,6 +38,12 @@ const AccountingType = () => {
     const handleClose = () => {
         setShow(false);
     };
+
+    const handleDeleteClose = ()=>{
+        setDeleteModalShow(false);
+    }
+
+
     const handleShow = () => setShow(true);
 
 
@@ -46,8 +53,6 @@ const AccountingType = () => {
 
     const AccountTypeGetTabel = async () => {
         const data = await GetAllAccountType().catch(() => setError(true));
-        console.log(data);
-
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");
@@ -63,11 +68,12 @@ const AccountingType = () => {
 
 
     const manageAddAccount = async () => {
+        setWaiting(true);
         const addResponse = await AddAccountType(value.name);
-        console.log(addResponse)
         if (addResponse.data.isSuccess === true) {
             setMessage(addResponse.data.message);
             setShow(false);
+            setWaiting(false);
             setSuccessShow(true);
             emptyInput();
             setReload(!reload);
@@ -77,6 +83,7 @@ const AccountingType = () => {
         } else {
             setMessage(addResponse.data.message);
             setShow(false);
+            setWaiting(false);
             setErrorShow(true);
             setTimeout(() => {
                 setErrorShow(false)
@@ -86,11 +93,13 @@ const AccountingType = () => {
     }
 
     const manageRemoveAccount = async (id) => {
-        console.log(id)
+        setWaiting(true);
+        setDeleteModalShow(false);
         const removeResponse = await DeleteAccountType(id);
         console.log(removeResponse);
         if (removeResponse.data.isSuccess === false) {
             setMessage(removeResponse.data.message);
+            setWaiting(false);
             setErrorShow(true);
             setTimeout(() => {
                 setErrorShow(false);
@@ -98,6 +107,7 @@ const AccountingType = () => {
             }, 1000)
         } else if (removeResponse.data.isSuccess === true) {
             setMessage(removeResponse.data.message);
+            setWaiting(false);
             setSuccessShow(true);
             setReload(!reload);
             setTimeout(() => {
@@ -108,10 +118,12 @@ const AccountingType = () => {
     }
 
     const manageSendEditAccount = async () => {
+        setWaiting(true);
         const sendEditResponse = await EditAccountType(edit.id, edit.name);
         if (sendEditResponse.data.isSuccess === true) {
             setLoading(!setReload(!reload))
             setSuccessShow(true);
+            setWaiting(false);
             setEditShow(false);
             setMessage(sendEditResponse.data.message);
             setTimeout(() => {
@@ -120,6 +132,7 @@ const AccountingType = () => {
         } else {
             setMessage(sendEditResponse.data.message);
             setErrorShow(true);
+            setWaiting(false);
             setTimeout(() => {
                 setErrorShow(false);
             }, 2500)
@@ -166,6 +179,11 @@ const AccountingType = () => {
         }, 2000)
     }
 
+    const manageDeleteModal = (id)=>{
+        setDeleteModalShow(true);
+        setDeleteModal(id);
+    }
+
     const emptyInput = () => {
         setValue({name: ""});
     }
@@ -193,6 +211,12 @@ const AccountingType = () => {
                             <p className={'mt-1'}>
                                 {'نوع حساب'}
                             </p>
+                            {
+                                waiting === true ?
+                                    <div style={{left: 45}} className={'position-absolute'}>
+                                        <Loader/>
+                                    </div> : <div></div>
+                            }
                         </Col>
                         <Col>
 
@@ -209,6 +233,10 @@ const AccountingType = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"افزودن حساب کل"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ?
+                                                <Loader/> : <div></div>
+                                        }
                                     </Modal.Header>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         <Row className={"my-3"}>
@@ -234,6 +262,10 @@ const AccountingType = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"ویرایش حساب"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ?
+                                                <Loader/> : <div></div>
+                                        }
                                     </Modal.Header>
                                     {loading === true ?
                                         <div className={"d-flex w-100 justify-content-center"}><Loader/>
@@ -259,6 +291,22 @@ const AccountingType = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
+                                    <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
+                                        {"آیا از حذف نوع حساب اطمینان دارید؟"}
+                                        <Row className={"d-flex flex-row justify-content-center"}>
+                                            <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                                                <Button className={'save_btn'} onClick={handleDeleteClose}>
+                                                    {"انصراف"}
+                                                </Button>
+                                                <Button className={'close_btn'} onClick={() => manageRemoveAccount(deleteModal)}>
+                                                    {"حذف"}
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Modal.Body>
+                                </Modal>
+
                             </>
                         </Col>
                     </Row>
@@ -332,7 +380,7 @@ const AccountingType = () => {
                                                                        bgColor={"--color-danger"}
                                                                        tooltip={"حذف حساب"}
                                                                        icon={faTrash}
-                                                                       onClick={() => manageRemoveAccount(item.accountTypeId)}
+                                                                       onClick={() => manageDeleteModal(item.accountTypeId)}
                                                     />
                                                 </td>
                                             </tr>
