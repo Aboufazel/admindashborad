@@ -187,7 +187,7 @@ const AccountingGroup = () => {
         setValue({code: "", name: ""});
     };
 
-    const manageDeleteModal =   (id)=>{
+    const manageDeleteModal = (id)=>{
         setDeleteModalShow(true);
         setDeleteModal(id);
     }
@@ -330,7 +330,7 @@ const AccountingGroup = () => {
                                                     {"انصراف"}
                                                 </Button>
                                                 <Button className={'close_btn'} onClick={() => manageRemoveAccount(deleteModal)}>
-                                                    {"حذف حساب"}
+                                                    {"حذف"}
                                                 </Button>
                                             </Col>
                                         </Row>
