@@ -27,7 +27,8 @@ const AccountTotal = () => {
     const [successShow, setSuccessShow] = useState(false);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [reload , setReload] = useState(false)
+    const [reload , setReload] = useState(false);
+    const [waiting, setWaiting] = useState(false);
     const MainId = useContext(GiveIdContext);
     const navigate = useNavigate();
 
@@ -55,10 +56,12 @@ const AccountTotal = () => {
     }
 
     const manageAddAccount = async () => {
+        setWaiting(true);
         const addResponse = await AddAccountSpec(value.code, value.name, MainId.authData);
         if (addResponse.data.isSuccess === true) {
             setMessage(addResponse.data.message);
             setShow(false);
+            setWaiting(false);
             setSuccessShow(true);
             emptyInput();
             setReload(!reload);
@@ -68,6 +71,7 @@ const AccountTotal = () => {
         } else {
             setMessage(addResponse.data.message);
             setShow(false);
+            setWaiting(false);
             setErrorShow(true);
             setTimeout(() => {
                 setErrorShow(false)
@@ -113,10 +117,12 @@ const AccountTotal = () => {
     }
 
     const manageSendEditAccount = async () => {
+        setWaiting(true);
         const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setEditShow(false);
+            setWaiting(false);
             setReload(!reload)
             setMessage(sendEditResponse.data.message);
             setTimeout(() => {
@@ -125,6 +131,7 @@ const AccountTotal = () => {
         } else {
             setMessage(sendEditResponse.data.message);
             setErrorShow(true);
+            setWaiting(false);
             setTimeout(() => {
                 setErrorShow(false);
             }, 2500)
@@ -139,15 +146,18 @@ const AccountTotal = () => {
     }
 
     const manageActive = async (id, active) => {
+        setWaiting(true);
         const activeResponse = await SpecEditIsActive(id, active)
             .catch(()=>{
                 setMessage(activeResponse.data.message);
                 setErrorShow(true);
+                setWaiting(false);
                 setTimeout(()=>{
                     setErrorShow(false)
                 }, 2500)
             })
         setReload(!reload);
+        setWaiting(false);
     }
 
 
@@ -179,6 +189,12 @@ const AccountTotal = () => {
                             <p className={'mt-1'}>
                                 {'حساب معین'}
                             </p>
+                            {
+                                waiting === true ?
+                                    <div style={{left: 45}} className={'position-absolute'}>
+                                        <Loader/>
+                                    </div> : <div></div>
+                            }
                         </Col>
                         <Col>
 
@@ -196,6 +212,10 @@ const AccountTotal = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"افزودن حساب معین"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ?
+                                                <Loader/> : <div></div>
+                                        }
                                     </Modal.Header>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         <Row className={"my-3"}>
@@ -229,6 +249,10 @@ const AccountTotal = () => {
                                         <Modal.Title className={'modal_title'}>
                                             {"ویرایش حساب"}
                                         </Modal.Title>
+                                        {
+                                            waiting === true ?
+                                                <Loader/> : <div></div>
+                                        }
                                     </Modal.Header>
                                     {loading === true ?
                                         <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
