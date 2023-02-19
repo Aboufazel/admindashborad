@@ -197,9 +197,12 @@ const AccountingSpecType = () => {
                                                        className={"me-2"}>{"گروه حساب:"}</label>
                                             </Col>
                                             <Col className={"d-flex align-items-center col-9"}>
-                                                <Form.Select multiple={true}
+                                                <Form.Select
                                                              defaultValue={groupValue.id}
                                                              onChange={manageGroupSelectChange}>
+                                                    <option selected={true}>
+                                                        {"گروه حساب"}
+                                                    </option>
                                                     {
                                                         accountGroup === undefined ? <Loader/> : accountGroup.map(
                                                             item =>
@@ -224,9 +227,12 @@ const AccountingSpecType = () => {
                                                         <div>
                                                             {"گروه حساب انتخاب نشده است"}
                                                         </div> :
-                                                        <Form.Select multiple={true}
+                                                        <Form.Select
                                                                      defaultValue={mainValue.id}
                                                                      onChange={manageMainSelectChange}>
+                                                            <option selected={true}>
+                                                                {"حساب کل"}
+                                                            </option>
                                                             {
                                                                 accountMain === undefined ?
                                                                     <option>
@@ -254,9 +260,12 @@ const AccountingSpecType = () => {
                                                     specSelectShow === false ?
                                                         <div>
                                                             {"حساب کل انتخاب نشده است"}
-                                                        </div> : <Form.Select multiple={true}
+                                                        </div> : <Form.Select
                                                                               defaultValue={specValue.id}
                                                                               onChange={manageSpecSelectChange}>
+                                                            <option selected={true}>
+                                                                {"حساب معین"}
+                                                            </option>
                                                             {
                                                                 accountSpec === undefined ?
                                                                     <option>
