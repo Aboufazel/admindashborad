@@ -1,10 +1,29 @@
 import {Col, Container, Row} from "react-bootstrap";
 import '../main.style.css'
 import StatusCard from "../../components/StatusCard/StatusCard";
+import useStorage from "../../hooks/storage";
+import {useNavigate} from "react-router-dom";
 
 
 const Main = () => {
-  return(
+    const [authInfo, setAuthInfo] = useStorage("auth", {
+        userId: "",
+        accessToken: "",
+        isLogin: false,
+    })
+
+    const storageData = JSON.parse(localStorage.getItem('auth'));
+    const navigate = useNavigate();
+
+
+    return(
+
+        storageData.userId === "" ? () => {
+                setAuthInfo({userId:"" , accessToken:"" ,isLogin: false})
+                localStorage.clear();
+                alert("نیاز به ورود دارید")
+                navigate('/login')
+            } :
       <Container>
           <Row className={'main_block'}>
               <Col>
