@@ -13,6 +13,7 @@ import PageNotFound from "../layout/PageNotFound/PageNotFound";
 import AccountingType from "../layout/AccountingType/AccountingType";
 import AccountingSpecType from "../layout/AccountingSpecType/AccountingSpecType";
 import AccountingDefaultPerson from "../layout/AccountingDefaultPerson/AccountingDefaultPerson";
+import AccoutingPersonLink from "../layout/AccoutingPersonLink/AccoutingPersonLink";
 
 
 const Root = () => {
@@ -95,6 +96,14 @@ const Root = () => {
                         element:(<Suspense fallback={<div>Loading...</div>}>
                             <AuthProvider>
                                 <AccountingDefaultPerson/>
+                            </AuthProvider>
+                        </Suspense>)
+
+                    },{
+                        path:'/personsLink',
+                        element:(<Suspense fallback={<div>Loading...</div>}>
+                            <AuthProvider>
+                                <AccoutingPersonLink/>
                             </AuthProvider>
                         </Suspense>)
 
