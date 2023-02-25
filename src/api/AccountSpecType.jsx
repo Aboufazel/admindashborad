@@ -25,7 +25,7 @@ export const GetAllTypeSpec =()=>{
 export const GetTypeSpecById =(id)=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountSpecType.get(`/AccountSpecService/api/AccountSpecs/GetAccountSpecByMainId/${id}` , {
+    return AccountSpecType.get(`/AccountTypeService/api/AccountTypeSpecs/GetAllAccountTypeSpecByAccountTypeId/${id}` , {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`

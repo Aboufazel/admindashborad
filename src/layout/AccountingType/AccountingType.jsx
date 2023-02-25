@@ -53,6 +53,7 @@ const AccountingType = () => {
 
     const AccountTypeGetTabel = async () => {
         const data = await GetAllAccountType().catch(() => setError(true));
+        console.log(data)
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");

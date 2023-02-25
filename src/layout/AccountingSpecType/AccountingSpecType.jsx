@@ -231,12 +231,12 @@ const AccountingSpecType = () => {
                                                                      defaultValue={mainValue.id}
                                                                      onChange={manageMainSelectChange}>
                                                             <option selected={true}>
-                                                                {"حساب کل"}
+                                                                {""}
                                                             </option>
                                                             {
                                                                 accountMain === undefined ?
                                                                     <option>
-                                                                        {"گروه حساب انتخاب نشده است"}
+                                                                        {""}
                                                                     </option> : accountMain.map(
                                                                         item => (
                                                                             <option
@@ -259,17 +259,17 @@ const AccountingSpecType = () => {
                                                 {
                                                     specSelectShow === false ?
                                                         <div>
-                                                            {"حساب کل انتخاب نشده است"}
+                                                            {"حساب کلی انتخاب نشده است"}
                                                         </div> : <Form.Select
                                                                               defaultValue={specValue.id}
                                                                               onChange={manageSpecSelectChange}>
                                                             <option selected={true}>
-                                                                {"حساب معین"}
+                                                                {""}
                                                             </option>
                                                             {
                                                                 accountSpec === undefined ?
                                                                     <option>
-                                                                        {"حساب کل انتخاب نشده است"}
+                                                                        {""}
                                                                     </option> : accountSpec.map(
                                                                         item => (
                                                                             <option
