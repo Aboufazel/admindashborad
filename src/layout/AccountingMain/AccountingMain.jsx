@@ -44,6 +44,7 @@ const AccountingMain = () => {
 
     const handleClose = () => {
         setShow(false);
+        setDeleteModalShow(false)
         emptyInput()
     };
 

@@ -40,8 +40,10 @@ const AccountTotal = () => {
 
     const handleClose = () => {
         setShow(false);
+        setDeleteModalShow(false)
         emptyInput()
     };
+
     const handleShow = () => setShow(true);
 
 

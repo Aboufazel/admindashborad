@@ -37,6 +37,7 @@ const AccountingType = () => {
 
     const handleClose = () => {
         setShow(false);
+        setDeleteModalShow(false);
     };
 
     const handleDeleteClose = ()=>{

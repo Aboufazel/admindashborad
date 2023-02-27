@@ -39,6 +39,7 @@ const AccountingGroup = () => {
 
     const handleClose = () => {
         setShow(false);
+        setDeleteModalShow(false);
         emptyInput()
     };
 
