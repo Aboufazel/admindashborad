@@ -8,7 +8,12 @@ import ActionTableButton from "../../components/ActionTableButton/ActionTableBut
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useContext, useEffect, useState} from "react";
 import {GiveIdContext} from "../../Context/GiveId";
-import {AddAccountSpecType, GetTypeSpecById} from "../../api/AccountSpecType";
+import {
+    AddAccountSpecType,
+    editSpecTypeIsActive,
+    GetTypeSpecById,
+    removeAccountSpecType
+} from "../../api/AccountSpecType";
 import {GetAllAccountGroup} from "../../api/AccountGroup";
 import {GetAccountMainByGroupId} from "../../api/AccountMain";
 import {AccountSpecGetByMainId} from "../../api/AccountSpec";
@@ -34,6 +39,9 @@ const AccountingSpecType = () => {
     const [accountGroup, setAccountGroup] = useState(undefined);
     const [accountMain, setAccountMain] = useState(undefined);
     const [accountSpec, setAccountSpec] = useState(undefined);
+    const [waiting, setWaiting] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(undefined);
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
 
     const TypeId = useContext(GiveIdContext);
 
@@ -44,6 +52,14 @@ const AccountingSpecType = () => {
         console.log(account)
     };
 
+
+
+
+    const manageSpecTypeActive = async (id , active) =>{
+        const response = await editSpecTypeIsActive(id , active).catch();
+        setReload(!reload)
+        console.log(response)
+    }
 
     const GetGroupAccount = async () => {
         const accountGroupData = await GetAllAccountGroup().catch(() => setError(true));
@@ -117,6 +133,30 @@ const AccountingSpecType = () => {
     }
 
 
+    const manageRemoveSpecAccount = async (id) =>{
+        setWaiting(true);
+        setDeleteModalShow(false);
+        const removeResponse = await removeAccountSpecType(id).catch();
+        if (removeResponse.data.isSuccess === false) {
+            setMessage(removeResponse.data.message);
+            setErrorShow(true);
+            setWaiting(false);
+            setTimeout(() => {
+                setErrorShow(false);
+                setMessage("");
+            }, 1000)
+        } else if (removeResponse.data.isSuccess === true) {
+            setMessage(removeResponse.data.message);
+            setWaiting(false);
+            setSuccessShow(true);
+            setReload(!reload);
+            setTimeout(() => {
+                setSuccessShow(false);
+                setMessage("");
+            }, 1000)
+        }
+    }
+
     useEffect(() => {
         AccountTypeSpecGetTable();
     }, [reload])
@@ -137,7 +177,13 @@ const AccountingSpecType = () => {
 
     const handleClose = () => {
         setShow(false);
+        setDeleteModalShow(false);
     };
+
+    const manageDeleteModal = (id)=>{
+        setDeleteModalShow(true);
+        setDeleteModal(id);
+    }
 
     const handleShow = () => setShow(true);
 
@@ -293,6 +339,22 @@ const AccountingSpecType = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
+                                    <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
+                                        {"آیا از حذف حساب اطمینان دارید؟"}
+                                        <Row className={"d-flex flex-row justify-content-center"}>
+                                            <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                                                <Button className={'save_btn'} onClick={handleClose}>
+                                                    {"انصراف"}
+                                                </Button>
+                                                <Button className={'close_btn'} onClick={() => manageRemoveSpecAccount(deleteModal)}>
+                                                    {"حذف"}
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Modal.Body>
+                                </Modal>
+
                             </>
                         </Col>
                     </Row>
@@ -315,7 +377,9 @@ const AccountingSpecType = () => {
                 <Row>
                     <Col className={"d-flex p-5 w-100 col-12"}>
                         <Row className={"overflow-scroll d-flex w-100"}>
-                            {account === undefined ?
+                            {
+                                waiting === true ? <Loader/> :
+                                account === undefined ?
                                 <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
                                 <table className={"table_block"}>
                                     <thead>
@@ -345,22 +409,25 @@ const AccountingSpecType = () => {
                                                     <td className={"p-2"}>{item.isActive === true ? <Button
                                                         variant={"success"}
                                                         value={true}
+                                                        onClick={()=>manageSpecTypeActive(item.accountTypeSpecId , item.isActive)}
                                                     >{"فعال"}</Button> : <Button
                                                         variant={"secondary"}
                                                         value={false}
+                                                        onClick={()=>manageSpecTypeActive(item.accountTypeSpecId , item.isActive)}
                                                     >{"غیر فعال"}</Button>}</td>
                                                     <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                         <ActionTableButton color={"--text-color-white"}
                                                                            bgColor={"--color-warning"}
                                                                            tooltip={"ویرایش"}
                                                                            icon={faEdit}
-                                                                           onClick={() => manageEdit(item.accountTypeId)}
+                                                                           onClick={() => manageEdit(item.accountTypeSpecId)}
                                                         />
 
                                                         <ActionTableButton color={"--text-color-white"}
                                                                            bgColor={"--color-danger"}
                                                                            tooltip={"حذف حساب"}
                                                                            icon={faTrash}
+                                                                           onClick={()=>manageDeleteModal(item.accountTypeSpecId)}
                                                         />
                                                     </td>
                                                 </tr>

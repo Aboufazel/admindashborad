@@ -10,6 +10,18 @@ const AccountSpecType = axios.create({
 AccountSpecType.interceptors.response.use();
 
 
+export const removeAccountSpecType = (id)=>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+    return AccountSpecType.delete(`/AccountTypeService/api/AccountTypeSpecs/remove?AccountTypeSpecId=${id}` , {
+        headers:{
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
+        }
+    })
+}
+
+
 export const GetAllTypeSpec =()=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
@@ -21,6 +33,24 @@ export const GetAllTypeSpec =()=>{
     })
 }
 
+
+export const editSpecTypeIsActive = (mainId , isActive) =>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+    return AccountSpecType({
+        method:'put',
+        url:'/AccountSpecService/api/AccountSpecs/EditIsActive',
+        data:{
+            "AccountTypeSpecId": mainId,
+            "IsActive": isActive
+        },
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+}
 
 export const GetTypeSpecById =(id)=>{
     const data = localStorage.getItem("auth")
