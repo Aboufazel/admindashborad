@@ -25,7 +25,7 @@ export const GetAllTypeSpec =()=>{
 export const GetTypeSpecById =(id)=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountSpecType.get(`/AccountTypeService/api/AccountTypeSpecs/GetAllAccountTypeSpecByAccountTypeId/${id}` , {
+    return AccountSpecType.get(`/AccountTypeService/api/AccountTypeSpecs/GetAllAccountTypeSpecByAccountTypeId/${+id}` , {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
@@ -35,15 +35,15 @@ export const GetTypeSpecById =(id)=>{
 
 
 
-export const AddAccountSpecType = (TypeId, SpecId) =>{
+export const AddAccountSpecType = (SpecId , TypeId) =>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
     return AccountMain({
             method:"post",
             url:"/AccountTypeService/api/AccountTypeSpecs/add",
             data: {
-                "AccountTypeId":TypeId,
                 "AccountSpecId": SpecId,
+                "AccountTypeId":TypeId,
                 "lang": "fa",
             },
             headers: {

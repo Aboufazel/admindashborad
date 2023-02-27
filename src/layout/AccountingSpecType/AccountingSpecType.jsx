@@ -14,7 +14,7 @@ import {GetAccountMainByGroupId} from "../../api/AccountMain";
 import {AccountSpecGetByMainId} from "../../api/AccountSpec";
 
 const AccountingSpecType = () => {
-    const [account, setAccount] = useState([]);
+    const [account, setAccount] = useState(undefined);
     const [error, setError] = useState(false);
     const [groupValue, setGroupValue] = useState({id: ""});
     const [mainValue, setMainValue] = useState({id: ""});
@@ -36,13 +36,12 @@ const AccountingSpecType = () => {
     const [accountSpec, setAccountSpec] = useState(undefined);
 
     const TypeId = useContext(GiveIdContext);
-    console.log(TypeId);
 
-    const AccountTypeSpecGetTable = async (id) => {
-        const data = await GetTypeSpecById(id).catch(() => setError(true));
-        if (data.data.accountTypeSpec.length === 0) {
-            setAccount(data.data.accountSpecs);
-        }
+    const AccountTypeSpecGetTable = async () => {
+        const data = await GetTypeSpecById(TypeId.authData).catch(() => setError(true));
+        console.log(data.data.accountTypeSpecs)
+        setAccount(data.data.accountTypeSpecs);
+        console.log(account)
     };
 
 
@@ -119,7 +118,7 @@ const AccountingSpecType = () => {
 
 
     useEffect(() => {
-        AccountTypeSpecGetTable(TypeId.authData);
+        AccountTypeSpecGetTable();
     }, [reload])
 
     useEffect(() => {
@@ -316,7 +315,7 @@ const AccountingSpecType = () => {
                 <Row>
                     <Col className={"d-flex p-5 w-100 col-12"}>
                         <Row className={"overflow-scroll d-flex w-100"}>
-                            {account === [] ?
+                            {account === undefined ?
                                 <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
                                 <table className={"table_block"}>
                                     <thead>
@@ -334,15 +333,15 @@ const AccountingSpecType = () => {
                                     </thead>
                                     <tbody>
                                     {
-                                        !account.length ?
+                                        account === undefined ?
                                             <div className={"w-100 d-flex justify-content-center mt-3"}>
                                                 {"حساب معین مربوطه یافت نشد!"}
                                             </div>
                                             :
 
                                             account.map(
-                                                item => <tr key={item.accountTypeId}>
-                                                    <td className={"p-2"}>{item.accountSpecName}</td>
+                                                item => <tr key={item.accountTypeSpecId}>
+                                                    <td className={"p-2"}>{item.accountSpecId}</td>
                                                     <td className={"p-2"}>{item.isActive === true ? <Button
                                                         variant={"success"}
                                                         value={true}
