@@ -53,12 +53,13 @@ const AccountingSpecType = () => {
     };
 
 
-
-
-    const manageSpecTypeActive = async (id , active) =>{
-        const response = await editSpecTypeIsActive(id , active).catch();
-        setReload(!reload)
-        console.log(response)
+    const manageSpecTypeActive = async (id, active) => {
+        setMessage("این قابلیت فعال نیست");
+        setErrorShow(true);
+        setTimeout(()=>{
+            setMessage("");
+            setErrorShow(false);
+        } , 1000)
     }
 
     const GetGroupAccount = async () => {
@@ -133,7 +134,7 @@ const AccountingSpecType = () => {
     }
 
 
-    const manageRemoveSpecAccount = async (id) =>{
+    const manageRemoveSpecAccount = async (id) => {
         setWaiting(true);
         setDeleteModalShow(false);
         const removeResponse = await removeAccountSpecType(id).catch();
@@ -180,7 +181,7 @@ const AccountingSpecType = () => {
         setDeleteModalShow(false);
     };
 
-    const manageDeleteModal = (id)=>{
+    const manageDeleteModal = (id) => {
         setDeleteModalShow(true);
         setDeleteModal(id);
     }
@@ -343,11 +344,13 @@ const AccountingSpecType = () => {
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         {"آیا از حذف حساب اطمینان دارید؟"}
                                         <Row className={"d-flex flex-row justify-content-center"}>
-                                            <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                                            <Col
+                                                className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
                                                 <Button className={'save_btn'} onClick={handleClose}>
                                                     {"انصراف"}
                                                 </Button>
-                                                <Button className={'close_btn'} onClick={() => manageRemoveSpecAccount(deleteModal)}>
+                                                <Button className={'close_btn'}
+                                                        onClick={() => manageRemoveSpecAccount(deleteModal)}>
                                                     {"حذف"}
                                                 </Button>
                                             </Col>
@@ -379,62 +382,62 @@ const AccountingSpecType = () => {
                         <Row className={"overflow-scroll d-flex w-100"}>
                             {
                                 waiting === true ? <Loader/> :
-                                account === undefined ?
-                                <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
-                                <table className={"table_block"}>
-                                    <thead>
-                                    <tr>
-                                        <td className={"p-2"}>
-                                            {"نام"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"وضعیت حساب"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"عملیات"}
-                                        </td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {
-                                        account === undefined ?
-                                            <div className={"w-100 d-flex justify-content-center mt-3"}>
-                                                {"حساب معین مربوطه یافت نشد!"}
-                                            </div>
-                                            :
+                                    account === undefined ?
+                                        <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
+                                        <table className={"table_block"}>
+                                            <thead>
+                                            <tr>
+                                                <td className={"p-2"}>
+                                                    {"نام"}
+                                                </td>
+                                                <td className={"p-2"}>
+                                                    {"وضعیت حساب"}
+                                                </td>
+                                                <td className={"p-2"}>
+                                                    {"عملیات"}
+                                                </td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {
+                                                account === undefined ?
+                                                    <div className={"w-100 d-flex justify-content-center mt-3"}>
+                                                        {"حساب معین مربوطه یافت نشد!"}
+                                                    </div>
+                                                    :
 
-                                            account.map(
-                                                item => <tr key={item.accountTypeSpecId}>
-                                                    <td className={"p-2"}>{item.accountSpecName}</td>
-                                                    <td className={"p-2"}>{item.isActive === true ? <Button
-                                                        variant={"success"}
-                                                        value={true}
-                                                        onClick={()=>manageSpecTypeActive(item.accountTypeSpecId , item.isActive)}
-                                                    >{"فعال"}</Button> : <Button
-                                                        variant={"secondary"}
-                                                        value={false}
-                                                        onClick={()=>manageSpecTypeActive(item.accountTypeSpecId , item.isActive)}
-                                                    >{"غیر فعال"}</Button>}</td>
-                                                    <td className={"d-flex justify-content-center gap-2 p-2"}>
-                                                        <ActionTableButton color={"--text-color-white"}
-                                                                           bgColor={"--color-warning"}
-                                                                           tooltip={"ویرایش"}
-                                                                           icon={faEdit}
-                                                                           onClick={() => manageEdit(item.accountTypeSpecId)}
-                                                        />
+                                                    account.map(
+                                                        item => <tr key={item.accountTypeSpecId}>
+                                                            <td className={"p-2"}>{item.accountSpecName}</td>
+                                                            <td className={"p-2"}>{item.isActive === true ? <Button
+                                                                variant={"success"}
+                                                                value={true}
+                                                                onClick={() => manageSpecTypeActive(item.accountTypeSpecId, item.isActive)}
+                                                            >{"فعال"}</Button> : <Button
+                                                                variant={"secondary"}
+                                                                value={false}
+                                                                onClick={() => manageSpecTypeActive(item.accountTypeSpecId, item.isActive)}
+                                                            >{"غیر فعال"}</Button>}</td>
+                                                            <td className={"d-flex justify-content-center gap-2 p-2"}>
+                                                                <ActionTableButton color={"--text-color-white"}
+                                                                                   bgColor={"--color-warning"}
+                                                                                   tooltip={"ویرایش"}
+                                                                                   icon={faEdit}
+                                                                                   onClick={() => manageEdit(item.accountTypeSpecId)}
+                                                                />
 
-                                                        <ActionTableButton color={"--text-color-white"}
-                                                                           bgColor={"--color-danger"}
-                                                                           tooltip={"حذف حساب"}
-                                                                           icon={faTrash}
-                                                                           onClick={()=>manageDeleteModal(item.accountTypeSpecId)}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            )
-                                    }
-                                    </tbody>
-                                </table>
+                                                                <ActionTableButton color={"--text-color-white"}
+                                                                                   bgColor={"--color-danger"}
+                                                                                   tooltip={"حذف حساب"}
+                                                                                   icon={faTrash}
+                                                                                   onClick={() => manageDeleteModal(item.accountTypeSpecId)}
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                            }
+                                            </tbody>
+                                        </table>
                             }
                         </Row>
                     </Col>
