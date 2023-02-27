@@ -341,7 +341,7 @@ const AccountingSpecType = () => {
 
                                             account.map(
                                                 item => <tr key={item.accountTypeSpecId}>
-                                                    <td className={"p-2"}>{item.accountSpecId}</td>
+                                                    <td className={"p-2"}>{item.accountSpecName}</td>
                                                     <td className={"p-2"}>{item.isActive === true ? <Button
                                                         variant={"success"}
                                                         value={true}
