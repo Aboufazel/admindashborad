@@ -54,6 +54,21 @@ export const AccountMainGetById = (id) => {
 }
 
 
+export const DeleteAccountMain = (id) =>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+
+    return AccountMain.delete(`/AccountMainService/api/AccountMains/remove?accountMainId=${id}` , {
+        headers:{
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
+        }
+    })
+
+
+}
+
+
 export const GetAccountMainByGroupId = (id)=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);

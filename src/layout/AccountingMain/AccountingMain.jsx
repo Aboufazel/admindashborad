@@ -2,7 +2,7 @@ import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-boots
 import FilterBox from "../../components/FilterBox/FilterBox";
 import {
     AccountMainGetById,
-    AddAccountMain,
+    AddAccountMain, DeleteAccountMain,
     EditAccountMain,
     GetAllAccountMain,
     MainEditIsActive
@@ -33,6 +33,9 @@ const AccountingMain = () => {
     const [reload, setReload] = useState(false)
     const [activeShow, setActiveShow] = useState(false);
     const [waiting, setWaiting] = useState(false);
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(undefined);
+
 
 
     const navigate = useNavigate();
@@ -119,6 +122,31 @@ const AccountingMain = () => {
         }
     }
 
+
+    const manageRemoveAccount = async (id) => {
+        setWaiting(true);
+        setDeleteModalShow(false);
+        const removeResponse = await DeleteAccountMain(id);
+        if (removeResponse.data.isSuccess === false) {
+            setMessage(removeResponse.data.message);
+            setErrorShow(true);
+            setWaiting(false);
+            setTimeout(() => {
+                setErrorShow(false);
+                setMessage("");
+            }, 1000)
+        } else if (removeResponse.data.isSuccess === true) {
+            setMessage(removeResponse.data.message);
+            setWaiting(false);
+            setSuccessShow(true);
+            setReload(!reload);
+            setTimeout(() => {
+                setSuccessShow(false);
+                setMessage("");
+            }, 1000)
+        }
+    }
+
     const handleEditClose = () => {
         setEditShow(false);
         emptyInput()
@@ -126,6 +154,15 @@ const AccountingMain = () => {
 
     const manageEditChange = (e) => {
         setEdit({...edit, [e.target.name]: e.target.value});
+    }
+
+    const handleDeleteClose = ()=>{
+        setDeleteModalShow(false);
+    }
+
+    const manageDeleteModal = (id)=>{
+        setDeleteModalShow(true);
+        setDeleteModal(id);
     }
 
     const manageSendEditAccount = async () => {
@@ -294,6 +331,21 @@ const AccountingMain = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
+                                    <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
+                                        {"آیا از حذف حساب اطمینان دارید؟"}
+                                        <Row className={"d-flex flex-row justify-content-center"}>
+                                            <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                                                <Button className={'save_btn'} onClick={handleDeleteClose}>
+                                                    {"انصراف"}
+                                                </Button>
+                                                <Button className={'close_btn'} onClick={() => manageRemoveAccount(deleteModal)}>
+                                                    {"حذف"}
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Modal.Body>
+                                </Modal>
                             </>
                         </Col>
                     </Row>
@@ -367,6 +419,11 @@ const AccountingMain = () => {
                                                                        icon={faEdit}
                                                                        onClick={() => manageEditAccount(item.accountMainCode)}
                                                     />
+                                                    <ActionTableButton color={"--text-color-white"}
+                                                                       bgColor={"--color-danger"}
+                                                                       tooltip={"حذف کاربر"}
+                                                                       icon={faTrash}
+                                                                       onClick={() => manageDeleteModal(item.accountMainId)}/>
                                                 </td>
                                             </tr>
                                         )
