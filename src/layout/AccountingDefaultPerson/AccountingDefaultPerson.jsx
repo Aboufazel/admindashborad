@@ -23,7 +23,7 @@ const AccountingDefaultPerson = () => {
     const [value, setValue] = useState({code: "", name: ""});
     const [edit, setEdit] = useState({typeId:"" ,id: "", code: "", name: "" , delete:""});
     const [show, setShow] = useState(false);
-    const [canDelete, setCanDelete] = useState({id: ""});
+    const [canDelete, setCanDelete] = useState(false);
     const [type, setType] = useState({id: ""});
     const [editShow, setEditShow] = useState(false);
     const [errorShow, setErrorShow] = useState(false);
@@ -42,9 +42,8 @@ const AccountingDefaultPerson = () => {
         emptyInput()
     };
 
-    const manageCanDeleteSelectChange = (e) => {
-        setCanDelete({id: e.target.value});
-        console.log(+canDelete.id);
+    const manageCanDeleteSelectChange = () => {
+        setCanDelete(!canDelete);
     }
 
 
@@ -92,20 +91,24 @@ const AccountingDefaultPerson = () => {
 
 
     const manageAddAccount = async () => {
-        const sendData = await AddDefaultPerson(value.code  ,  value.name , canDelete.id=== "" ? "1" : canDelete.id)
+        console.log(canDelete)
+        const sendData = await AddDefaultPerson(value.code  ,  value.name , canDelete === false  ? 0 : 1 )
         if (sendData.data.isSuccess === true) {
             setMessage(sendData.data.message);
             setShow(false);
-            setCanDelete({id:""});
+            setCanDelete(false);
             setSuccessShow(true);
+            emptyInput()
             setReload(!reload);
             setTimeout(() => {
                 setSuccessShow(false)
             }, 2500)
         } else {
             setMessage(sendData.data.message);
+            setCanDelete(false)
             setShow(false);
             setErrorShow(true);
+            emptyInput()
             setTimeout(() => {
                 setErrorShow(false)
             }, 2500)
@@ -139,7 +142,7 @@ const AccountingDefaultPerson = () => {
 
     const manageSendEditAccount = async () => {
         setWaiting(true)
-        const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name , canDelete.id === "" ? edit.delete : canDelete.id);
+        const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name , canDelete === false ? 0 : 1);
         if (sendEditData.data.isSuccess === true) {
             setLoading(!setReload(!reload));
             setWaiting(false);
@@ -274,7 +277,6 @@ const AccountingDefaultPerson = () => {
                                                 <label style={{fontFamily: 'iran-sans'}}
                                                        className={"me-2"}>{"امکان حذف:"}</label>
                                                 <Form.Check
-                                                    value={0}
                                                     name={"delete"}
                                                     label={"بله"}
                                                     onChange={manageCanDeleteSelectChange}
@@ -327,13 +329,11 @@ const AccountingDefaultPerson = () => {
                                                            className={"me-2"}>{"امکان حذف:"}</label>
                                                     {
                                                         edit.delete === 0 ? <Form.Check
-                                                            value={0}
                                                             name={"delete"}
-                                                            isValid={true}
+                                                            checked={true}
                                                             label={"بله"}
                                                             onChange={manageCanDeleteSelectChange}
                                                         /> : <Form.Check
-                                                            value={1}
                                                             name={"delete"}
                                                             label={"بله"}
                                                             onChange={manageCanDeleteSelectChange}

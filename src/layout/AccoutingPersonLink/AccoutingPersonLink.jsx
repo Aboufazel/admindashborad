@@ -42,7 +42,6 @@ const AccoutingPersonLink = () => {
     const manageTableData = async ()=>{
         const tableData = await GetByPersonId().catch(()=> alert('error'));
         setAccount(tableData.data.defaultPersonLinks)
-        console.log(tableData)
     }
 
     const GetGroupAccount = async () => {
@@ -340,7 +339,7 @@ const AccoutingPersonLink = () => {
                                                     {"حساب معین برای این نوع حساب وجود ندارد"}
                                                 </td>
                                             </tr> : account.map(
-                                                item => <tr key={item.accountTypeId}>
+                                                item => <tr key={`person-link-${item.accountTypeId}`}>
                                                     <td className={"p-2 w-75"}>{item.accountSpecName}</td>
                                                     <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                         <ActionTableButton color={"--text-color-white"}

@@ -26,7 +26,7 @@ export const AddDefaultPerson = (code, name, canDelete) => {
         data: {
             "DefaultPersonCode": +code,
             "DefaultPersonName": `${name}`,
-            "CanDelete": +canDelete,
+            "CanDelete": canDelete,
             "lang": "fa",
         },
         headers: {
@@ -49,7 +49,7 @@ export const EditDefaultPerson = ( typeId, id, code, name, canDelete) => {
             "DefaultPersonId": +id,
             "DefaultPersonCode": +code,
             "DefaultPersonName": `${name}`,
-            "CanDelete": +canDelete,
+            "CanDelete": canDelete,
             "lang": "fa",
         },
         headers: {
