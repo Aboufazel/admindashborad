@@ -4,7 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import {GiveIdContext} from "../../Context/GiveId";
 import {
     AccountSpecGetById,
-    AddAccountSpec,
+    AddAccountSpec, DeleteAccountSpec,
     EditAccountSpec,
     GetAllAccountSpec,
     SpecEditIsActive
@@ -13,6 +13,7 @@ import {Link, useNavigate} from "react-router-dom";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../Loader/Loader";
+import {DeleteAccountGroup} from "../../api/AccountGroup";
 
 
 const AccountTotal = () => {
@@ -29,6 +30,10 @@ const AccountTotal = () => {
     const [loading, setLoading] = useState(false);
     const [reload , setReload] = useState(false);
     const [waiting, setWaiting] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(undefined);
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
+
+
     const MainId = useContext(GiveIdContext);
     const navigate = useNavigate();
 
@@ -139,10 +144,39 @@ const AccountTotal = () => {
     }
 
 
+    const manageRemoveAccount = async (id) => {
+        setWaiting(true);
+        setDeleteModalShow(false);
+        const removeResponse = await DeleteAccountSpec(id);
+        if (removeResponse.data.isSuccess === false) {
+            setMessage(removeResponse.data.message);
+            setErrorShow(true);
+            setWaiting(false);
+            setTimeout(() => {
+                setErrorShow(false);
+                setMessage("");
+            }, 1000)
+        } else if (removeResponse.data.isSuccess === true) {
+            setMessage(removeResponse.data.message);
+            setWaiting(false);
+            setSuccessShow(true);
+            setReload(!reload);
+            setTimeout(() => {
+                setSuccessShow(false);
+                setMessage("");
+            }, 1000)
+        }
+    }
+
+
     const manageMainCode = ()=>{
         if(MainId.authData === undefined){
             navigate("/accountingGroup");
         }
+    }
+
+    const handleDeleteClose = ()=>{
+        setDeleteModalShow(false);
     }
 
     const manageActive = async (id, active) => {
@@ -160,6 +194,10 @@ const AccountTotal = () => {
         setWaiting(false);
     }
 
+    const manageDeleteModal = (id)=>{
+        setDeleteModalShow(true);
+        setDeleteModal(id);
+    }
 
     return (
         <Container>
@@ -285,6 +323,21 @@ const AccountTotal = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
+                                    <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
+                                        {"آیا از حذف حساب اطمینان دارید؟"}
+                                        <Row className={"d-flex flex-row justify-content-center"}>
+                                            <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                                                <Button className={'save_btn'} onClick={handleDeleteClose}>
+                                                    {"انصراف"}
+                                                </Button>
+                                                <Button className={'close_btn'} onClick={() => manageRemoveAccount(deleteModal)}>
+                                                    {"حذف"}
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Modal.Body>
+                                </Modal>
                             </>
                         </Col>
                     </Row>
@@ -353,7 +406,8 @@ const AccountTotal = () => {
                                                                        bgColor={"--color-danger"}
                                                                        tooltip={"حذف کاربر"}
                                                                        icon={faTrash}
-                                                    />
+                                                                       onClick={() => manageDeleteModal(item.accountSpecId)}/>
+
                                                 </td>
                                             </tr>
                                         )

@@ -43,7 +43,7 @@ export const AddAccountSpec = (specCode , specName,MainId) => {
 export const AccountSpecGetById = (id) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountGroup.get(`/AccountSpecService/api/AccountSpecs/GetAllAccountSpecCode?AccountPersonCode=${id}`, {
+    return AccountSpec.get(`/AccountSpecService/api/AccountSpecs/GetAllAccountSpecCode?AccountPersonCode=${id}`, {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
@@ -54,11 +54,24 @@ export const AccountSpecGetById = (id) => {
 export const AccountSpecGetByMainId = (id) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountGroup.get(`/AccountSpecService/api/AccountSpecs/GetAccountSpecByMainId/${id}`, {
+    return AccountSpec.get(`/AccountSpecService/api/AccountSpecs/GetAccountSpecByMainId/${id}`, {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
         },
+    })
+}
+
+
+export const DeleteAccountSpec = (id) =>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+
+    return AccountSpec.delete(`/AccountSpecService/api/AccountSpecs/remove?accountSpecId=${id}` , {
+        headers:{
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`,
+        }
     })
 }
 
