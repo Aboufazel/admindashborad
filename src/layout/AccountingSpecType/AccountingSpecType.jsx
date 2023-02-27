@@ -40,7 +40,7 @@ const AccountingSpecType = () => {
 
     const AccountTypeSpecGetTable = async (id) => {
         const data = await GetTypeSpecById(id).catch(() => setError(true));
-        if(data.data.accountTypeSpec.length === 0){
+        if (data.data.accountTypeSpec.length === 0) {
             setAccount(data.data.accountSpecs);
         }
     };
@@ -48,7 +48,7 @@ const AccountingSpecType = () => {
 
     const GetGroupAccount = async () => {
         const accountGroupData = await GetAllAccountGroup().catch(() => setError(true));
-        if(accountGroupData.status ===200){
+        if (accountGroupData.status === 200) {
             setDataLoading(false);
         }
         setAccountGroup(accountGroupData.data.accountGroups);
@@ -129,11 +129,11 @@ const AccountingSpecType = () => {
 
     useEffect(() => {
         GetMainAccount(groupValue.id);
-    }, [mainReload , reload])
+    }, [mainReload, reload])
 
     useEffect(() => {
         GetSpecAccount(mainValue.id);
-    }, [specReload , reload])
+    }, [specReload, reload])
 
 
     const handleClose = () => {
@@ -198,8 +198,8 @@ const AccountingSpecType = () => {
                                             </Col>
                                             <Col className={"d-flex align-items-center col-9"}>
                                                 <Form.Select
-                                                             defaultValue={groupValue.id}
-                                                             onChange={manageGroupSelectChange}>
+                                                    defaultValue={groupValue.id}
+                                                    onChange={manageGroupSelectChange}>
                                                     <option selected={true}>
                                                         {"گروه حساب"}
                                                     </option>
@@ -228,8 +228,8 @@ const AccountingSpecType = () => {
                                                             {"گروه حساب انتخاب نشده است"}
                                                         </div> :
                                                         <Form.Select
-                                                                     defaultValue={mainValue.id}
-                                                                     onChange={manageMainSelectChange}>
+                                                            defaultValue={mainValue.id}
+                                                            onChange={manageMainSelectChange}>
                                                             <option selected={true}>
                                                                 {""}
                                                             </option>
@@ -261,8 +261,8 @@ const AccountingSpecType = () => {
                                                         <div>
                                                             {"حساب کلی انتخاب نشده است"}
                                                         </div> : <Form.Select
-                                                                              defaultValue={specValue.id}
-                                                                              onChange={manageSpecSelectChange}>
+                                                            defaultValue={specValue.id}
+                                                            onChange={manageSpecSelectChange}>
                                                             <option selected={true}>
                                                                 {""}
                                                             </option>
@@ -334,7 +334,13 @@ const AccountingSpecType = () => {
                                     </thead>
                                     <tbody>
                                     {
-                                        account.map(
+                                        !account.length ?
+                                            <div className={"w-100 d-flex justify-content-center mt-3"}>
+                                                {"حساب معین مربوطه یافت نشد!"}
+                                            </div>
+                                            :
+
+                                            account.map(
                                                 item => <tr key={item.accountTypeId}>
                                                     <td className={"p-2"}>{item.accountSpecName}</td>
                                                     <td className={"p-2"}>{item.isActive === true ? <Button
