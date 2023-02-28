@@ -21,7 +21,7 @@ const AccountingDefaultPerson = () => {
     const {state, dispatch} = useContext(GiveIdContext);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
-    const [edit, setEdit] = useState({typeId:"" ,id: "", code: "", name: "" , delete:""});
+    const [edit, setEdit] = useState({typeId: "", id: "", code: "", name: "", delete: ""});
     const [show, setShow] = useState(false);
     const [canDelete, setCanDelete] = useState(false);
     const [type, setType] = useState({id: ""});
@@ -43,16 +43,19 @@ const AccountingDefaultPerson = () => {
     };
 
     const manageCanDeleteSelectChange = () => {
+
         setCanDelete(!canDelete);
     }
 
-
+    const manageEditeCanDelete = (e) =>{
+        console.log(e.target.value)
+        setCanDelete(e.target.value === 1 ? 1 : false)
+    }
 
 
     const handleDeleteClose = () => {
         setDeleteModalShow(false);
     }
-
 
 
     const handleEditClose = () => {
@@ -92,7 +95,7 @@ const AccountingDefaultPerson = () => {
 
     const manageAddAccount = async () => {
         console.log(canDelete)
-        const sendData = await AddDefaultPerson(value.code  ,  value.name , canDelete === false  ? 0 : 1 )
+        const sendData = await AddDefaultPerson(value.code, value.name, canDelete === false ? 0 : 1)
         if (sendData.data.isSuccess === true) {
             setMessage(sendData.data.message);
             setShow(false);
@@ -119,7 +122,7 @@ const AccountingDefaultPerson = () => {
     const manageRemoveAccount = async (id) => {
         setWaiting(true);
         setDeleteModalShow(false);
-          const removeResponse = await RemoveDefaultAccount(id);
+        const removeResponse = await RemoveDefaultAccount(id);
         if (removeResponse.data.isSuccess === false) {
             setMessage(removeResponse.data.message);
             setErrorShow(true);
@@ -142,25 +145,25 @@ const AccountingDefaultPerson = () => {
 
     const manageSendEditAccount = async () => {
         console.log(canDelete)
-        // setWaiting(true)
-        // const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name , canDelete === false ? 0 : 1);
-        // if (sendEditData.data.isSuccess === true) {
-        //     setLoading(!setReload(!reload));
-        //     setWaiting(false);
-        //     setCanDelete({id:""})
-        //     setSuccessShow(true);
-        //     setEditShow(false);
-        //     setMessage(sendEditData.data.message);
-        //     setTimeout(() => {
-        //         setSuccessShow(false);
-        //     }, 2500)
-        // } else {
-        //     setMessage(sendEditData.data.message);
-        //     setErrorShow(true);
-        //     setTimeout(() => {
-        //         setErrorShow(false);
-        //     }, 2500)
-        // }
+        setWaiting(true)
+        const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name , canDelete === false ? 0 : 1);
+        if (sendEditData.data.isSuccess === true) {
+            setLoading(!setReload(!reload));
+            setWaiting(false);
+            setCanDelete({id:""})
+            setSuccessShow(true);
+            setEditShow(false);
+            setMessage(sendEditData.data.message);
+            setTimeout(() => {
+                setSuccessShow(false);
+            }, 2500)
+        } else {
+            setMessage(sendEditData.data.message);
+            setErrorShow(true);
+            setTimeout(() => {
+                setErrorShow(false);
+            }, 2500)
+        }
     }
 
 
@@ -171,10 +174,11 @@ const AccountingDefaultPerson = () => {
         console.log(editData)
         setEdit({
             typeId: editData.data.accountTypeId,
-            id:editData.data.defaultPersonId ,
-            code:editData.data.defaultPersonCode ,
-            name:editData.data.defaultPersonName ,
-             delete:editData.data.canDelete })
+            id: editData.data.defaultPersonId,
+            code: editData.data.defaultPersonCode,
+            name: editData.data.defaultPersonName,
+            delete: editData.data.canDelete
+        })
 
 
         if (editData.status === 200) {
@@ -189,7 +193,7 @@ const AccountingDefaultPerson = () => {
         setDeleteModal(id);
     }
 
-    const manageDefaultPersonsLink = (id) =>{
+    const manageDefaultPersonsLink = (id) => {
         console.log(id)
         dispatch({type: 'UserData', payload: id});
         navigate("/personsLink")
@@ -329,35 +333,27 @@ const AccountingDefaultPerson = () => {
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"امکان حذف:"}</label>
                                                     {
-                                                        edit.delete === 0 ? <Form.Check
-                                                            name={"delete"}
-                                                            type={"radio"}
-                                                            checked={true}
-                                                            label={"بله"}
-                                                            onChange={manageCanDeleteSelectChange}
-                                                        /> : <Form.Check
-                                                            type={"radio"}
+                                                        edit.delete === 0 ?
+                                                            <>
+                                                                <Form.Check
+                                                                    name={"delete"}
+                                                                    type={"radio"}
+                                                                    checked={true}
+                                                                    label={"بله"}
+                                                                    onChange={manageEditeCanDelete}
+                                                                />
+                                                                <Form.Check
+                                                                    value={1}
+                                                                    type={"radio"}
+                                                                    name={"delete"}
+                                                                    label={"خیر"}
+                                                                    onChange={(e)=>manageEditeCanDelete(e)}
+                                                                />
+                                                        </> : <Form.Check
                                                             name={"delete"}
                                                             label={"بله"}
                                                             onChange={manageCanDeleteSelectChange}
                                                         />
-                                                    }
-                                                    {
-                                                        edit.delete === 1 ? <Form.Check
-                                                            className={"me-5"}
-                                                            checked={true}
-                                                            name={"delete"}
-                                                            type={"radio"}
-                                                            label={"خیر"}
-                                                            onChange={manageCanDeleteSelectChange}
-                                                        /> :
-                                                            <Form.Check
-                                                                className={"me-5"}
-                                                                name={"delete"}
-                                                                type={"radio"}
-                                                                label={"خیر"}
-                                                                onChange={manageCanDeleteSelectChange}
-                                                            />
                                                     }
                                                 </Col>
                                             </Row>
@@ -426,7 +422,7 @@ const AccountingDefaultPerson = () => {
                                                 <td className={"p-2"}>{item.defaultPersonCode}</td>
                                                 <td className={"p-2"}>{item.defaultPersonName}</td>
                                                 <td className={"p-2"}><Button
-                                                    onClick={() =>manageDefaultPersonsLink(item.defaultPersonId)}
+                                                    onClick={() => manageDefaultPersonsLink(item.defaultPersonId)}
                                                     variant={"warning"}>{"مشاهده"}</Button>
                                                 </td>
                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
