@@ -141,25 +141,26 @@ const AccountingDefaultPerson = () => {
     }
 
     const manageSendEditAccount = async () => {
-        setWaiting(true)
-        const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name , canDelete === false ? 0 : 1);
-        if (sendEditData.data.isSuccess === true) {
-            setLoading(!setReload(!reload));
-            setWaiting(false);
-            setCanDelete({id:""})
-            setSuccessShow(true);
-            setEditShow(false);
-            setMessage(sendEditData.data.message);
-            setTimeout(() => {
-                setSuccessShow(false);
-            }, 2500)
-        } else {
-            setMessage(sendEditData.data.message);
-            setErrorShow(true);
-            setTimeout(() => {
-                setErrorShow(false);
-            }, 2500)
-        }
+        console.log(canDelete)
+        // setWaiting(true)
+        // const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name , canDelete === false ? 0 : 1);
+        // if (sendEditData.data.isSuccess === true) {
+        //     setLoading(!setReload(!reload));
+        //     setWaiting(false);
+        //     setCanDelete({id:""})
+        //     setSuccessShow(true);
+        //     setEditShow(false);
+        //     setMessage(sendEditData.data.message);
+        //     setTimeout(() => {
+        //         setSuccessShow(false);
+        //     }, 2500)
+        // } else {
+        //     setMessage(sendEditData.data.message);
+        //     setErrorShow(true);
+        //     setTimeout(() => {
+        //         setErrorShow(false);
+        //     }, 2500)
+        // }
     }
 
 
@@ -330,14 +331,33 @@ const AccountingDefaultPerson = () => {
                                                     {
                                                         edit.delete === 0 ? <Form.Check
                                                             name={"delete"}
+                                                            type={"radio"}
                                                             checked={true}
                                                             label={"بله"}
                                                             onChange={manageCanDeleteSelectChange}
                                                         /> : <Form.Check
+                                                            type={"radio"}
                                                             name={"delete"}
                                                             label={"بله"}
                                                             onChange={manageCanDeleteSelectChange}
                                                         />
+                                                    }
+                                                    {
+                                                        edit.delete === 1 ? <Form.Check
+                                                            className={"me-5"}
+                                                            checked={true}
+                                                            name={"delete"}
+                                                            type={"radio"}
+                                                            label={"خیر"}
+                                                            onChange={manageCanDeleteSelectChange}
+                                                        /> :
+                                                            <Form.Check
+                                                                className={"me-5"}
+                                                                name={"delete"}
+                                                                type={"radio"}
+                                                                label={"خیر"}
+                                                                onChange={manageCanDeleteSelectChange}
+                                                            />
                                                     }
                                                 </Col>
                                             </Row>
