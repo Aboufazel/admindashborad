@@ -10,7 +10,6 @@ import {useContext, useEffect, useState} from "react";
 import {GiveIdContext} from "../../Context/GiveId";
 import {
     AddAccountSpecType,
-    editSpecTypeIsActive,
     GetTypeSpecById,
     removeAccountSpecType
 } from "../../api/AccountSpecType";
@@ -56,16 +55,19 @@ const AccountingSpecType = () => {
     const manageSpecTypeActive = async (id, active) => {
         setMessage("این قابلیت فعال نیست");
         setErrorShow(true);
-        setTimeout(()=>{
+        setTimeout(() => {
             setMessage("");
             setErrorShow(false);
-        } , 1000)
+        }, 1000)
     }
 
     const GetGroupAccount = async () => {
+        setDataLoading(true);
         const accountGroupData = await GetAllAccountGroup().catch(() => setError(true));
         if (accountGroupData.status === 200) {
             setDataLoading(false);
+            accountMain !== undefined ? setAccountMain(undefined) : setDataLoading(false)
+            accountSpec !== undefined ? setAccountMain(undefined) : setDataLoading(false)
         }
         setAccountGroup(accountGroupData.data.accountGroups);
     }
@@ -78,6 +80,9 @@ const AccountingSpecType = () => {
             setMainSelectShow(true);
         }
         setAccountMain(accountMainData.data.accountMains);
+       setTimeout(() =>{
+           setDataLoading(false)
+       } , 2500)
     }
 
 
@@ -269,7 +274,7 @@ const AccountingSpecType = () => {
                                             </Col>
                                             <Col className={"d-flex align-items-center col-9"}>
                                                 {
-                                                    mainSelectShow === false ?
+                                                    dataLoading ? <Loader/> : mainSelectShow === false ?
                                                         <div>
                                                             {"گروه حساب انتخاب نشده است"}
                                                         </div> :
@@ -303,7 +308,7 @@ const AccountingSpecType = () => {
                                             </Col>
                                             <Col className={"d-flex align-items-center col-9"}>
                                                 {
-                                                    specSelectShow === false ?
+                                                    dataLoading ? <Loader/> : specSelectShow === false ?
                                                         <div>
                                                             {"حساب کلی انتخاب نشده است"}
                                                         </div> : <Form.Select
