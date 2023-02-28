@@ -61,6 +61,7 @@ const AccountingSpecType = () => {
         }, 1000)
     }
 
+
     const GetGroupAccount = async () => {
         setDataLoading(true);
         const accountGroupData = await GetAllAccountGroup().catch(() => setError(true));
@@ -71,6 +72,7 @@ const AccountingSpecType = () => {
         }
         setAccountGroup(accountGroupData.data.accountGroups);
     }
+
 
     const GetMainAccount = async (id) => {
         setDataLoading(true);
@@ -90,6 +92,7 @@ const AccountingSpecType = () => {
         setGroupValue({id: e.target.value});
         setMainReload(!mainReload);
     }
+
 
     const manageMainSelectChange = (e) => {
         setMainValue({id: e.target.value});
