@@ -20,13 +20,28 @@ export const GetByPersonId =(id)=>{
 }
 
 
-export const AddDefaultPersonLink = (personId , specId) =>{
+export const removePersonLinkId = (id)=>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+
+    return AccountPersonLink.delete(`/AccountPersonService/api/DefaultPersonLinks/remove?DefaultPersonLinkId=${id}`,
+        {
+            headers:{
+                "selfuserid": `${final.userId}`,
+                "token": `${final.accessToken}`
+            }
+        })
+}
+
+
+
+export const AddPersonLink = (personId , specId) =>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
 
     return AccountPersonLink({
         method:'post',
-        url:'/AccountPersonService/api/DefaultPersonLinks/edit',
+        url:'/AccountPersonService/api/DefaultPersonLinks/add',
         data:{
             "DefaultPersonId": personId,
             "AccountSpecId":+specId
@@ -47,7 +62,7 @@ export const EditPersonLink= (personLinkId , personId ,specId)=>{
         url:'/AccountPersonService/api/DefaultPersonLinks/edit',
         data: {
             "DefaultPersonLinkId": +personLinkId,
-            "DefaultPersonId": personId,
+            "DefaultPersonId": +personId,
             "AccountSpecId":+specId
         },
         headers: {
@@ -56,13 +71,6 @@ export const EditPersonLink= (personLinkId , personId ,specId)=>{
             'Content-Type': 'application/json'
         },
     })
-}
-
-
-export const GetDefaultPersonLinkById =(id)=>{
-    return AccountPersonLink.get(
-        `/AccountPersonService/api/DefaultPersonLinks/GetDefaultPersonLinkbyById?DefaultPersonLinkId=${id}`
-    )
 }
 
 
