@@ -1,4 +1,9 @@
-import {GetAllPersonLinks, GetByPersonId} from "../../api/AccountPersonLink";
+import {
+    AddDefaultPersonLink,
+    GetAllPersonLinks,
+    GetByPersonId,
+    GetDefaultPersonLinkById
+} from "../../api/AccountPersonLink";
 import {useContext, useEffect, useState} from "react";
 import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -7,19 +12,14 @@ import Form from "react-bootstrap/Form";
 import FilterBox from "../../components/FilterBox/FilterBox";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {GetAllAccountGroup} from "../../api/AccountGroup";
-import {GetAccountMainByGroupId} from "../../api/AccountMain";
-import {AccountSpecGetByMainId} from "../../api/AccountSpec";
+import {GetAllAccountSpec} from "../../api/AccountSpec";
 import {AddAccountSpecType} from "../../api/AccountSpecType";
 import {GiveIdContext} from "../../Context/GiveId";
 
 const AccoutingPersonLink = () => {
     const [account, setAccount] = useState(undefined);
     const [error, setError] = useState(false);
-    const [groupValue, setGroupValue] = useState({id: ""});
-    const [mainValue, setMainValue] = useState({id: ""});
     const [specValue, setSpecValue] = useState({id: ""});
-    const [mainReload, setMainReload] = useState(false);
     const [specReload, setSpecReload] = useState(false);
     const [show, setShow] = useState(false);
     // const [editShow, setEditShow] = useState(false);
@@ -31,46 +31,14 @@ const AccoutingPersonLink = () => {
     const [mainSelectShow, setMainSelectShow,] = useState(false);
     const [specSelectShow, setSpecSelectShow,] = useState(false);
     const [reload, setReload] = useState(false);
-    const [accountGroup, setAccountGroup] = useState(undefined);
-    const [accountMain, setAccountMain] = useState(undefined);
     const [accountSpec, setAccountSpec] = useState(undefined);
 
     const TypeId = useContext(GiveIdContext);
-    console.log(TypeId);
 
 
-    const manageTableData = async ()=>{
-        const tableData = await GetByPersonId().catch(()=> alert('error'));
+    const manageTableData = async () => {
+        const tableData = await GetDefaultPersonLinkById(TypeId.authData).catch(() => alert('error'));
         setAccount(tableData.data.defaultPersonLinks)
-    }
-
-    const GetGroupAccount = async () => {
-        const accountGroupData = await GetAllAccountGroup().catch(() => setError(true));
-        if(accountGroupData.status ===200){
-            setDataLoading(false);
-        }
-        setAccountGroup(accountGroupData.data.accountGroups);
-    }
-
-    const GetMainAccount = async (id) => {
-        setDataLoading(true);
-        const accountMainData = await GetAccountMainByGroupId(id).catch(() => setError(true));
-        if (accountMainData.status === 200) {
-            setDataLoading(false);
-            setMainSelectShow(true);
-        }
-        setAccountMain(accountMainData.data.accountMains);
-    }
-
-
-    const manageGroupSelectChange = (e) => {
-        setGroupValue({id: e.target.value});
-        setMainReload(!mainReload);
-    }
-
-    const manageMainSelectChange = (e) => {
-        setMainValue({id: e.target.value});
-        setSpecReload(!specReload);
     }
 
     const manageSpecSelectChange = (e) => {
@@ -78,9 +46,9 @@ const AccoutingPersonLink = () => {
         setSpecReload(!specReload);
     }
 
-    const GetSpecAccount = async (id) => {
+    const GetSpecAccount = async () => {
         setDataLoading(true);
-        const accountSpecData = await AccountSpecGetByMainId(id).catch(() => setError(true));
+        const accountSpecData = await GetAllAccountSpec().catch(() => setError(true));
         if (accountSpecData.status === 200) {
             setDataLoading(false);
             setSpecSelectShow(true);
@@ -89,25 +57,10 @@ const AccoutingPersonLink = () => {
     }
 
 
-    const ManageAddSpecType = async (specId, typeId) => {
+    const AddDefaultPersonLink = async (personId, specId) => {
         setDataLoading(true);
-        const sendSaveData = await AddAccountSpecType(specId, typeId).catch(() => setError(true));
-        if (sendSaveData.data.isSuccess === true) {
-            setMessage(sendSaveData.data.message);
-            setShow(false);
-            setSuccessShow(true);
-            setReload(!reload);
-            setTimeout(() => {
-                setSuccessShow(false)
-            }, 2500)
-        } else {
-            setMessage(sendSaveData.data.message);
-            setShow(false);
-            setErrorShow(true);
-            setTimeout(() => {
-                setErrorShow(false)
-            }, 2500)
-        }
+        const sendSaveData = await AddAccountSpecType(personId, specId).catch(() => setError(true));
+        console.log(sendSaveData)
     };
 
 
@@ -120,19 +73,10 @@ const AccoutingPersonLink = () => {
         manageTableData();
     }, [reload])
 
-    //
-    // useEffect(() => {
-    //     GetGroupAccount();
-    // }, [reload])
-    //
-    //
-    // useEffect(() => {
-    //     GetMainAccount(groupValue.id);
-    // }, [mainReload])
-    //
-    // useEffect(() => {
-    //     GetSpecAccount(mainValue.id);
-    // }, [specReload])
+
+    useEffect(() => {
+        GetSpecAccount();
+    }, [specReload])
 
 
     const handleClose = () => {
@@ -144,7 +88,7 @@ const AccoutingPersonLink = () => {
     // useEffect(()=>{
     //     manageTableData();
     // } , [])
-    return(
+    return (
         <Container>
             <Row>
                 <Col>
@@ -196,98 +140,36 @@ const AccoutingPersonLink = () => {
                                         <Row className={"my-3"}>
                                             <Col className={"d-flex align-items-center col-3"}>
                                                 <label style={{fontFamily: 'iran-sans'}}
-                                                       className={"me-2"}>{"گروه حساب:"}</label>
-                                            </Col>
-                                            <Col className={"d-flex align-items-center col-9"}>
-                                                <Form.Select
-                                                    defaultValue={groupValue.id}
-                                                    onChange={manageGroupSelectChange}>
-                                                    <option selected={true}>
-                                                        {"گروه حساب"}
-                                                    </option>
-                                                    {
-                                                        accountGroup === undefined ? <Loader/> : accountGroup.map(
-                                                            item =>
-
-                                                                <option
-                                                                    value={item.accountGroupId}>
-                                                                    {item.accountGroupName}
-                                                                </option>
-                                                        )
-                                                    }
-                                                </Form.Select>
-                                            </Col>
-                                        </Row>
-                                        <Row className={"my-3"}>
-                                            <Col className={"d-flex align-items-center col-3"}>
-                                                <label style={{fontFamily: 'iran-sans'}}
-                                                       className={"me-2"}>{"حساب کل:"}</label>
-                                            </Col>
-                                            <Col className={"d-flex align-items-center col-9"}>
-                                                {
-                                                    mainSelectShow === false ?
-                                                        <div>
-                                                            {"گروه حساب انتخاب نشده است"}
-                                                        </div> :
-                                                        <Form.Select
-                                                            defaultValue={mainValue.id}
-                                                            onChange={manageMainSelectChange}>
-                                                            <option selected={true}>
-                                                                {"حساب کل"}
-                                                            </option>
-                                                            {
-                                                                accountMain === undefined ?
-                                                                    <option>
-                                                                        {"گروه حساب انتخاب نشده است"}
-                                                                    </option> : accountMain.map(
-                                                                        item => (
-                                                                            <option
-                                                                                value={item.accountMainId}>
-                                                                                {item.accountMainName}
-                                                                            </option>
-                                                                        )
-                                                                    )
-                                                            }
-                                                        </Form.Select>
-                                                }
-                                            </Col>
-                                        </Row>
-                                        <Row className={"my-3"}>
-                                            <Col className={"d-flex align-items-center col-3"}>
-                                                <label style={{fontFamily: 'iran-sans'}}
                                                        className={"me-2"}>{"حساب معین:"}</label>
                                             </Col>
                                             <Col className={"d-flex align-items-center col-9"}>
                                                 {
-                                                    specSelectShow === false ?
-                                                        <div>
-                                                            {"حساب کل انتخاب نشده است"}
-                                                        </div> : <Form.Select
-                                                            defaultValue={specValue.id}
-                                                            onChange={manageSpecSelectChange}>
-                                                            <option selected={true}>
-                                                                {"حساب معین"}
-                                                            </option>
-                                                            {
-                                                                accountSpec === undefined ?
-                                                                    <option>
-                                                                        {"حساب کل انتخاب نشده است"}
-                                                                    </option> : accountSpec.map(
-                                                                        item => (
-                                                                            <option
-                                                                                value={item.accountSpecId}>
-                                                                                {item.accountSpecName}
-                                                                            </option>
-                                                                        )
-                                                                    )
-                                                            }
-                                                        </Form.Select>
+                                                    <Form.Select
+                                                    defaultValue={specValue.id}
+                                                    onChange={manageSpecSelectChange}>
+                                                    <option selected={true}>
+                                                        {"حساب معین"}
+                                                    </option>
+                                                    {
+                                                        accountSpec === undefined ?
+                                                            <option>
+                                                                {"حساب کل انتخاب نشده است"}
+                                                            </option> : accountSpec.map(
+                                                                item => (
+                                                                    <option
+                                                                        value={item.accountSpecId}>
+                                                                        {item.accountSpecName}
+                                                                    </option>
+                                                                )
+                                                            )
+                                                    }
+                                                </Form.Select>
                                                 }
                                             </Col>
                                         </Row>
                                     </Modal.Body>
                                     <Modal.Footer>
-                                        <Button onClick={() => ManageAddSpecType(specValue.id, TypeId.authData)}
+                                        <Button onClick={() => AddDefaultPersonLink(TypeId.authData, specValue.id)}
                                                 className={'save_btn'}>
                                             {"ذخیره"}
                                         </Button>
@@ -368,7 +250,6 @@ const AccoutingPersonLink = () => {
         </Container>
     )
 }
-
 
 
 export default AccoutingPersonLink;

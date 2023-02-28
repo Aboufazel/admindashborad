@@ -34,23 +34,6 @@ export const GetAllTypeSpec =()=>{
 }
 
 
-export const editSpecTypeIsActive = (mainId , isActive) =>{
-    const data = localStorage.getItem("auth")
-    const final = JSON.parse(data);
-    return AccountSpecType({
-        method:'put',
-        url:'/AccountSpecService/api/AccountSpecs/EditIsActive',
-        data:{
-            "AccountTypeSpecId": mainId,
-            "IsActive": isActive
-        },
-        headers: {
-            "selfuserid": `${final.userId}`,
-            "token": `${final.accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    })
-}
 
 export const GetTypeSpecById =(id)=>{
     const data = localStorage.getItem("auth")

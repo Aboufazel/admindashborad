@@ -11,7 +11,7 @@ AccountPersonLink.interceptors.response.use()
 export const GetByPersonId =(id)=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountPersonLink.get(`/AccountPersonService/api/DefaultPersonLinks/GetAllByPersonId?PersonId=13` , {
+    return AccountPersonLink.get(`/AccountPersonService/api/DefaultPersonLinks/GetAllByPersonId?PersonId=${id}` , {
         headers:{
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
@@ -20,12 +20,31 @@ export const GetByPersonId =(id)=>{
 }
 
 
+export const AddDefaultPersonLink = (personId , specId) =>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+
+    return AccountPersonLink({
+        method:'post',
+        url:'/AccountPersonService/api/DefaultPersonLinks/edit',
+        data:{
+            "DefaultPersonId": personId,
+            "AccountSpecId":+specId
+        },
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json'
+        },
+    })
+}
+
 export const EditPersonLink= (personLinkId , personId ,specId)=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
     return AccountPersonLink({
         method:'put',
-        url:'/AccountPersonService/api/DefaultPersonLinks/add',
+        url:'/AccountPersonService/api/DefaultPersonLinks/edit',
         data: {
             "DefaultPersonLinkId": +personLinkId,
             "DefaultPersonId": personId,
@@ -41,7 +60,9 @@ export const EditPersonLink= (personLinkId , personId ,specId)=>{
 
 
 export const GetDefaultPersonLinkById =(id)=>{
-    return AccountPersonLink.get(`/AccountPersonService/api/DefaultPersonLinks/GetDefaultPersonLinkbyById?DefaultPersonLinkId=${id}`)
+    return AccountPersonLink.get(
+        `/AccountPersonService/api/DefaultPersonLinks/GetDefaultPersonLinkbyById?DefaultPersonLinkId=${id}`
+    )
 }
 
 
