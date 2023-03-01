@@ -58,7 +58,7 @@ export const DeleteAccountMain = (id) =>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
 
-    return AccountMain.delete(`/AccountMainService/api/AccountMains/remove?accountMainId=${id}` , {
+    return AccountMain.delete(`/AccountMainService/api/AccountMains/delete?accountMainId=${id}` , {
         headers:{
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
