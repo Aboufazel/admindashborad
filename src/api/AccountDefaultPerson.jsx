@@ -75,7 +75,7 @@ export const GetForEditDefault = (id) =>{
 export const RemoveDefaultAccount = (id) => {
     const data = localStorage.getItem("auth");
     const final = JSON.parse(data);
-    return AccountDefaultPerson.delete(`/AccountPersonService/api/DefaultPersons/remove?DefaultPersonId=${id}` ,{
+    return AccountDefaultPerson.delete(`/AccountPersonService/api/DefaultPersons/delete?DefaultPersonId=${id}` ,{
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
