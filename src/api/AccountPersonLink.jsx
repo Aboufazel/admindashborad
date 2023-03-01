@@ -24,7 +24,7 @@ export const removePersonLinkId = (id)=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
 
-    return AccountPersonLink.delete(`/AccountPersonService/api/DefaultPersonLinks/remove?DefaultPersonLinkId=${id}`,
+    return AccountPersonLink.delete(`/AccountPersonService/api/DefaultPersonLinks/delete?DefaultPersonLinkId=${id}`,
         {
             headers:{
                 "selfuserid": `${final.userId}`,
