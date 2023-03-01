@@ -67,7 +67,7 @@ export const DeleteAccountSpec = (id) =>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
 
-    return AccountSpec.delete(`/AccountSpecService/api/AccountSpecs/remove?accountSpecId=${id}` , {
+    return AccountSpec.delete(`/AccountSpecService/api/AccountSpecs/delete?accountSpecId=${id}` , {
         headers:{
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`,
