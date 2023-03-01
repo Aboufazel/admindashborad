@@ -13,7 +13,7 @@ AccountSpecType.interceptors.response.use();
 export const removeAccountSpecType = (id)=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountSpecType.delete(`/AccountTypeService/api/AccountTypeSpecs/remove?AccountTypeSpecId=${id}` , {
+    return AccountSpecType.delete(`/AccountTypeService/api/AccountTypeSpecs/delete?AccountTypeSpecId=${id}` , {
         headers:{
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
