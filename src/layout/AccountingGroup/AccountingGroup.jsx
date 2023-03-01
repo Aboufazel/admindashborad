@@ -126,7 +126,7 @@ const AccountingGroup = () => {
 
     const manageSendEditAccount = async () => {
         setWaiting(true)
-        const sendEditResponse = await EditAccountGroup(edit.id, edit.code, edit.name, edit.active);
+        const  sendEditResponse = await EditAccountGroup(edit.id, edit.code, edit.name, edit.active);
         if (sendEditResponse.data.isSuccess === true) {
             setLoading(!setReload(!reload));
             setWaiting(false)

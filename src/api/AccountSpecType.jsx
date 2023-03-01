@@ -22,6 +22,27 @@ export const removeAccountSpecType = (id)=>{
 }
 
 
+export const manageEditSpecType = (typeSpecId , SpecId ,TypeId) =>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+
+    return AccountSpecType({
+        method:'put' ,
+        url:'/AccountTypeService/api/AccountTypeSpecs/edit',
+        data:{
+            "accountTypeSpecId":typeSpecId,
+            "AccountSpecId": SpecId,
+            "AccountTypeId":TypeId,
+            "lang": "fa",
+        },
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json'
+        },
+    })
+}
+
 export const GetAllTypeSpec =()=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
