@@ -51,7 +51,7 @@ export const AddAccountGroup = (groupCode, groupName) => {
 export const DeleteAccountGroup = (groupId) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountGroup.delete(`/AccountGroupService/api/AccountGroups/remove?AccountGroupId=${groupId}`, {
+    return AccountGroup.delete(`/AccountGroupService/api/AccountGroups/delete?AccountGroupId=${groupId}`, {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
