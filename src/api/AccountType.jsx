@@ -95,7 +95,7 @@ export const AccountTypeEditIsActive = (mainId, isActive) =>{
 export const DeleteAccountType = (typeId) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return AccountType.delete(`/AccountTypeService/api/AccountTypes/remove?AccountTypeId=${typeId}`, {
+    return AccountType.delete(`/AccountTypeService/api/AccountTypes/delete?AccountTypeId=${typeId}`, {
         headers: {
             "selfuserid": `${final.userId}`,
             "token": `${final.accessToken}`
