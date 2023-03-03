@@ -19,7 +19,7 @@ const Main = () => {
     return(
 
         storageData.userId === "" ? () => {
-                setAuthInfo({userId:"" , accessToken:"" ,isLogin: false})
+                setAuthInfo({isLogin: false})
                 localStorage.clear();
                 alert("نیاز به ورود دارید")
                 navigate('/login')
