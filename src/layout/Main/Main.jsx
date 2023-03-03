@@ -1,29 +1,28 @@
 import {Col, Container, Row} from "react-bootstrap";
 import '../main.style.css'
 import StatusCard from "../../components/StatusCard/StatusCard";
-import useStorage from "../../hooks/storage";
 import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
 
 
 const Main = () => {
-    const [authInfo, setAuthInfo] = useStorage("auth", {
-        userId: "",
-        accessToken: "",
-        isLogin: false,
-    })
 
     const storageData = JSON.parse(localStorage.getItem('auth'));
     const navigate = useNavigate();
 
+    const manageValidation = ()=>{
+        if(storageData.userId === ""){
+            alert("if-test")
+            localStorage.clear();
+            navigate('/login')
+        }
+    }
+
+    useEffect(() =>{
+        manageValidation()
+    } , [])
 
     return(
-
-        storageData.userId === "" ? () => {
-                setAuthInfo({isLogin: false})
-                localStorage.clear();
-                alert("نیاز به ورود دارید")
-                navigate('/login')
-            } :
       <Container>
           <Row className={'main_block'}>
               <Col>

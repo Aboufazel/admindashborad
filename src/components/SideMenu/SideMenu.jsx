@@ -17,7 +17,6 @@ const SideMenu = () => {
     const [tokenInfo, setTokenInfo] = useStorage("auth", {
         refreshToken: "",
         accessToken: "",
-        isLogin: true,
     });
 
 
@@ -26,7 +25,6 @@ const SideMenu = () => {
         setTokenInfo({
             accessToken: "",
             refreshToken: "",
-            isLogin: false,
         })
         navigate("/login")
     }

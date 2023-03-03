@@ -14,7 +14,6 @@ const Login = ({}) => {
     const [authInfo, setAuthInfo] = useStorage("auth", {
         userId: "",
         accessToken: "",
-        isLogin: false,
     })
 
     function simulateNetworkRequest() {
@@ -46,7 +45,6 @@ const Login = ({}) => {
                         setAuthInfo({
                             userId: res.data.data.userId,
                             accessToken: res.data.data.token,
-                            isLogin: true,
                         });
                         navigate("/");
                     } else {

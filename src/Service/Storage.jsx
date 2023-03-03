@@ -5,7 +5,6 @@ const Storage = () => {
             const data = {
                 userId,
                 accessToken,
-                isLogin: true,
             };
             localStorage.setItem("auth", JSON.stringify(data));
         },
@@ -13,7 +12,6 @@ const Storage = () => {
             const data = {
                 userId: "",
                 accessToken: "",
-                isLogin: false,
             };
             localStorage.setItem("auth", JSON.stringify(data));
         },
@@ -32,14 +30,6 @@ const Storage = () => {
             }
             const auth = JSON.parse(key);
             return auth.accessToken;
-        },
-        get isLogin() {
-            const key = localStorage.getItem("auth");
-            if (key == null) {
-                return false;
-            }
-            const auth = JSON.parse(key);
-            return !!auth.isLogin;
         },
         setAccessToken: (accessToken) => {
             const key = localStorage.getItem("auth");

@@ -6,7 +6,7 @@ import Storage from "../../Service/Storage";
 const AuthProvider = ({children}) => {
     const storage = Storage();
 
-    if (!storage.isLogin) {
+    if (storage.accessToken === "") {
         return <Navigate to={"/login"}/>;
     }
     return (
