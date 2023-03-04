@@ -118,7 +118,7 @@ const AccountingDefaultPerson = () => {
     const manageAddAccount = async () => {
         console.log(canDelete)
         console.log(typeValue)
-        const sendData = await AddDefaultPerson(typeValue,value.code, value.name, canDelete === true ? 0 : 1)
+        const sendData = await AddDefaultPerson(typeValue === "هیچکدام" ? 0 : typeValue , value.code , value.name , canDelete === true ? 0 : 1)
         if (sendData.data.isSuccess === true) {
             setMessage(sendData.data.message);
             setTypeValue("");
@@ -202,15 +202,18 @@ const AccountingDefaultPerson = () => {
         setLoading(true);
         const editData = await GetForEditDefault(id).catch();
         const getResponse = await AccountTypeGetById(typeId).catch();
-        console.log(getResponse)
-        setTypeName({
-            name: getResponse.data.accountTypeName,
-        })
-        console.log(typeName)
-        if (getResponse.status === 200) {
+        if (getResponse.data === null){
             setLoading(false)
-        } else {
-            setEditShow(false)
+        }else {
+            console.log(getResponse)
+            setTypeName({
+                name: getResponse.data.accountTypeName,
+            })
+            if (getResponse.status === 200) {
+                setLoading(false)
+            } else {
+                setEditShow(false)
+            }
         }
         setEdit({
             typeId: editData.data.accountTypeId,
@@ -314,7 +317,7 @@ const AccountingDefaultPerson = () => {
                                             </Col>
                                             <Col className={"d-flex align-items-center col-9"}>
                                                 <Form.Select
-                                                    defaultValue={typeValue.id}
+                                                    value={typeValue.id}
                                                     onChange={manageTypeSelectChange}>
                                                     <option selected={true}>
                                                         {""}
@@ -401,7 +404,7 @@ const AccountingDefaultPerson = () => {
                                                 </Col>
                                                 <Col className={"d-flex align-items-center col-9"}>
                                                     <Form.Select
-                                                        defaultValue={typeValue.id}
+                                                        value={typeValue.id}
                                                         onChange={manageTypeSelectChange}>
                                                         <option selected={true}>
                                                             {""}
@@ -477,6 +480,7 @@ const AccountingDefaultPerson = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+
                                 <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow}
                                        onHide={handleClose}>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
