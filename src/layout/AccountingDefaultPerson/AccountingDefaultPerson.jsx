@@ -390,7 +390,7 @@ const AccountingDefaultPerson = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"نوع حساب فعلی:"}</label>
-                                                    <input value={typeName.name} className={"bg-body"} disabled/>
+                                                    <input value={typeName === undefined? "" : typeName.name} className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 

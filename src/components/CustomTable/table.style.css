@@ -1,6 +1,5 @@
 table{
-    overflow-y: scroll
-
+    overflow-y: scroll;
 }
 
 .table_block thead tr{
@@ -9,6 +8,7 @@ table{
     border-radius: 15px;
     text-align: center;
 }
+
 
 .table_block tbody tr{
     text-align: center;
