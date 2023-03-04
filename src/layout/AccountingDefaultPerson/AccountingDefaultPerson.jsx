@@ -43,7 +43,6 @@ const AccountingDefaultPerson = () => {
     };
 
     const manageCanDeleteSelectChange = () => {
-
         setCanDelete(!canDelete);
     }
 
@@ -95,7 +94,7 @@ const AccountingDefaultPerson = () => {
 
     const manageAddAccount = async () => {
         console.log(canDelete)
-        const sendData = await AddDefaultPerson(value.code, value.name, canDelete === false ? 0 : 1)
+        const sendData = await AddDefaultPerson(value.code, value.name, canDelete === true ? 0 : 1)
         if (sendData.data.isSuccess === true) {
             setMessage(sendData.data.message);
             setShow(false);
@@ -146,7 +145,8 @@ const AccountingDefaultPerson = () => {
     const manageSendEditAccount = async () => {
         console.log(canDelete)
         setWaiting(true)
-        const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name , canDelete === false ? 0 : 1);
+        const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name ,
+            canDelete === false ? 0 : 1);
         if (sendEditData.data.isSuccess === true) {
             setLoading(!setReload(!reload));
             setWaiting(false);
@@ -159,6 +159,8 @@ const AccountingDefaultPerson = () => {
             }, 2500)
         } else {
             setMessage(sendEditData.data.message);
+            setEditShow(false)
+            setWaiting(false)
             setErrorShow(true);
             setTimeout(() => {
                 setErrorShow(false);
