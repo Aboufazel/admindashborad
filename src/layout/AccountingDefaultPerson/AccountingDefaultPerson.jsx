@@ -14,10 +14,13 @@ import {
     RemoveDefaultAccount
 } from "../../api/AccountDefaultPerson";
 import {GiveIdContext} from "../../Context/GiveId";
+import {AccountTypeGetById, GetAllAccountType} from "../../api/AccountType";
 
 
 const AccountingDefaultPerson = () => {
     const [account, setAccount] = useState(undefined);
+    const [typeValue, setTypeValue] = useState("");
+    const [typeName , setTypeName] = useState(undefined)
     const {state, dispatch} = useContext(GiveIdContext);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
@@ -34,6 +37,7 @@ const AccountingDefaultPerson = () => {
     const [waiting, setWaiting] = useState(false);
     const [deleteModal, setDeleteModal] = useState(undefined);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [accountType, setAccountType] = useState(undefined);
     const navigate = useNavigate();
 
 
@@ -48,13 +52,16 @@ const AccountingDefaultPerson = () => {
 
     const manageEditeCanDelete = (e) =>{
         console.log(e.target.value)
-        setCanDelete(e.target.value === 1 ? 1 : false)
+        setCanDelete(e.target.value === 1 ? 1 : true)
     }
 
 
     const handleDeleteClose = () => {
         setDeleteModalShow(false);
     }
+
+
+
 
 
     const handleEditClose = () => {
@@ -75,6 +82,18 @@ const AccountingDefaultPerson = () => {
         setValue({code: "", name: ""});
     };
 
+    const AccountTypeGetTabel = async () => {
+        const data = await GetAllAccountType().catch(() => setError(true));
+        console.log(data)
+        if (data.data.isSuccess === false) {
+            localStorage.clear();
+            alert("نیاز به ورود مجدد دارید");
+            navigate('/login')
+        }
+        setAccountType(data.data.accountTypes)
+    };
+
+
     const AccountGetTable = async () => {
         const data = await GetAllDefault().catch(() => setError(true));
         console.log(data);
@@ -92,11 +111,17 @@ const AccountingDefaultPerson = () => {
     }, [reload])
 
 
+    useEffect(() => {
+        AccountTypeGetTabel();
+    }, [reload])
+
     const manageAddAccount = async () => {
         console.log(canDelete)
-        const sendData = await AddDefaultPerson(value.code, value.name, canDelete === true ? 0 : 1)
+        console.log(typeValue)
+        const sendData = await AddDefaultPerson(typeValue,value.code, value.name, canDelete === true ? 0 : 1)
         if (sendData.data.isSuccess === true) {
             setMessage(sendData.data.message);
+            setTypeValue("");
             setShow(false);
             setCanDelete(false);
             setSuccessShow(true);
@@ -110,6 +135,7 @@ const AccountingDefaultPerson = () => {
             setCanDelete(false)
             setShow(false);
             setErrorShow(true);
+            setTypeValue("");
             emptyInput()
             setTimeout(() => {
                 setErrorShow(false)
@@ -152,6 +178,7 @@ const AccountingDefaultPerson = () => {
             setWaiting(false);
             setCanDelete({id:""})
             setSuccessShow(true);
+            setTypeName("")
             setEditShow(false);
             setMessage(sendEditData.data.message);
             setTimeout(() => {
@@ -169,11 +196,22 @@ const AccountingDefaultPerson = () => {
     }
 
 
-    const manageEditAccount = async (id) => {
+    const manageEditAccount = async (id , typeId) => {
+        console.log(typeId)
         setEditShow(true);
         setLoading(true);
         const editData = await GetForEditDefault(id).catch();
-        console.log(editData)
+        const getResponse = await AccountTypeGetById(typeId).catch();
+        console.log(getResponse)
+        setTypeName({
+            name: getResponse.data.accountTypeName,
+        })
+        console.log(typeName)
+        if (getResponse.status === 200) {
+            setLoading(false)
+        } else {
+            setEditShow(false)
+        }
         setEdit({
             typeId: editData.data.accountTypeId,
             id: editData.data.defaultPersonId,
@@ -199,6 +237,12 @@ const AccountingDefaultPerson = () => {
         console.log(id)
         dispatch({type: 'UserData', payload: id});
         navigate("/personsLink")
+    }
+
+    const manageTypeSelectChange = (e) => {
+        console.log(e.target.value)
+        setTypeValue(e.target.value);
+        console.log(typeValue)
     }
 
     return (
@@ -264,6 +308,33 @@ const AccountingDefaultPerson = () => {
                                     </Modal.Header>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         <Row className={"my-3"}>
+                                            <Col className={"d-flex align-items-center col-3"}>
+                                                <label style={{fontFamily: 'iran-sans'}}
+                                                       className={"me-2"}>{"نوع حساب:"}</label>
+                                            </Col>
+                                            <Col className={"d-flex align-items-center col-9"}>
+                                                <Form.Select
+                                                    defaultValue={typeValue.id}
+                                                    onChange={manageTypeSelectChange}>
+                                                    <option selected={true}>
+                                                        {""}
+                                                    </option>
+                                                    <option>
+                                                        {"هیچکدام"}
+                                                    </option>
+                                                    {
+                                                        accountType === undefined ? <Loader/> : accountType.map(
+                                                            item =>
+                                                                <option
+                                                                    value={item.accountTypeId}>
+                                                                    {item.accountTypeName}
+                                                                </option>
+                                                        )
+                                                    }
+                                                </Form.Select>
+                                            </Col>
+                                        </Row>
+                                        <Row className={"my-3"}>
                                             <Col className={"d-flex align-items-center col-12"}>
                                                 <label style={{fontFamily: 'iran-sans'}}
                                                        className={"me-2"}>{"کد حساب تفضیلی:"}</label>
@@ -300,6 +371,7 @@ const AccountingDefaultPerson = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+
                                 <Modal show={editShow} onHide={handleEditClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title className={'modal_title'}>
@@ -314,6 +386,41 @@ const AccountingDefaultPerson = () => {
                                         </div> :
                                         <Modal.Body
                                             class={'d-flex flex-column justify-content-start p-3'}>
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"نوع حساب فعلی:"}</label>
+                                                    <input value={typeName.name} className={"bg-body"} disabled/>
+                                                </Col>
+                                            </Row>
+
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-3"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"نوع حساب:"}</label>
+                                                </Col>
+                                                <Col className={"d-flex align-items-center col-9"}>
+                                                    <Form.Select
+                                                        defaultValue={typeValue.id}
+                                                        onChange={manageTypeSelectChange}>
+                                                        <option selected={true}>
+                                                            {""}
+                                                        </option>
+                                                        <option>
+                                                            {"هیچکدام"}
+                                                        </option>
+                                                        {
+                                                            accountType === undefined ? <Loader/> : accountType.map(
+                                                                item =>
+                                                                    <option
+                                                                        value={item.accountTypeId}>
+                                                                        {item.accountTypeName}
+                                                                    </option>
+                                                            )
+                                                        }
+                                                    </Form.Select>
+                                                </Col>
+                                            </Row>
                                             <Row className={"my-3"}>
                                                 <Col className={"d-flex align-items-center col-12"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
@@ -432,7 +539,7 @@ const AccountingDefaultPerson = () => {
                                                                        bgColor={"--color-warning"}
                                                                        tooltip={"ویرایش"}
                                                                        icon={faEdit}
-                                                                       onClick={() => manageEditAccount(item.defaultPersonId)}/>
+                                                                       onClick={() => manageEditAccount(item.defaultPersonId , item.accountTypeId)}/>
 
                                                     <ActionTableButton color={"--text-color-white"}
                                                                        bgColor={"--color-danger"}

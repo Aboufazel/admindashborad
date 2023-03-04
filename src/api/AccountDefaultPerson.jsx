@@ -17,13 +17,14 @@ export const GetAllDefault = () => {
 }
 
 
-export const AddDefaultPerson = (code, name, canDelete) => {
+export const AddDefaultPerson = (typeId,code, name, canDelete) => {
     const data = localStorage.getItem("auth");
     const final = JSON.parse(data);
     return AccountDefaultPerson({
         method: 'post',
         url: '/AccountPersonService/api/DefaultPersons/add',
         data: {
+            "AccountTypeId":+typeId,
             "DefaultPersonCode": +code,
             "DefaultPersonName": `${name}`,
             "CanDelete": canDelete,
