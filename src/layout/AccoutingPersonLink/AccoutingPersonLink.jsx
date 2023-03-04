@@ -10,8 +10,10 @@ import Form from "react-bootstrap/Form";
 import FilterBox from "../../components/FilterBox/FilterBox";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {GetAllAccountSpec} from "../../api/AccountSpec";
+import {AccountSpecGetByMainId, GetAllAccountSpec} from "../../api/AccountSpec";
 import {GiveIdContext} from "../../Context/GiveId";
+import {GetAllAccountGroup} from "../../api/AccountGroup";
+import {GetAccountMainByGroupId} from "../../api/AccountMain";
 
 const AccoutingPersonLink = () => {
     const [account, setAccount] = useState(undefined);
@@ -35,9 +37,17 @@ const AccoutingPersonLink = () => {
     const [accountSpec, setAccountSpec] = useState(undefined);
     const [deleteModal, setDeleteModal] = useState(undefined);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [groupValue, setGroupValue] = useState({id: ""});
+    const [mainReload, setMainReload] = useState(false);
+    const [mainValue, setMainValue] = useState({id: ""});
+    const [accountGroup, setAccountGroup] = useState(undefined);
+    const [accountMain, setAccountMain] = useState(undefined);
+    const [mainSelectShow, setMainSelectShow,] = useState(false);
+
+
 
     const TypeId = useContext(GiveIdContext);
-    console.log(TypeId)
+
 
     const manageTableData = async () => {
         const tableData = await GetByPersonId(TypeId.authData).catch(() => alert('error'));
@@ -45,15 +55,53 @@ const AccoutingPersonLink = () => {
         setAccount(tableData.data.defaultPersonLinks)
     }
 
+
+
     const manageSpecSelectChange = (e) => {
         setSpecValue({id: e.target.value});
-        console.log(specValue)
         setSpecReload(!specReload);
     }
 
-    const GetSpecAccount = async () => {
+
+    const GetGroupAccount = async () => {
         setDataLoading(true);
-        const accountSpecData = await GetAllAccountSpec().catch(() => setError(true));
+        const accountGroupData = await GetAllAccountGroup().catch(() => setError(true));
+        if (accountGroupData.status === 200) {
+            setDataLoading(false);
+            accountMain !== undefined ? setAccountMain(undefined) : setDataLoading(false)
+            accountSpec !== undefined ? setAccountMain(undefined) : setDataLoading(false)
+        }
+        setAccountGroup(accountGroupData.data.accountGroups);
+    }
+
+
+    const GetMainAccount = async (id) => {
+        setDataLoading(true);
+        const accountMainData = await GetAccountMainByGroupId(id).catch(() => setError(true));
+        if (accountMainData.status === 200) {
+            setDataLoading(false);
+            setMainSelectShow(true);
+        }
+        setAccountMain(accountMainData.data.accountMains);
+        setTimeout(() =>{
+            setDataLoading(false)
+        } , 2500)
+    }
+
+    const manageGroupSelectChange = (e) => {
+        setGroupValue({id: e.target.value});
+        setMainReload(!mainReload);
+    }
+
+
+    const manageMainSelectChange = (e) => {
+        setMainValue({id: e.target.value});
+        setSpecReload(!specReload);
+    }
+
+    const GetSpecAccount = async (id) => {
+        setDataLoading(true);
+        const accountSpecData = await AccountSpecGetByMainId(id).catch(() => setError(true));
         if (accountSpecData.status === 200) {
             setDataLoading(false);
             setSpecSelectShow(true);
@@ -106,8 +154,18 @@ const AccoutingPersonLink = () => {
 
 
     useEffect(() => {
-        GetSpecAccount();
-    }, [specReload])
+        GetGroupAccount();
+    }, [reload])
+
+
+    useEffect(() => {
+        GetMainAccount(groupValue.id);
+    }, [mainReload, reload])
+
+
+    useEffect(() => {
+        GetSpecAccount(mainValue.id);
+    }, [specReload, reload])
 
 
     const handleClose = () => {
@@ -234,30 +292,94 @@ const AccoutingPersonLink = () => {
                                         <Row className={"my-3"}>
                                             <Col className={"d-flex align-items-center col-3"}>
                                                 <label style={{fontFamily: 'iran-sans'}}
+                                                       className={"me-2"}>{"گروه حساب:"}</label>
+                                            </Col>
+                                            <Col className={"d-flex align-items-center col-9"}>
+                                                <Form.Select
+                                                    defaultValue={groupValue.id}
+                                                    onChange={manageGroupSelectChange}>
+                                                    <option selected={true}>
+                                                        {"گروه حساب"}
+                                                    </option>
+                                                    {
+                                                        accountGroup === undefined ? <Loader/> : accountGroup.map(
+                                                            item =>
+
+                                                                <option
+                                                                    value={item.accountGroupId}>
+                                                                    {item.accountGroupName}
+                                                                </option>
+                                                        )
+                                                    }
+                                                </Form.Select>
+                                            </Col>
+                                        </Row>
+
+                                        <Row className={"my-3"}>
+                                            <Col className={"d-flex align-items-center col-3"}>
+                                                <label style={{fontFamily: 'iran-sans'}}
+                                                       className={"me-2"}>{"حساب کل:"}</label>
+                                            </Col>
+                                            <Col className={"d-flex align-items-center col-9"}>
+                                                {
+                                                    dataLoading ? <Loader/> : mainSelectShow === false ?
+                                                        <div>
+                                                            {"گروه حساب انتخاب نشده است"}
+                                                        </div> :
+                                                        <Form.Select
+                                                            defaultValue={mainValue.id}
+                                                            onChange={manageMainSelectChange}>
+                                                            <option selected={true}>
+                                                                {""}
+                                                            </option>
+                                                            {
+                                                                accountMain === undefined ?
+                                                                    <option>
+                                                                        {""}
+                                                                    </option> : accountMain.map(
+                                                                        item => (
+                                                                            <option
+                                                                                value={item.accountMainId}>
+                                                                                {item.accountMainName}
+                                                                            </option>
+                                                                        )
+                                                                    )
+                                                            }
+                                                        </Form.Select>
+                                                }
+                                            </Col>
+                                        </Row>
+
+                                        <Row className={"my-3"}>
+                                            <Col className={"d-flex align-items-center col-3"}>
+                                                <label style={{fontFamily: 'iran-sans'}}
                                                        className={"me-2"}>{"حساب معین:"}</label>
                                             </Col>
                                             <Col className={"d-flex align-items-center col-9"}>
                                                 {
-                                                    <Form.Select
-                                                        defaultValue={specValue.id}
-                                                        onChange={manageSpecSelectChange}>
-                                                        <option selected={true}>
-                                                            {"حساب معین"}
-                                                        </option>
-                                                        {
-                                                            accountSpec === undefined ?
-                                                                <option>
-                                                                    {"حساب کل انتخاب نشده است"}
-                                                                </option> : accountSpec.map(
-                                                                    item => (
-                                                                        <option
-                                                                            value={item.accountSpecId}>
-                                                                            {item.accountSpecName}
-                                                                        </option>
+                                                    dataLoading ? <Loader/> : specSelectShow === false ?
+                                                        <div>
+                                                            {"حساب کلی انتخاب نشده است"}
+                                                        </div> : <Form.Select
+                                                            defaultValue={specValue.id}
+                                                            onChange={manageSpecSelectChange}>
+                                                            <option selected={true}>
+                                                                {""}
+                                                            </option>
+                                                            {
+                                                                accountSpec === undefined ?
+                                                                    <option>
+                                                                        {""}
+                                                                    </option> : accountSpec.map(
+                                                                        item => (
+                                                                            <option
+                                                                                value={item.accountSpecId}>
+                                                                                {item.accountSpecName}
+                                                                            </option>
+                                                                        )
                                                                     )
-                                                                )
-                                                        }
-                                                    </Form.Select>
+                                                            }
+                                                        </Form.Select>
                                                 }
                                             </Col>
                                         </Row>
