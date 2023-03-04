@@ -43,6 +43,8 @@ const AccoutingPersonLink = () => {
     const [accountGroup, setAccountGroup] = useState(undefined);
     const [accountMain, setAccountMain] = useState(undefined);
     const [mainSelectShow, setMainSelectShow,] = useState(false);
+    const [groupName , setGroupName] = useState(null);
+    const [mainName , setMainName] = useState(null);
 
 
 
@@ -138,9 +140,11 @@ const AccoutingPersonLink = () => {
     };
 
 
-    const manageEdit = (id , name ,  specId) => {
+    const manageEdit = (id ,groupName , mainName, name ,  specId) => {
         setEditShow(true);
         setPersonLinkId(id);
+        setGroupName(groupName);
+        setMainName(mainName);
         setSpecName(name);
         setSpecId(specId)
         setWaiting(false);
@@ -394,6 +398,7 @@ const AccoutingPersonLink = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+
                                 <Modal show={editShow} onHide={handleEditClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title className={'modal_title'}>
@@ -418,32 +423,107 @@ const AccoutingPersonLink = () => {
                                                     }
                                                 </Col>
                                             </Row>
+
                                             <Row className={"my-3"}>
-                                                <Col className={"d-flex align-items-center col-9"}>
+                                                <Col className={"d-flex align-items-center col-6"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
-                                                           className={"me-2 w-50"}>{"حساب معین:"}</label>
+                                                           className={"me-2 w-50"}>{"گروه حساب فعلی:"}</label>
+                                                    <input name={"code"}
+                                                           value={groupName === null ? "" : groupName}
+                                                           disabled
+                                                           className={'p-2 w-50 bg-warning'}/>
+                                                </Col>
+                                                <Col className={"d-flex align-items-center col-6"}>
+                                                    <Form.Select
+                                                        defaultValue={groupValue.id}
+                                                        onChange={manageGroupSelectChange}>
+                                                        <option selected={true}>
+                                                            {"گروه حساب جدید"}
+                                                        </option>
+                                                        {
+                                                            accountGroup === undefined ? <Loader/> : accountGroup.map(
+                                                                item =>
+
+                                                                    <option
+                                                                        value={item.accountGroupId}>
+                                                                        {item.accountGroupName}
+                                                                    </option>
+                                                            )
+                                                        }
+                                                    </Form.Select>
+                                                </Col>
+                                            </Row>
+
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-6"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2 w-50 "}>{"حساب کل فعلی:"}</label>
+                                                    <input name={"name"}
+                                                           disabled
+                                                           value={mainName}
+                                                           className={'p-2 w-50 bg-warning'}/>
+                                                </Col>
+                                                <Col className={"d-flex align-items-center col-6"}>
                                                     {
-                                                        <Form.Select
-                                                            defaultValue={specValue.id}
-                                                            onChange={manageSpecSelectChange}>
-                                                            <option selected={true}>
-                                                                {"حساب معین"}
-                                                            </option>
-                                                            {
-                                                                accountSpec === undefined ?
-                                                                    <option>
-                                                                        {"حساب انتخاب نشده است"}
-                                                                    </option> : accountSpec.map(
-                                                                        item => (
-                                                                            <option
-                                                                                value={item.accountSpecId}>
-                                                                                {item.accountSpecName}
-                                                                            </option>
+                                                        dataLoading ? <Loader/> : mainSelectShow === false ?
+                                                            <div>
+                                                                {"گروه حساب انتخاب نشده است"}
+                                                            </div> :
+                                                            <Form.Select
+                                                                defaultValue={mainValue.id}
+                                                                onChange={manageMainSelectChange}>
+                                                                <option selected={true}>
+                                                                    {""}
+                                                                </option>
+                                                                {
+                                                                    accountMain === undefined ?
+                                                                        <option>
+                                                                            {""}
+                                                                        </option> : accountMain.map(
+                                                                            item => (
+                                                                                <option
+                                                                                    value={item.accountMainId}>
+                                                                                    {item.accountMainName}
+                                                                                </option>
+                                                                            )
                                                                         )
-                                                                    )
-                                                            }
-                                                        </Form.Select>
+                                                                }
+                                                            </Form.Select>
                                                     }
+                                                </Col>
+                                            </Row>
+
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-12"}>
+                                                    <Col className={"d-flex align-items-center w-100"}>
+                                                        <label style={{fontFamily: 'iran-sans'}}
+                                                               className={"me-2 w-50"}>{"حساب معین:"}</label>
+                                                        {
+                                                            dataLoading ? <Loader/> : specSelectShow === false ?
+                                                                <div>
+                                                                    {"حساب کلی انتخاب نشده است"}
+                                                                </div> : <Form.Select
+                                                                    defaultValue={specValue.id}
+                                                                    onChange={manageSpecSelectChange}>
+                                                                    <option selected={true}>
+                                                                        {""}
+                                                                    </option>
+                                                                    {
+                                                                        accountSpec === undefined ?
+                                                                            <option>
+                                                                                {""}
+                                                                            </option> : accountSpec.map(
+                                                                                item => (
+                                                                                    <option
+                                                                                        value={item.accountSpecId}>
+                                                                                        {item.accountSpecName}
+                                                                                    </option>
+                                                                                )
+                                                                            )
+                                                                    }
+                                                                </Form.Select>
+                                                        }
+                                                    </Col>
                                                 </Col>
                                             </Row>
                                         </Modal.Body>
@@ -457,6 +537,7 @@ const AccoutingPersonLink = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+
                                 <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         {"آیا از حذف حساب اطمینان دارید؟"}
@@ -525,6 +606,8 @@ const AccoutingPersonLink = () => {
                                                                            tooltip={"ویرایش"}
                                                                            icon={faEdit}
                                                                            onClick={() => manageEdit(item.defaultPersonLinkId ,
+                                                                               item.accountGroupName ,
+                                                                               item.accountMainName ,
                                                                                item.accountSpecName ,
                                                                                item.defaultPersonId,
                                                                                item.accountSpecId )}

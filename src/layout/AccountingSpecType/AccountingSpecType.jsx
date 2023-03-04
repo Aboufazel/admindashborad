@@ -274,6 +274,7 @@ const AccountingSpecType = () => {
                                 <Button onClick={handleShow} className={'btn_style'}>
                                     {"افزودن حساب معین"}
                                 </Button>
+
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title className={'modal_title'}>
@@ -433,6 +434,7 @@ const AccountingSpecType = () => {
                                                     </Form.Select>
                                                 </Col>
                                             </Row>
+
                                             <Row className={"my-3"}>
                                                 <Col className={"d-flex align-items-center col-6"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
@@ -471,6 +473,7 @@ const AccountingSpecType = () => {
                                                     }
                                                 </Col>
                                             </Row>
+
                                             <Row className={"my-3"}>
                                                 <Col className={"d-flex align-items-center col-6"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
