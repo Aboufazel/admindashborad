@@ -5,8 +5,18 @@ const MobileLayout = ()=>{
 
     return(
         <Grid
+            display={"flex"}
+            justifyContent={"center"}
             container >
-            <Outlet/>
+            <Grid
+                item
+                display={"flex"}
+                justifyContent={"center"}
+                maxWidth={500}
+                width={'100%'}
+                >
+                <Outlet/>
+            </Grid>
         </Grid>
     )
 }

@@ -18,28 +18,24 @@ import LoadingPage from "../layout/Login/LoadingPage";
 import ForgetPass from "../layout/Auth/ForgetPass";
 import SignUp from "../layout/Auth/SignUp";
 import Verification from "../layout/Auth/Verification";
+import MobileLayout from "../layout/MobileLayout";
 
 const Root = () => {
     const router = createBrowserRouter(
         [
             {
-                path: "/",
-                children:[
-                    {
-                        path: "/login",
-                        element: <Login/>
-                    },{
-                        path: "/forgetPass",
-                        element: <ForgetPass/>
-                    },{
-                        path: "/verification",
-                        element: <Verification/>
-                    },{
-                        path: "/signUp",
-                        element: <SignUp/>
-                    },
-                ]
-            },
+                path: "/login",
+                element: <Login/>
+            } ,{
+            path: "login/forgetPass",
+            element: <ForgetPass/>
+        },{
+            path: "login/verification",
+            element: <Verification/>
+        },{
+            path: "login/signUp",
+            element: <SignUp/>
+        },
             {
                 path: "/",
                 element: <IndexLayout/>,

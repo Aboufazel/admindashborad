@@ -134,7 +134,7 @@ const Login = () => {
                         display={"flex"}
                         marginTop={3.375}
                         textAlign={"center"}>
-                        <Link to={'/forgetPass'}>
+                        <Link to={'/login/forgetPass'}>
                             {"فراموشی کلمه عبور"}
                         </Link>
                     </Grid>

@@ -74,7 +74,7 @@ const Verification = () => {
                         position={"absolute"}
                         bottom={"74px"}
                         textAlign={"center"}>
-                        <Link to={'/forgetPass'}>
+                        <Link to={'/login/forgetPass'}>
                             {"ارسال مجدد کد تایید"}
                         </Link>
                     </Grid>
