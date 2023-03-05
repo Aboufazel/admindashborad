@@ -41,7 +41,7 @@ const Root = () => {
                 element: <IndexLayout/>,
                 children: [
                     {
-                        path: "/admin",
+                        path: "/",
                         element: (
                             <Suspense fallback={<LoadingPage/>}>
                                 <AuthProvider>

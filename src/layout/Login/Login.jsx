@@ -37,7 +37,7 @@ const Login = () => {
                         userId: res.data.data.userId,
                         accessToken: res.data.data.token,
                     });
-                    navigate("/admin");
+                    navigate("/");
                 } else {
                     setMessage(res.data.message);
                     setShowAlert(true);
@@ -163,7 +163,7 @@ const Login = () => {
                             position: "absolute",
                             bottom: 0,
                         }}>
-                        <Link to={"/signUp"}>
+                        <Link to={"/login/signUp"}>
                             {"ساخت کسب و کار جدید"}
                         </Link>
                     </Grid>
