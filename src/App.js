@@ -1,8 +1,9 @@
 import './App.css';
-import {ThemeProvider} from "react-bootstrap";
 import Root from "./routes/Root";
 import GiveContextProvider from "./Context/GiveId";
 import ReturnTotalProvider from "./Context/ReturnTotalAccount";
+import theme from "./themes/theme";
+import {ThemeProvider} from "@mui/material";
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
     return (
             <ReturnTotalProvider>
                 <GiveContextProvider>
-                    <ThemeProvider dir={"rtl"}>
+                    <ThemeProvider theme={theme} dir={"rtl"}>
                         <Root/>
                     </ThemeProvider>
                 </GiveContextProvider>

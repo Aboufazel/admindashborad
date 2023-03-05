@@ -96,7 +96,6 @@ const AccountingDefaultPerson = () => {
 
     const AccountGetTable = async () => {
         const data = await GetAllDefault().catch(() => setError(true));
-        console.log(data);
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");

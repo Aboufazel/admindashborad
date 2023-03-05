@@ -14,7 +14,8 @@ import AccountingType from "../layout/AccountingType/AccountingType";
 import AccountingSpecType from "../layout/AccountingSpecType/AccountingSpecType";
 import AccountingDefaultPerson from "../layout/AccountingDefaultPerson/AccountingDefaultPerson";
 import AccoutingPersonLink from "../layout/AccoutingPersonLink/AccoutingPersonLink";
-
+import LoadingPage from "../layout/Login/LoadingPage";
+import forgetPass from "../layout/Auth/forgetPass";
 
 const Root = () => {
     const router = createBrowserRouter(
@@ -23,7 +24,7 @@ const Root = () => {
                 path: "/login",
                 element: (
                     <Suspense fallback={<div>Loading...</div>}>
-                        <Login/>
+                        <forgetPass/>
                     </Suspense>
                 )
             },
@@ -34,7 +35,7 @@ const Root = () => {
                     {
                         path: "/",
                         element: (
-                            <Suspense fallback={<div>Loading...</div>}>
+                            <Suspense fallback={<LoadingPage/>}>
                                 <AuthProvider>
                                     <Main/>
                                 </AuthProvider>

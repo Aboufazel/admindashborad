@@ -6,11 +6,13 @@ import {useEffect, useState} from "react";
 import LoadingPage from "./Login/LoadingPage";
 
 const IndexLayout = () => {
-    const [loading , setLoading]= useState(true)
+
+    const [loading , setLoading]= useState(true);
+
     useEffect(()=>{
         setTimeout(()=>{
             setLoading(false)
-        } , 500)
+        } , 200)
     } , [])
 
   return(

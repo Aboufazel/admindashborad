@@ -1,41 +1,65 @@
 body {
-  margin: 0;
-  background: #ecf0f5 !important;
+    margin: 0;
+    background: white !important;
+    font-family: "Regular", "Bold",
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
-*{
-  box-sizing: border-box;
+
+* {
+    box-sizing: border-box;
 }
 
 code {
-  font-family:'iran-sans'  ,
+    font-family: 'iran-sans', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
 @font-face {
-  font-family: 'iran-sans' ;
-  src: url("./assets/fonts/IRANSansWeb(FaNum).woff");
-  font-weight: normal;
+    font-family: 'iran-sans' ;
+    src: url("./assets/fonts/IRANSansWeb(FaNum).woff");
+    font-weight: normal;
 }
 
 @font-face {
-  font-family: 'iran-sans' ;
-  src: url("./assets/fonts/IRANSansWeb(FaNum) Bold.woff");
-  font-weight: bold;
+    font-family: 'iran-sans' ;
+    src: url("./assets/fonts/IRANSansWeb(FaNum) Bold.woff");
+    font-weight: bold;
 }
 
-:root{
-  --color-primary:#222d32;
-  --hover-primary: #1c2528;
-  --color-secondary:#0D6DFD;
-  --color-dark:#1C1B1F;
-  --text-color-primary:#b8c7ce;
-  --text-color-secondary:#4b646f;
-  --text-color-white:#ffff;
-  --color-danger:#DC3545;
-  --color-success:#28A745;
-  --color-warning:#FFC107;
-  --background-color-primary:#ecf0f5;
-  --primary-border-color:#d2d6de;
-  --background-light-black:rgba(0, 0, 0, 0.1);
-  font-family: iran-sans;
-  direction: rtl;
+@font-face {
+    font-family: "Regular";
+    src: url("assets/fonts/IRANSansWeb(FaNum).woff") format("woff");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Bold";
+    src: url("assets/fonts/IRANSansWeb(FaNum) Bold.woff") format("woff");
+    font-weight: bold;
+}
+
+a {
+    font-family: iran-sans;
+    text-decoration: none !important;
+}
+
+:root {
+    --color-primary: #222d32;
+    --hover-primary: #1c2528;
+    --color-secondary: #0D6DFD;
+    --color-dark: #1C1B1F;
+    --text-color-primary: #b8c7ce;
+    --text-color-secondary: #4b646f;
+    --text-color-white: #ffff;
+    --color-danger: #DC3545;
+    --color-success: #28A745;
+    --color-warning: #FFC107;
+    --background-color-primary: #ecf0f5;
+    --primary-border-color: #d2d6de;
+    --background-light-black: rgba(0, 0, 0, 0.1);
+    font-family: iran-sans;
+    direction: rtl;
 }
