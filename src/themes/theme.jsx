@@ -55,7 +55,17 @@ const theme = createTheme({
     typography:{
         fontFamily:[
             'Regular'
-        ].join(',')
+        ].join(','),
+
+       "h1":{
+            fontSize:'14px'
+       },
+        "h2":{
+            fontSize:'12px'
+        },
+        "h3":{
+            fontSize:'10px'
+        }
     },
     label:{
         direction:"rtl",

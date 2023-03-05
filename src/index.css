@@ -46,6 +46,10 @@ a {
     text-decoration: none !important;
 }
 
+.color-white{
+    color: white !important;
+}
+
 :root {
     --color-primary: #222d32;
     --hover-primary: #1c2528;

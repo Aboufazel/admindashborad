@@ -1,12 +1,13 @@
-import {Box} from "@mui/material";
+import {Grid} from "@mui/material";
 import {Outlet} from "react-router-dom";
 
 const MobileLayout = ()=>{
 
     return(
-        <Box>
+        <Grid
+            container >
             <Outlet/>
-        </Box>
+        </Grid>
     )
 }
 
