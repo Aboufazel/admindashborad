@@ -4,18 +4,24 @@ import GiveContextProvider from "./Context/GiveId";
 import ReturnTotalProvider from "./Context/ReturnTotalAccount";
 import theme from "./themes/theme";
 import {ThemeProvider} from "@mui/material";
+import {CacheProvider} from '@emotion/react';
+import cacheRtl from "./themes/CacheRtl";
+
 
 function App() {
 
 
+
     return (
-            <ReturnTotalProvider>
-                <GiveContextProvider>
-                    <ThemeProvider theme={theme} dir={"rtl"}>
+        <ReturnTotalProvider>
+            <GiveContextProvider>
+                <ThemeProvider theme={theme} dir={"rtl"}>
+                    <CacheProvider value={cacheRtl}>
                         <Root/>
-                    </ThemeProvider>
-                </GiveContextProvider>
-            </ReturnTotalProvider>
+                    </CacheProvider>;
+                </ThemeProvider>
+            </GiveContextProvider>
+        </ReturnTotalProvider>
     );
 }
 

@@ -44,7 +44,7 @@ const Verification = () => {
                             </Typography>
                             <TextField id="login-mobile-number"
                                        required={true}
-                                       label="شماره موبایل"
+                                       label="کد تایید"
                                        variant="outlined"
                                        sx={{
                                            width: "100%",

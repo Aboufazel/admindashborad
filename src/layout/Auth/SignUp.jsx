@@ -1,6 +1,4 @@
-import {Button, Grid, TextField, Typography} from "@mui/material";
-import {Link} from "react-router-dom";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import {Button, Grid, TextField} from "@mui/material";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
@@ -50,11 +48,6 @@ useTitle("ورود اطلاعات")
                                        sx={{
                                            width: "100%",
                                            marginY: 0.5,
-                                           '& label': {
-                                               transformOrigin: "right !important",
-                                               left: "inherit !important",
-                                               right: "1.75rem !important",
-                                           }
                                        }}
 
                             />
@@ -65,11 +58,6 @@ useTitle("ورود اطلاعات")
                                        sx={{
                                            width: "100%",
                                            marginY: 0.5,
-                                           '& label': {
-                                               transformOrigin: "right !important",
-                                               left: "inherit !important",
-                                               right: "1.75rem !important",
-                                           }
                                        }}
 
                             />
@@ -80,41 +68,28 @@ useTitle("ورود اطلاعات")
                                        sx={{
                                            width: "100%",
                                            marginY: 0.5,
-                                           '& label': {
-                                               transformOrigin: "right !important",
-                                               left: "inherit !important",
-                                               right: "1.75rem !important",
-                                           }
                                        }}
 
                             />
                             <TextField id="login-mobile-number"
+                                       type={"password"}
                                        required={true}
                                        label="رمز عبور"
                                        variant="outlined"
                                        sx={{
                                            width: "100%",
                                            marginY: 0.5,
-                                           '& label': {
-                                               transformOrigin: "right !important",
-                                               left: "inherit !important",
-                                               right: "1.75rem !important",
-                                           }
                                        }}
 
                             />
                             <TextField id="login-mobile-number"
                                        required={true}
+                                       type={"password"}
                                        label="تکرار رمز عبور"
                                        variant="outlined"
                                        sx={{
                                            width: "100%",
                                            marginY: 0.5,
-                                           '& label': {
-                                               transformOrigin: "right !important",
-                                               left: "inherit !important",
-                                               right: "1.75rem !important",
-                                           }
                                        }}
 
                             />

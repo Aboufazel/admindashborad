@@ -95,11 +95,6 @@ const Login = () => {
                                    sx={{
                                        width: "100%",
                                        marginY: 1,
-                                       '& label': {
-                                           transformOrigin: "right !important",
-                                           left: "inherit !important",
-                                           right: "1.75rem !important",
-                                       }
                                    }}
 
                         />
@@ -116,11 +111,6 @@ const Login = () => {
                                    sx={{
                                        width: "100%",
                                        marginY: 1,
-                                       '& label': {
-                                           transformOrigin: "right !important",
-                                           left: "inherit !important",
-                                           right: "1.75rem !important",
-                                       }
                                    }}/>
                         <Button
                             type={"submit"}

@@ -51,11 +51,6 @@ const ForgetPass = () => {
                                        sx={{
                                            width: "100%",
                                            marginY: 1,
-                                           '& label': {
-                                               transformOrigin: "right !important",
-                                               left: "inherit !important",
-                                               right: "1.75rem !important",
-                                           }
                                        }}
 
                             />

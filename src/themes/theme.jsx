@@ -70,6 +70,7 @@ const theme = createTheme({
     label:{
         direction:"rtl",
     },
+
 })
 
 
