@@ -3,6 +3,7 @@ import '../main.style.css'
 import StatusCard from "../../components/StatusCard/StatusCard";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import useTitle from "../../hooks/useTitle";
 
 
 const Main = () => {
@@ -21,6 +22,9 @@ const Main = () => {
     useEffect(() =>{
         manageValidation()
     } , [])
+
+
+    useTitle("پنل مدیریتی")
 
     return(
       <Container>
