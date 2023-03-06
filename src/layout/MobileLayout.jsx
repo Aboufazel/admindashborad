@@ -1,5 +1,6 @@
 import {Grid} from "@mui/material";
 import {Outlet} from "react-router-dom";
+import theme from "../themes/theme";
 
 const MobileLayout = ()=>{
 
@@ -12,6 +13,11 @@ const MobileLayout = ()=>{
                 item
                 display={"flex"}
                 justifyContent={"center"}
+                position={"relative"}
+                bgcolor={theme.palette.neutralN00.main}
+                mb={0}
+                overflow={"scroll"}
+                height={'97vh'}
                 maxWidth={500}
                 width={'100%'}
                 >
