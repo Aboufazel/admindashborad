@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
+import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
 
 
 const SignUp = () => {
@@ -13,13 +14,17 @@ useTitle("ورود اطلاعات")
               flexDirection={"column"}
               justifyContent={"center"}
               alignItems={"center"}
+
         >
             <Grid
                 display={"flex"}
                 flexDirection={"column"}
-                marginTop={3.375}
+                paddingTop={3.375}
+                position={"relative"}
                 alignItems={"center"}
                 maxWidth={500}
+                height={"100vh"}
+                bgcolor={theme.palette.neutralN00.main}
                 container>
                 <Grid
                     display={'flex'}
@@ -29,20 +34,7 @@ useTitle("ورود اطلاعات")
                     maxWidth={500}
                     width={"100%"}
                     item>
-                    <Grid
-                        display={"flex"}
-                        justifyContent={"start"}
-                        width={"95%"}
-                        maxWidth={500}
-                        position={"absolute"}
-                        top={16}>
-                        <Link to={"/login"}>
-                            <ArrowForwardIcon color={"neutralN100"}/>
-                        </Link>
-                        <Typography marginRight={0.65}>
-                            {"ورود اطلاعات"}
-                        </Typography>
-                    </Grid>
+                    <AppBarVer1 title={"ورود اطلاعات"} link={"login"}/>
                     <Grid
                         display={"flex"}
                         justifyContent={"center"}

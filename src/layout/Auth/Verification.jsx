@@ -3,9 +3,10 @@ import {Link} from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
+import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
 
 const Verification = () => {
-     useTitle("احراز هویت")
+    useTitle("احراز هویت")
     return (
         <Grid container
               display={'flex'}
@@ -15,8 +16,11 @@ const Verification = () => {
             <Grid
                 display={"flex"}
                 flexDirection={"column"}
-                marginTop={3.375}
+                paddingTop={3.375}
+                position={"relative"}
                 maxWidth={500}
+                height={"100vh"}
+                bgcolor={theme.palette.neutralN00.main}
                 alignItems={"center"}
                 container>
                 <Grid
@@ -26,20 +30,7 @@ const Verification = () => {
                     height={'100%'}
                     width={"100%"}
                     item>
-                    <Grid
-                        display={"flex"}
-                        justifyContent={"start"}
-                        width={"95%"}
-                        maxWidth={500}
-                        position={"absolute"}
-                        top={16}>
-                        <Link to={"/login"}>
-                            <ArrowForwardIcon color={"neutralN100"}/>
-                        </Link>
-                        <Typography marginRight={0.65}>
-                            {"احراز هویت"}
-                        </Typography>
-                    </Grid>
+                    <AppBarVer1 title={"احراز هویت"} link={"login"}/>
                     <Grid
                         display={"flex"}
                         justifyContent={"center"}
@@ -85,7 +76,7 @@ const Verification = () => {
                             width: "95%",
                             padding: 0.65,
                             position: "absolute",
-                            maxWidth:500,
+                            maxWidth: 500,
                             bottom: 16
                         }} variant={"contained"}
                         color={"primary"}>

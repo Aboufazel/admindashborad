@@ -71,8 +71,10 @@ const Login = () => {
             <Grid
                 display={"flex"}
                 flexDirection={"column"}
-                marginTop={3.375}
+                paddingTop={3.375}
                 maxWidth={500}
+                height={"100vh"}
+                bgcolor={theme.palette.neutralN00.main}
                 alignItems={"center"}
                 container>
                 <Grid
@@ -103,6 +105,7 @@ const Login = () => {
                         />
                         <TextField id="login-mobile-number"
                                    required={true}
+                                   type="password"
                                    label="رمز عبور"
                                    onChange={(e) => setState({
                                        ...state,

@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
+import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
 
 const ForgetPass = () => {
 
@@ -17,9 +18,12 @@ const ForgetPass = () => {
             <Grid
                 display={"flex"}
                 flexDirection={"column"}
-                marginTop={3.375}
+                position={"relative"}
+                paddingTop={3.375}
                 maxWidth={500}
                 alignItems={"center"}
+                height={"100vh"}
+                bgcolor={theme.palette.neutralN00.main}
                 container>
                 <Grid
                     display={'flex'}
@@ -28,20 +32,7 @@ const ForgetPass = () => {
                     height={'100%'}
                     width={"100%"}
                     item>
-                    <Grid
-                        display={"flex"}
-                        justifyContent={"start"}
-                        width={"95%"}
-                        maxWidth={500}
-                        position={"absolute"}
-                        top={16}>
-                        <Link to={"/login"}>
-                            <ArrowForwardIcon color={"neutralN100"}/>
-                        </Link>
-                        <Typography marginRight={0.65}>
-                            {"فراموشی رمز"}
-                        </Typography>
-                    </Grid>
+                    <AppBarVer1 title={"فراموشی رمز"} link={"login"}/>
                     <Grid
                         display={"flex"}
                         justifyContent={"center"}

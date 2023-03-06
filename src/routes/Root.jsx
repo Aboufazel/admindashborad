@@ -18,7 +18,6 @@ import LoadingPage from "../layout/Login/LoadingPage";
 import ForgetPass from "../layout/Auth/ForgetPass";
 import SignUp from "../layout/Auth/SignUp";
 import Verification from "../layout/Auth/Verification";
-import MobileLayout from "../layout/MobileLayout";
 
 const Root = () => {
     const router = createBrowserRouter(

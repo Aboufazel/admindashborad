@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    background: white !important;
+    background:  var(--background-color-primary)!important;
     font-family: "Regular", "Bold",
     sans-serif;
     -webkit-font-smoothing: antialiased;
