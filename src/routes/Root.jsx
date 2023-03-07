@@ -20,6 +20,8 @@ import SignUp from "../layout/Auth/SignUp";
 import Verification from "../layout/Auth/Verification";
 import MobileLayout from "../layout/MobileLayout";
 import AccountingHome from "../layout/AppLayouts/AccountingHome/AccountingHome";
+import Profile from "../layout/AppLayouts/AccountingHome/Profile";
+
 
 const Root = () => {
     const router = createBrowserRouter(
@@ -136,6 +138,16 @@ const Root = () => {
                         <Suspense fallback={<LoadingPage/>}>
                             <AuthProvider>
                                 <AccountingHome/>
+                            </AuthProvider>
+                        </Suspense>
+                    )
+                },
+                {
+                    path: "/app/profile",
+                    element: (
+                        <Suspense fallback={<LoadingPage/>}>
+                            <AuthProvider>
+                                <Profile/>
                             </AuthProvider>
                         </Suspense>
                     )
