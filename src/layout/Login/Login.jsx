@@ -26,19 +26,26 @@ const Login = () => {
     });
 
     const manageSubmit = (e) => {
+        const admin = 4;
         e.preventDefault();
         setLoading(true);
         setShowAlert(false);
         LoginApi(state.email, state.password)
             .then(res => {
+                console.log(res)
                 if (res.data.isSuccess === true) {
                     setLoading(false)
                     setAuthInfo({
                         userId: res.data.data.userId,
                         accessToken: res.data.data.token,
-                    });
-                    navigate("/");
-                } else {
+                    })
+                    if (res.data.kind === admin){
+                        navigate("/");
+                    }else {
+                        navigate("/app")
+                    }
+                }
+                else {
                     setMessage(res.data.message);
                     setShowAlert(true);
                     setLoading(false);
