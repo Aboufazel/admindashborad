@@ -22,9 +22,7 @@ const MobileLayout = ()=>{
                 width={'100%'}
                 >
                 <Outlet/>
-
                 <AppBottomTab/>
-
             </Grid>
         </Grid>
     )

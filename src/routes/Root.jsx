@@ -21,6 +21,7 @@ import Verification from "../layout/Auth/Verification";
 import MobileLayout from "../layout/MobileLayout";
 import AccountingHome from "../layout/AppLayouts/AccountingHome/AccountingHome";
 import Profile from "../layout/AppLayouts/AccountingHome/Profile";
+import AccountingAddMain from "../layout/AppLayouts/AccountigAddMain/AccountigAddMain";
 
 
 const Root = () => {
@@ -148,6 +149,16 @@ const Root = () => {
                         <Suspense fallback={<LoadingPage/>}>
                             <AuthProvider>
                                 <Profile/>
+                            </AuthProvider>
+                        </Suspense>
+                    )
+                },
+                {
+                    path: "/app/accountingAddMain",
+                    element: (
+                        <Suspense fallback={<LoadingPage/>}>
+                            <AuthProvider>
+                                <AccountingAddMain/>
                             </AuthProvider>
                         </Suspense>
                     )
