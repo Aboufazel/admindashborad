@@ -22,6 +22,7 @@ import MobileLayout from "../layout/MobileLayout";
 import AccountingHome from "../layout/AppLayouts/AccountingHome/AccountingHome";
 import Profile from "../layout/AppLayouts/AccountingHome/Profile";
 import AccountingAddMain from "../layout/AppLayouts/AccountigAddMain/AccountigAddMain";
+import BookMain from "../layout/AppLayouts/BookMain/BookMain";
 
 
 const Root = () => {
@@ -159,6 +160,16 @@ const Root = () => {
                         <Suspense fallback={<LoadingPage/>}>
                             <AuthProvider>
                                 <AccountingAddMain/>
+                            </AuthProvider>
+                        </Suspense>
+                    )
+                },
+                {
+                    path: "/app/bookMain",
+                    element: (
+                        <Suspense fallback={<LoadingPage/>}>
+                            <AuthProvider>
+                                <BookMain/>
                             </AuthProvider>
                         </Suspense>
                     )

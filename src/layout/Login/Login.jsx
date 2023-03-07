@@ -26,8 +26,8 @@ const Login = () => {
     });
 
     const manageSubmit = (e) => {
-        const admin = 4;
         e.preventDefault();
+        const admin = 4;
         setLoading(true);
         setShowAlert(false);
         LoginApi(state.email, state.password)
@@ -39,7 +39,7 @@ const Login = () => {
                         userId: res.data.data.userId,
                         accessToken: res.data.data.token,
                     })
-                    if (res.data.kind === admin){
+                    if (res.data.data.kind === admin){
                         navigate("/");
                     }else {
                         navigate("/app")
