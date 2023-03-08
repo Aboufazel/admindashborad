@@ -15,10 +15,12 @@ import "./accountMain.style.css"
 import {GiveIdContext} from "../../Context/GiveId";
 import Loader from "../../Loader/Loader";
 import {ReturnTotalAccountContext} from "../../Context/ReturnTotalAccount";
+import {GetById} from "../../api/AccountGroup";
 
 
 const AccountingMain = () => {
     const [account, setAccount] = useState(undefined);
+    const [groupName , setGroupName] = useState(undefined);
     const {state, dispatch} = useContext(GiveIdContext);
     const {ReturnState, Dispatch} = useContext(ReturnTotalAccountContext);
     const [error, setError] = useState(false);
@@ -31,7 +33,6 @@ const AccountingMain = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [reload, setReload] = useState(false)
-    const [activeShow, setActiveShow] = useState(false);
     const [waiting, setWaiting] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [deleteModal, setDeleteModal] = useState(undefined);
@@ -40,7 +41,6 @@ const AccountingMain = () => {
 
     const navigate = useNavigate();
     const Id = useContext(GiveIdContext);
-
 
     const handleClose = () => {
         setShow(false);
@@ -55,6 +55,12 @@ const AccountingMain = () => {
     }
 
 
+    const manageAccountGroupName = async () =>{
+        const getResponse  = await GetById(Id.authData);
+            setGroupName(getResponse.data.accountGroups);
+
+    }
+    console.log(groupName)
     const AccountMainGetTabel = async () => {
         const data = await GetAllAccountMain().catch(() => setError(true));
         console.log(data.data.accountMains)
@@ -71,6 +77,7 @@ const AccountingMain = () => {
     useEffect(() => {
         AccountMainGetTabel();
         manageGroupCode();
+        manageAccountGroupName();
     }, [reload]);
 
 
@@ -236,7 +243,11 @@ const AccountingMain = () => {
                     <Row>
                         <Col>
                             <p>
-                                {'حساب کل'}
+                                {
+                                    groupName === undefined ? "" : groupName.map(item => (
+                                        `حساب های کل گروه حساب ${item.accountGroupName}`
+                                    ))
+                                }
                             </p>
                             {
                                 waiting === true ?
@@ -396,7 +407,7 @@ const AccountingMain = () => {
                                         //filter output is [];
                                         //this code filter the accountGroup have a accountMain;
                                         account.filter(item => item.accountGroupId === Id.authData).map(
-                                            item => <tr key={item.accountMainId}>
+                                            item => <tr key={`account-main-tr-${item.accountMainId}`}>
                                                 <td className={"p-2"}>{item.accountMainCode}</td>
                                                 <td className={"p-2"}>{item.accountMainName}</td>
                                                 <td className={"p-2"}>

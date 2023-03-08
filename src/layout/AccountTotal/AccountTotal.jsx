@@ -14,6 +14,7 @@ import ActionTableButton from "../../components/ActionTableButton/ActionTableBut
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../Loader/Loader";
 import {DeleteAccountGroup} from "../../api/AccountGroup";
+import {AccountMainGetById} from "../../api/AccountMain";
 
 
 const AccountTotal = () => {
@@ -49,13 +50,18 @@ const AccountTotal = () => {
 
     const AccountSpecGetTabel = async () => {
         const data = await GetAllAccountSpec().catch(() => setError(true));
+        console.log(data.data)
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");
             navigate('/login')
         }
-        setAccount(data.data.accountSpecs)
+        setAccount(data.data.accountSpecs);
     };
+
+
+
+
 
 
     const manageChange = (e) => {
@@ -225,9 +231,13 @@ const AccountTotal = () => {
             <Row className={'main_block'}>
                 <Col>
                     <Row className={'mb-3'}>
-                        <Col lg={1}>
-                            <p className={'mt-1'}>
-                                {'حساب معین'}
+                        <Col lg={5}>
+                            <p>
+                                {
+                                    account === undefined ? "" : account.map(item => (
+                                        `حساب های معین حساب کل ${item.accountMainName}`
+                                    ))
+                                }
                             </p>
                             {
                                 waiting === true ?
