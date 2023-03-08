@@ -13,13 +13,10 @@ import {Link, useNavigate} from "react-router-dom";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../Loader/Loader";
-import {DeleteAccountGroup} from "../../api/AccountGroup";
-import {AccountMainGetById} from "../../api/AccountMain";
 
 
 const AccountTotal = () => {
     const [account, setAccount] = useState(undefined);
-    const {state , dispatch} = useContext(GiveIdContext)
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
     const [edit, setEdit] = useState({id: "", code: "", name: "", active: ""});
