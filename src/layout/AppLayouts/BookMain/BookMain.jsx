@@ -21,7 +21,7 @@ const BookMain = () => {
             alignItems={"center"}
             justifyContent={"start"}
             component={"div"}
-            sx={{overflowY: 'scroll'}}
+            sx={{overflow: 'scroll'}}
             container
             width={'100%'}>
             <AppBarVer3 title={"دفاتر"} link={"app"}/>
