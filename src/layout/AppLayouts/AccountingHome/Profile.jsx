@@ -22,15 +22,15 @@ const Profile = () => {
             <AppBarVer2 title={"حساب کاربری"}/>
 
             <SectionHeader title={"اطلاعات"} margin={3.375}/>
-            <SimplePrice title={"نام کسب و کار"} price={"زندی کالا"}/>
-            <SimplePrice title={"شماره تلفن"} price={"09179896554"}/>
-            <SimplePrice title={"ایمیل"} price={"siavashma.ir@gmail.com"}/>
-            <SimplePrice title={"تغییر اطلاعات کاربر"}/>
-            <SimplePrice title={"تغییر رمز عبور"}/>
+            <SimplePrice title={"نام کسب و کار"} price={"زندی کالا"} padding={0.6}/>
+            <SimplePrice title={"شماره تلفن"} price={"09179896554"} padding={0.6}/>
+            <SimplePrice title={"ایمیل"} price={"siavashma.ir@gmail.com"} padding={0.6}/>
+            <SimplePrice title={"تغییر اطلاعات کاربر"} padding={0.6}/>
+            <SimplePrice title={"تغییر رمز عبور"} padding={0.6}/>
 
-            <SectionHeader title={"اطلاعات"}/>
-            <SimplePrice title={"تماس با پشتیبانی"}/>
-            <SimplePrice title={"خروج از حساب کاربری"}/>
+            <SectionHeader title={"اطلاعات"} padding={0.6}/>
+            <SimplePrice title={"تماس با پشتیبانی"} padding={0.6}/>
+            <SimplePrice title={"خروج از حساب کاربری"} padding={0.6}/>
 
         </Grid>
     )

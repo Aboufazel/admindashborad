@@ -16,7 +16,7 @@ const AppBarVer1 = ({title , link}) => {
             <Link to={`/${link}`}>
                 <ArrowForwardIcon color={"neutralN100"}/>
             </Link>
-            <Typography marginRight={0.65}>
+            <Typography marginLeft={0.55}>
                 {title}
             </Typography>
         </Grid>

@@ -2,7 +2,7 @@ import {Grid, Typography} from "@mui/material";
 import theme from "../../../themes/theme";
 
 
-const SimplePrice = ({title , price , badge}) => {
+const SimplePrice = ({title , price , badge , padding}) => {
 
     return(
         <Grid
@@ -10,7 +10,7 @@ const SimplePrice = ({title , price , badge}) => {
             alignItems={"center"}
             height={"max-content"}
             width={"100%"}
-            padding={0.6}
+            padding={padding}
             container>
 
             <Grid

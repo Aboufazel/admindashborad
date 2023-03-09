@@ -20,20 +20,20 @@ const AccountingHome = () => {
             width={'100%'}>
             <AppBarVer2 title={"نرم افزار حسابداری"}/>
             <SectionHeader title={"وضعیت کسب و کار در سال 1401"} margin={3.375}/>
-            <SimplePrice title={"موجودی نقدی"} price={"29,102,000"} badge={"ریال"}/>
-            <SimplePrice title={"بدهی"} price={"29,102,000"} badge={"ریال"}/>
-            <SimplePrice title={"طلب"} price={"29,102,000"} badge={"ریال"}/>
-            <SimplePrice title={"درآمد"} price={"29,102,000"} badge={"ریال"}/>
-            <SimplePrice title={"هزینه"} price={"29,102,000"} badge={"ریال"}/>
+            <SimplePrice title={"موجودی نقدی"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+            <SimplePrice title={"بدهی"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+            <SimplePrice title={"طلب"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+            <SimplePrice title={"درآمد"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+            <SimplePrice title={"هزینه"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
 
             <SectionHeader title={"اسناد مالی"} margin={0}/>
-            <SimplePrice title={"ثبت حسابداری"}/>
+            <SimplePrice title={"ثبت حسابداری"} padding={0.6}/>
 
             <SectionHeader title={"حسابداری"} margin={0}/>
-            <SimplePrice title={"دفاتر"}/>
-            <SimplePrice title={"گزارشات"}/>
-            <SimplePrice title={"تعاریف حسابداری"}/>
-            <SimplePrice title={"سال مالی (سال فعلی 1401)"}/>
+            <SimplePrice title={"دفاتر"} padding={0.6}/>
+            <SimplePrice title={"گزارشات"} padding={0.6}/>
+            <SimplePrice title={"تعاریف حسابداری"} padding={0.6}/>
+            <SimplePrice title={"سال مالی (سال فعلی 1401)"} padding={0.6}/>
 
 
             <ActionButton>
