@@ -24,6 +24,7 @@ import Profile from "../layout/AppLayouts/AccountingHome/Profile";
 import AccountingAddMain from "../layout/AppLayouts/AccountigAddMain/AccountigAddMain";
 import BookMain from "../layout/AppLayouts/BookMain/BookMain";
 import MainReport from "../layout/AppLayouts/Report/MainReport";
+import DebtorsReport from "../layout/AppLayouts/Report/DebtorsReport";
 
 
 const Root = () => {
@@ -181,6 +182,16 @@ const Root = () => {
                         <Suspense fallback={<LoadingPage/>}>
                             <AuthProvider>
                                 <MainReport/>
+                            </AuthProvider>
+                        </Suspense>
+                    )
+                },
+                {
+                    path: "/app/debtorsReport",
+                    element: (
+                        <Suspense fallback={<LoadingPage/>}>
+                            <AuthProvider>
+                                <DebtorsReport/>
                             </AuthProvider>
                         </Suspense>
                     )
