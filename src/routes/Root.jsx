@@ -26,6 +26,7 @@ import BookMain from "../layout/AppLayouts/BookMain/BookMain";
 import MainReport from "../layout/AppLayouts/Report/MainReport";
 import DebtorsReport from "../layout/AppLayouts/Report/DebtorsReport";
 import DipositorReport from "../layout/AppLayouts/Report/DipositorReport";
+import CashReport from "../layout/AppLayouts/Report/CashReport";
 
 
 const Root = () => {
@@ -203,6 +204,16 @@ const Root = () => {
                         <Suspense fallback={<LoadingPage/>}>
                             <AuthProvider>
                                 <DipositorReport/>
+                            </AuthProvider>
+                        </Suspense>
+                    )
+                },
+                {
+                    path: "/app/cashReport",
+                    element: (
+                        <Suspense fallback={<LoadingPage/>}>
+                            <AuthProvider>
+                                <CashReport/>
                             </AuthProvider>
                         </Suspense>
                     )
