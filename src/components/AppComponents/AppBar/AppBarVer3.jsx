@@ -22,7 +22,7 @@ const AppBarVer3 = ({title , link}) => {
                 <Link to={`/${link}`}>
                     <ArrowForwardIcon color={"neutralN100"}/>
                 </Link>
-                <Typography marginRight={0.65}>
+                <Typography marginLeft={1}>
                     {title}
                 </Typography>
             </Box>

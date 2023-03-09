@@ -1,0 +1,77 @@
+import {Box, Grid, Typography} from "@mui/material";
+import theme from "../../../themes/theme";
+
+const AccountState = ({accountName,price, badge, status, group,main, spec ,marginT}) => {
+
+    return(
+        <Grid
+            display={"flex"}
+            alignItems={"center"}
+            height={"max-content"}
+            width={"100%"}
+            marginTop={marginT}
+            padding={0.6}
+            container>
+
+            <Grid
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"start"}
+                sx={{
+                    cursor: 'pointer',
+                    transition: 0.5,
+                }}
+                xs={6}
+
+                bgcolor={"white"} item>
+                <Box display={"flex"} flexDirection={"column"}>
+                    <Box marginBottom={1} display={"flex"} alignItems={"center"}>
+                        <Typography
+                            color={theme.palette.neutralN100.main}
+                            variant={"h2"}>
+                            {accountName}
+                        </Typography>
+                    </Box>
+                    <Typography
+                        color={theme.palette.neutralN40.main}
+                        variant={"h2"}>
+                        { `${group} / ${main} / ${spec}` }
+                    </Typography>
+                </Box>
+            </Grid>
+
+            <Grid
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"end"}
+                xs={6}
+                sx={{
+                    cursor: 'pointer',
+                    transition: 0.5,
+                }}
+                bgcolor={"white"} item>
+
+
+                <Box display={"flex"} flexDirection={"column"}>
+                    <Box marginBottom={1} display={"flex"} alignItems={"center"}>
+                        <Typography display={"flex"} color={theme.palette.neutralN100.main} variant={"h2"}>
+                            {price}
+                            <Typography display={price ? "block" : "none"} color={theme.palette.neutralN40.main} variant={"h2"}>
+                                {badge}
+                            </Typography>
+                        </Typography>
+                    </Box>
+                    <Typography
+                        textAlign={"end"}
+                        color={theme.palette.error.main}
+                        variant={"h2"}>
+                        {status}
+                    </Typography>
+                </Box>
+            </Grid>
+        </Grid>
+    )
+}
+
+
+export default AccountState;
