@@ -28,6 +28,7 @@ import DebtorsReport from "../layout/AppLayouts/Report/DebtorsReport";
 import DipositorReport from "../layout/AppLayouts/Report/DipositorReport";
 import CashReport from "../layout/AppLayouts/Report/CashReport";
 import DefineMain from "../components/AppComponents/DefineAccount/DefineMain";
+import DefineListType1 from "../components/AppComponents/DefineAccount/DefineListType1";
 
 
 const Root = () => {
@@ -225,6 +226,16 @@ const Root = () => {
                         <Suspense fallback={<LoadingPage/>}>
                             <AuthProvider>
                                 <DefineMain/>
+                            </AuthProvider>
+                        </Suspense>
+                    )
+                },
+                {
+                    path: "/app/defineListType1",
+                    element: (
+                        <Suspense fallback={<LoadingPage/>}>
+                            <AuthProvider>
+                                <DefineListType1/>
                             </AuthProvider>
                         </Suspense>
                     )
