@@ -1,11 +1,11 @@
 import {Grid, Typography} from "@mui/material";
-import AppBarVer3 from "../AppBar/AppBarVer3";
-import SectionHeader from "../SectionHeader/SectionHeader";
-import SimplePrice from "../SimplePrice/SimplePrice";
-import ActionButton from "../ActionButton/ActionButton";
+import AppBarVer3 from "../../../components/AppComponents/AppBar/AppBarVer3";
+import SectionHeader from "../../../components/AppComponents/SectionHeader/SectionHeader";
+import SimplePrice from "../../../components/AppComponents/SimplePrice/SimplePrice";
+import ActionButton from "../../../components/AppComponents/ActionButton/ActionButton";
 import AddIcon from "@mui/icons-material/Add";
 
-const DefineListType1 = () => {
+const DefineListType2 = () => {
 
     return(
         <Grid
@@ -19,15 +19,14 @@ const DefineListType1 = () => {
             width={'100%'}>
 
             <AppBarVer3 title={"عنوان لیست تفضیلی"} link={"app"}/>
-
-            <SectionHeader title={"نام حساب معین"} margin={3.375}/>
             <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
             <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
-
-            <SectionHeader title={"نام حساب معین"}/>
             <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
-
-            <SectionHeader title={"نام حساب معین"}/>
+            <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
+            <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
+            <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
+            <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
+            <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
             <SimplePrice title={"نام حساب تفضیلی"} padding={1}/>
 
 
@@ -42,4 +41,4 @@ const DefineListType1 = () => {
 }
 
 
-export default DefineListType1;
+export default DefineListType2;

@@ -1,7 +1,7 @@
 import {Grid} from "@mui/material";
-import AppBarVer1 from "../AppBar/AppBarVer1";
-import SectionHeader from "../SectionHeader/SectionHeader";
-import SimplePrice from "../SimplePrice/SimplePrice";
+import AppBarVer1 from "../../../components/AppComponents/AppBar/AppBarVer1";
+import SectionHeader from "../../../components/AppComponents/SectionHeader/SectionHeader";
+import SimplePrice from "../../../components/AppComponents/SimplePrice/SimplePrice";
 
 const DefineMain = () => {
 
