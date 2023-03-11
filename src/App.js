@@ -6,6 +6,8 @@ import theme from "./themes/theme";
 import {ThemeProvider} from "@mui/material";
 import {CacheProvider} from '@emotion/react';
 import cacheRtl from "./themes/CacheRtl";
+import {Provider} from "react-redux";
+import {store} from "./Toolkit/Store";
 
 
 function App() {
@@ -17,7 +19,9 @@ function App() {
             <GiveContextProvider>
                 <ThemeProvider theme={theme} dir={"rtl"}>
                     <CacheProvider value={cacheRtl}>
+                        <Provider store = {store}>
                         <Root/>
+                        </Provider>
                     </CacheProvider>;
                 </ThemeProvider>
             </GiveContextProvider>
