@@ -32,14 +32,13 @@ const Login = () => {
         setShowAlert(false);
         LoginApi(state.email, state.password)
             .then(res => {
-                console.log(res)
                 if (res.data.isSuccess === true) {
                     setLoading(false)
                     setAuthInfo({
-                        userId: res.data.data.userId,
-                        accessToken: res.data.data.token,
+                        userId: res.data.token.userId,
+                        accessToken: res.data.token.token,
                     })
-                    if (res.data.data.kind === admin){
+                    if (res.data.user.kind === admin){
                         navigate("/");
                     }else {
                         navigate("/app")
