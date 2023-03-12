@@ -19,7 +19,6 @@ const navigate = useNavigate()
 
     const manageChange = e => {
         setForm({...form, [e.target.name]: e.target.value});
-
     }
 
 
