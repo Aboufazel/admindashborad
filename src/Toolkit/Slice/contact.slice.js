@@ -7,14 +7,18 @@ export const contactSlice = createSlice({
     initialState,
     reducers:{
         userData:(state, action)=>{
-
             const {payload} = action;
-            console.log(payload);
+            return payload
         },
+        userMobile:(state, action)=>{
+            const {payload} = action;
+            return payload
+        },
+
     }
 })
 
 
-export const { deleteContact  , addContact , editContact} = contactSlice.actions
+export const {userData , userMobile} = contactSlice.actions
 
 export default contactSlice.reducer;

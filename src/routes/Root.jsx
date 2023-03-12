@@ -39,13 +39,13 @@ const Root = () => {
                 path: "/login",
                 element: <Login/>
             }, {
-            path: "login/forgetPass",
+            path: "/forgetPass",
             element: <ForgetPass/>
         }, {
-            path: "login/verification",
+            path: "/verification",
             element: <Verification/>
         }, {
-            path: "login/signUp",
+            path: "/signUp",
             element: <SignUp/>
         }, {
             path: "/",

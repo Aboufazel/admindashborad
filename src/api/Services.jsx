@@ -74,20 +74,28 @@ export const deleteUser = (userid , token) => {
 }
 
 //use for create user
-export const CreateNewUser = (userid, token, usertype, owner, username, password, mobile, email) => {
-    return Api.post(`/UserService/api/Users/add`, {
-        headers: {
-            "selfuserid": `${userid}`,
-            "token": `${token}`
-        },
+export const CreateNewUser = (username, password, email , job) => {
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+
+    return Api({
+        method: 'post',
+        url: '/UserService/api/Users/addUser',
         data: {
-            "userTypeId": `${usertype}`,
-            "userOwnerId": `${owner}`,
+            "userTypeId": 0,
+            "userOwnerId": 0,
             "userName": `${username}`,
             "passWord": `${password}`,
-            "mobile": `${mobile}`,
+            "mobile": `${username}`,
             "email": `${email}`,
-        }
+            "kind": 1,
+            "businessName": `${job}`,
+        },
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json'
+        },
     })
 }
 

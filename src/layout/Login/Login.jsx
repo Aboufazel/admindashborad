@@ -162,7 +162,7 @@ const Login = () => {
                             position: "absolute",
                             bottom: 0,
                         }}>
-                        <Link to={"/login/signUp"}>
+                        <Link to={"/signUp"}>
                             {"ساخت کسب و کار جدید"}
                         </Link>
                     </Grid>

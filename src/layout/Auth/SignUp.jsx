@@ -3,13 +3,16 @@ import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
 
-import {userData} from "../../Toolkit/Slice/contact.slice"
-import {useDispatch, useSelector} from "react-redux";
+import {userData, userMobile} from "../../Toolkit/Slice/contact.slice"
+import {useDispatch} from "react-redux";
 import {useState} from "react";
+import {CreateNewUser} from "../../api/Services";
+import {useNavigate} from "react-router-dom";
+import WhiteLoader from "../../Loader/WhiteLoader";
 
 const SignUp = () => {
-
-
+const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
     const [form, setForm] = useState([
         {mobile: "", job: "", mail: "", password: "", rePassword: ""},
     ])
@@ -20,14 +23,21 @@ const SignUp = () => {
     }
 
 
-    const manageSubmit = e => {
-        e.preventDefault();
-
-        console.log(form)
+    const manageSignUp = async () => {
 
     }
 
-    const state = useSelector(state => state.action);
+    const manageSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        const sendData = await CreateNewUser( form.mobile , form.password , form.mail , form.job );
+        console.log(sendData)
+        navigate("/verification");
+        dispatch(userData(sendData.data));
+        setForm({mobile: "", job: "", mail: "", password: "", rePassword: ""});
+        setLoading(false);
+    }
+
     const dispatch = useDispatch();
 
     useTitle("ورود اطلاعات")
@@ -85,7 +95,7 @@ const SignUp = () => {
                                        required={true}
                                        label="نام کسب و کار"
                                        variant="outlined"
-                                       value={form.mail}
+                                       value={form.job}
                                        onChange={manageChange}
                                        sx={{
                                            width: "100%",
@@ -141,7 +151,9 @@ const SignUp = () => {
                                     maxWidth: 500
                                 }} variant={"contained"}
                                 color={"primary"}>
-                                {"ثبت"}
+                                {
+                                    loading === false ? "ثبت" : <WhiteLoader/>
+                                }
                             </Button>
 
                         </Grid>

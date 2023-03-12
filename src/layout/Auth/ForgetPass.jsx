@@ -66,7 +66,7 @@ const ForgetPass = () => {
                             maxWidth:500,
                             bottom: 16
                         }} variant={"contained"}
-                        onClick={()=> navigate('/login/verification')}
+                        onClick={()=> navigate('/verification')}
                         color={"primary"}>
                             {"ثبت"}
                     </Button>

@@ -1,12 +1,18 @@
 import {Box, Button, Grid, TextField, Typography} from "@mui/material";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
+import {useSelector} from "react-redux";
+import Loader from "../../Loader/Loader";
 
 const Verification = () => {
-    useTitle("احراز هویت")
+    useTitle("احراز هویت");
+
+    const Mobile = useSelector(state => state.action);
+    const navigate = useNavigate();
+
     return (
         <Grid container
               display={'flex'}
@@ -40,20 +46,20 @@ const Verification = () => {
                         color={theme.palette.neutralN60.main}>
                         <form>
                             <Typography variant={"h2"}>
-                                کد تایید برای 09179896554 ارسال شد <Link to={'/login'}>ویرایش شماره</Link>
+
+                                {
+                                    Mobile ? `کد تایید برای شماره ${Mobile} ارسال شد` : <Loader/>
+                                }
+
                             </Typography>
                             <TextField id="login-mobile-number"
                                        required={true}
                                        label="کد تایید"
-                                       variant="outlined"
+                                       value={Mobile.data === undefined ? "" : Mobile.data.verify}
+                                       variant="standard"
                                        sx={{
                                            width: "100%",
                                            marginY: 1,
-                                           '& label': {
-                                               transformOrigin: "right !important",
-                                               left: "inherit !important",
-                                               right: "1.75rem !important",
-                                           }
                                        }}
 
                             />
@@ -65,7 +71,7 @@ const Verification = () => {
                         position={"absolute"}
                         bottom={"74px"}
                         textAlign={"center"}>
-                        <Link to={'/login/forgetPass'}>
+                        <Link to={'/forgetPass'}>
                             {"ارسال مجدد کد تایید"}
                         </Link>
                     </Grid>
@@ -79,6 +85,7 @@ const Verification = () => {
                             maxWidth: 500,
                             bottom: 16
                         }} variant={"contained"}
+                        onClick={()=>{navigate("/app")}}
                         color={"primary"}>
                         {"ثبت"}
                     </Button>
