@@ -91,8 +91,6 @@ const AccountingAddMain = () => {
                          price={"25,000,000"}
                          desc={"شرح سند"}/>
 
-
-
             <ActionButton>
                 <AddIcon/>
                 <Typography variant={"h1"}>

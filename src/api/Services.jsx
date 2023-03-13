@@ -101,20 +101,12 @@ export const CreateNewUser = (username, password, email , job) => {
 
 
 export const forgetPass =(userName)=>{
-    const data = localStorage.getItem("auth")
-    const final = JSON.parse(data);
+
 
     return Api({
         method:"put",
-        url: '/userservice/api/users/ForgetPassword',
-        data:{
-            "userName":`${userName}`
-        },
-        headers: {
-            "selfuserid": `${final.userId}`,
-            "token": `${final.accessToken}`,
-            'Content-Type': 'application/json'
-        },
+        url: '/userservice/api/users/forgetpassword?username='+userName,
+
     })
 }
 

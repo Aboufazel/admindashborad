@@ -79,7 +79,7 @@ const Login = () => {
                 flexDirection={"column"}
                 paddingTop={3.375}
                 maxWidth={500}
-                height={"100vh"}
+                height={"80vh"}
                 bgcolor={theme.palette.neutralN00.main}
                 alignItems={"center"}
                 container>
@@ -133,7 +133,7 @@ const Login = () => {
                         display={"flex"}
                         marginTop={3.375}
                         textAlign={"center"}>
-                        <Link to={'/login/forgetPass'}>
+                        <Link to={'/forgetPass'}>
                             {"فراموشی کلمه عبور"}
                         </Link>
                     </Grid>
@@ -145,7 +145,7 @@ const Login = () => {
                         sx={{
                             background: theme.palette.primary.extraLight,
                             cursor: "pointer",
-                            position: "absolute",
+                            position: "fixed",
                             bottom: 41,
                         }}>
                         <Typography color={theme.palette.neutralN100.main}>
@@ -159,7 +159,7 @@ const Login = () => {
                         color={theme.palette.neutralN100.main}
                         sx={{
                             background: theme.palette.primary.extraLight,
-                            position: "absolute",
+                            position: "fixed",
                             bottom: 0,
                         }}>
                         <Link to={"/signUp"}>

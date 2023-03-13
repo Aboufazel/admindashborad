@@ -8,7 +8,7 @@ const ActionButton = ({children}) => {
 
              color={"primary"}
                 sx={{width:"max-content",
-                    position:"absolute",
+                    position:"fixed",
                     bottom:65,
                     gap:0.5,
                     textAlign:"center",

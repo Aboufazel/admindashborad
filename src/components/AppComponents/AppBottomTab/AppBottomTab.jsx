@@ -20,7 +20,8 @@ const AppBottomTab = () => {
             display={"flex"}
             height={'50px'}
             width={"100%"}
-            position={"absolute"}
+            maxWidth={500}
+            position={"fixed"}
             sx={{boxShadow: "0px -4px 6px 0px rgba(0, 0, 0, 0.1)"}}
             bottom={0}
             containe>

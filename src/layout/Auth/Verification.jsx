@@ -25,7 +25,7 @@ const Verification = () => {
                 paddingTop={3.375}
                 position={"relative"}
                 maxWidth={500}
-                height={"100vh"}
+                height={"80vh"}
                 bgcolor={theme.palette.neutralN00.main}
                 alignItems={"center"}
                 container>

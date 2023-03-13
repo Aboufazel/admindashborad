@@ -11,8 +11,9 @@ const AppBarVer1 = ({title , link}) => {
             justifyContent={"start"}
             width={"95%"}
             maxWidth={500}
-            position={"absolute"}
-            top={16}>
+            position={"fixed"}
+            padding={1}
+            top={0}>
             <Link to={`/${link}`}>
                 <ArrowForwardIcon color={"neutralN100"}/>
             </Link>

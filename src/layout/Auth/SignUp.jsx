@@ -1,4 +1,4 @@
-import {Button, Grid, TextField} from "@mui/material";
+import {Alert, AlertTitle, Button, Grid, TextField} from "@mui/material";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
@@ -13,6 +13,7 @@ import WhiteLoader from "../../Loader/WhiteLoader";
 const SignUp = () => {
 const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
+    const [show , setShow] = useState(false);
     const [form, setForm] = useState([
         {mobile: "", job: "", mail: "", password: "", rePassword: ""},
     ])
@@ -22,19 +23,36 @@ const navigate = useNavigate()
     }
 
 
-    const manageSignUp = async () => {
+    const EmptyInput =  () => {
+        setForm({mobile: "", job: "", mail: "", password: "", rePassword: ""});
+    }
 
+    const manageAlert = () =>{
+        setShow(show ? false : true)
     }
 
     const manageSubmit = async (e) => {
         e.preventDefault();
         setLoading(true)
-        const sendData = await CreateNewUser( form.mobile , form.password , form.mail , form.job );
+        const sendData = await CreateNewUser( form.mobile , form.password , form.mail , form.job )
+            .catch((error)=>{
+                setLoading(false);
+                console.log(error);
+                manageAlert()
+                EmptyInput()
+                navigate("/signUp");
+            });
         console.log(sendData)
-        navigate("/verification");
-        dispatch(userData(sendData.data));
-        setForm({mobile: "", job: "", mail: "", password: "", rePassword: ""});
-        setLoading(false);
+        if(sendData.data.isSuccess === true){
+            navigate("/verification");
+            dispatch(userData(sendData.data));
+            EmptyInput()
+            setLoading(false);
+            manageAlert()
+        }
+        setTimeout(()=>{
+            manageAlert()
+        } , 100)
     }
 
     const dispatch = useDispatch();
@@ -55,18 +73,32 @@ const navigate = useNavigate()
                 position={"relative"}
                 alignItems={"center"}
                 maxWidth={500}
-                height={"100vh"}
                 bgcolor={theme.palette.neutralN00.main}
                 container>
                 <Grid
                     display={'flex'}
                     flexDirection={"column"}
                     alignItems={"center"}
-                    height={'100%'}
+                    height={"80vh"}
                     maxWidth={500}
                     width={"100%"}
                     item>
                     <AppBarVer1 title={"ورود اطلاعات"} link={"login"}/>
+                    {
+                        show ? <Alert sx={{position:"absolute" , bottom:90}} severity="error">
+                            <AlertTitle></AlertTitle>
+                            {"ثبت با مشکل مواجه شد" }
+                            <br/>
+                            <br/>
+                            {"شماره موبایل معتبر وارد نمایید"}
+                            <br/>
+                            <br/>
+                            {"ایمیل معتبر وارد نمایید"}
+                            <br/>
+                            <br/>
+                            {"رمز باید حداقل 8 حرف و شامل حرف عدد و کارکتر باشد مانند a123@Asd"}
+                        </Alert>   : ""
+                    }
                     <form onSubmit={manageSubmit}>
                         <Grid
                             display={"flex"}
@@ -80,6 +112,7 @@ const navigate = useNavigate()
 
                             <TextField name="mobile"
                                        required={true}
+                                       type={"tel"}
                                        label="شماره موبایل"
                                        variant="outlined"
                                        value={form.mobile}
@@ -104,6 +137,7 @@ const navigate = useNavigate()
                             <TextField name="mail"
                                        required={true}
                                        label="ایمیل"
+                                       type={"email"}
                                        variant="outlined"
                                        value={form.mail}
                                        onChange={manageChange}
@@ -142,9 +176,8 @@ const navigate = useNavigate()
                             <Button
                                 type={"submit"}
                                 sx={{
-                                    marginTop: 1,
-                                    width: "95%",
-                                    position: "absolute",
+                                    width: "80%",
+                                    position: "fixed",
                                     padding: 0.65,
                                     bottom: 16,
                                     maxWidth: 500

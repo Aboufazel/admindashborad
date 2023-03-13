@@ -1,4 +1,4 @@
-import {Button, Grid, TextField, Typography} from "@mui/material";
+import {Alert, AlertTitle, Button, Grid, TextField, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
@@ -12,6 +12,10 @@ const ForgetPass = () => {
         {user: ""},
     ])
 
+    const [message , setMessage] = useState(0);
+
+    const [show , setShow] = useState(false)
+
     const [loading , setLoading] = useState(false)
 
     const manageChange = e => {
@@ -22,9 +26,19 @@ const ForgetPass = () => {
         e.preventDefault();
         setLoading(true)
         console.log(form)
-        const sendData = await forgetPass(form.user);
-        console.log(sendData)
-        setLoading(false)
+        const sendData = await forgetPass(form.user).catch((error)=>{
+            setLoading(false);
+            alert(error)
+        });
+        setMessage(sendData.data.data.passWord);
+        setShow(true)
+        setLoading(false);
+
+        setTimeout(()=>{
+            setShow(false)
+            navigate("/login")
+        } , 20000)
+
     }
 
     useTitle("فراموشی رمز عبور")
@@ -34,16 +48,18 @@ const ForgetPass = () => {
               display={'flex'}
               flexDirection={"column"}
               alignItems={"center"}
+
         >
+
             <Grid
                 display={"flex"}
                 flexDirection={"column"}
                 position={"relative"}
                 paddingTop={3.375}
                 maxWidth={500}
-                alignItems={"center"}
-                height={"100vh"}
+                height={"80vh"}
                 bgcolor={theme.palette.neutralN00.main}
+                alignItems={"center"}
                 container>
 
 
@@ -55,6 +71,13 @@ const ForgetPass = () => {
                         width={"100%"}
                         item>
                         <AppBarVer1 title={"فراموشی رمز"} link={"login"}/>
+
+                        {
+                            show ? <Alert sx={{position:"absolute" , bottom:90}} severity="success">
+                                <AlertTitle>{`${message}رمز جدید `}</AlertTitle>
+                                {"پسورد با موفقیت تغییر کرد"}
+                            </Alert>   : ""
+                        }
                         <form onSubmit={ManageSendData}>
                             <Grid
                                 display={"flex"}
@@ -63,12 +86,7 @@ const ForgetPass = () => {
                                 justifyContent={"center"}
                                 width={'100%'}
                                 marginTop={1}
-                                textAlign={"start"}
                                 color={theme.palette.neutralN60.main}>
-
-                                <Typography variant={"h2"}>
-                                    شماره خود را وارد کنید
-                                </Typography>
                                 <TextField name="user"
                                            required={true}
                                            label="شماره موبایل"
@@ -86,7 +104,7 @@ const ForgetPass = () => {
                                     sx={{
                                         marginTop: 1,
                                         width: "95%",
-                                        position: "absolute",
+                                        position: "fixed",
                                         padding: 0.65,
                                         bottom: 16,
                                         maxWidth: 500

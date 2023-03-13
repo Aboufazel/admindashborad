@@ -14,9 +14,10 @@ const AppBarVer3 = ({title , link}) => {
             justifyContent={"space-between"}
             width={"100%"}
             padding={1}
+            top={0}
             maxWidth={500}
             bgcolor={theme.palette.neutralN00.main}
-            position={"absolute"}
+            position={"fixed"}
             >
             <Box  display={"flex"}>
                 <Link to={`/${link}`}>

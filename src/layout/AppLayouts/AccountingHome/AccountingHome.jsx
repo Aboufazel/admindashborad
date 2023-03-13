@@ -15,7 +15,7 @@ const AccountingHome = () => {
             alignItems={"center"}
             justifyContent={"start"}
             component={"div"}
-            sx={{overflow: 'auto'}}
+            sx={{overflowY: 'scroll'}}
             container
             width={'100%'}>
             <AppBarVer2 title={"نرم افزار حسابداری"}/>

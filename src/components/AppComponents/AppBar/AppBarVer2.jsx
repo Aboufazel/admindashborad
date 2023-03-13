@@ -10,9 +10,10 @@ const AppBarVer2 = ({title}) => {
             justifyContent={"start"}
             width={"100%"}
             padding={1}
+            top={0}
             maxWidth={500}
             bgcolor={theme.palette.neutralN00.main}
-            position={"absolute"}
+            position={"fixed"}
             >
             <Typography marginRight={0.65}>
                 {title}

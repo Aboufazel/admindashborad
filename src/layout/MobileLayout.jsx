@@ -9,6 +9,7 @@ const MobileLayout = ()=>{
         <Grid
             display={"flex"}
             justifyContent={"center"}
+            height={"90vh"}
             container >
             <Grid
                 item
@@ -17,7 +18,6 @@ const MobileLayout = ()=>{
                 position={"relative"}
                 bgcolor={theme.palette.neutralN00.main}
                 mb={0}
-                height={'96vh'}
                 maxWidth={500}
                 width={'100%'}
                 >
