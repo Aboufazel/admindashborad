@@ -6,12 +6,25 @@ import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
 import {useSelector} from "react-redux";
 import Loader from "../../Loader/Loader";
+import {VerifyCode} from "../../api/Services";
 
 const Verification = () => {
     useTitle("احراز هویت");
 
     const Mobile = useSelector(state => state.action);
     const navigate = useNavigate();
+
+
+      const manageVerification = async () =>{
+
+          const sendData = await VerifyCode(Mobile.data.verify , Mobile.data.userId).catch();
+          if (sendData.data.isSuccess === true){
+              navigate("/app")
+          }
+
+          console.log(sendData)
+      }
+
 
     return (
         <Grid container
@@ -81,11 +94,11 @@ const Verification = () => {
                             marginTop: 1,
                             width: "95%",
                             padding: 0.65,
-                            position: "absolute",
+                            position: "fixed",
                             maxWidth: 500,
                             bottom: 16
                         }} variant={"contained"}
-                        onClick={()=>{navigate("/app")}}
+                        onClick={()=>manageVerification()}
                         color={"primary"}>
                         {"ثبت"}
                     </Button>

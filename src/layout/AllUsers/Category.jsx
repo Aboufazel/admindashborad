@@ -1,4 +1,4 @@
-import {Breadcrumb, Col, Container,Row} from "react-bootstrap";
+import {Breadcrumb, Col, Button ,Container,Row} from "react-bootstrap";
 
 import '../main.style.css'
 import '../../components/CustomTable/table.style.css'
@@ -11,6 +11,7 @@ import ActionTableButton from "../../components/ActionTableButton/ActionTableBut
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import Loader from "../../Loader/Loader";
+import {EditIsActive} from "../../api/AccountGroup";
 
 
 
@@ -34,6 +35,14 @@ const Category = () => {
         setToken(final.accessToken)
     }, [id])
 
+
+
+    const manageActive = async (id, active) => {
+        const activeResponse = await EditIsActive(id, active)
+            .catch(() => {
+
+            });
+    }
     const manageUserTable = useCallback(async () => {
         const apiData = await GetAllFromUser(id, token).catch(() => setError(true));
         if (apiData.data.isSuccess === false) {
@@ -149,8 +158,12 @@ const Category = () => {
                                                                 <td className={"p-2"}>{item.userName}</td>
                                                                 <td className={"p-2"}>{item.mobile}</td>
                                                                 <td className={"p-2"}>{item.email}</td>
-                                                                <td className={"p-2"}>{item.kind === 1 ? "مدیر" : "کاربر عادی"}</td>
-                                                                <td className={"p-2"}>{item.status === 1 ? "فعال" : "غیر فعال"}</td>
+                                                                <td className={"p-2"}>{item.kind === 4 ? "مدیر" : "کاربر عادی"}</td>
+                                                                <td className={"p-2"}>{item.status === 1 ? <Button
+                                                                    onClick={() => manageActive(item.accountGroupId, !item.isActive)}
+                                                                    variant={"success"} value={true}>{"فعال"}</Button> : <Button
+                                                                    onClick={() => manageActive(item.accountGroupId, !item.isActive)}
+                                                                    variant={"secondary"} value={false}>{"غیر فعال"}</Button>}</td>
                                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                                     <ActionTableButton color={"--text-color-white"}
                                                                                        bgColor={"--color-warning"}

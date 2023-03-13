@@ -110,4 +110,11 @@ export const forgetPass =(userName)=>{
     })
 }
 
+
+export const VerifyCode = (code , userId)=>{
+    return Api({
+        method:"put",
+        url:`/userservice/api/users/EditVerify?verify=${+code}&userid=${+userId}`,
+    })
+}
 export default Api;

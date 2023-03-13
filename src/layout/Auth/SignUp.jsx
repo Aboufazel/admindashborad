@@ -85,7 +85,7 @@ const navigate = useNavigate()
                     item>
                     <AppBarVer1 title={"ورود اطلاعات"} link={"login"}/>
                     {
-                        show ? <Alert sx={{position:"absolute" , bottom:90}} severity="error">
+                        show ? <Alert sx={{position:"absolute" , bottom:25}} severity="error">
                             <AlertTitle></AlertTitle>
                             {"ثبت با مشکل مواجه شد" }
                             <br/>
@@ -176,7 +176,7 @@ const navigate = useNavigate()
                             <Button
                                 type={"submit"}
                                 sx={{
-                                    width: "80%",
+                                    width: "95%",
                                     position: "fixed",
                                     padding: 0.65,
                                     bottom: 16,

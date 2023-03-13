@@ -22,7 +22,7 @@ function App() {
                         <Provider store = {store}>
                         <Root/>
                         </Provider>
-                    </CacheProvider>;
+                    </CacheProvider>
                 </ThemeProvider>
             </GiveContextProvider>
         </ReturnTotalProvider>
