@@ -9,7 +9,7 @@ AccountMain.interceptors.response.use();
 
 
 
-export const AddAccountMain = (mainCode , mainName , GroupId)=>{
+export const AddAccountMain = (mainCode , mainName , GroupId, instict , type)=>{
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
      return AccountMain({
@@ -19,6 +19,8 @@ export const AddAccountMain = (mainCode , mainName , GroupId)=>{
              "AccountGroupId":GroupId,
              "AccountMainCode": +mainCode,
              "AccountMainName": `${mainName}`,
+             "Instict":+instict,
+             "Type":+type,
              "lang": "fa",
          },
          headers: {
@@ -81,7 +83,7 @@ export const GetAccountMainByGroupId = (id)=>{
 }
 
 
-export const EditAccountMain = (id, GroupId,mainCode, mainName) => {
+export const EditAccountMain = (id, GroupId,mainCode, mainName , instict , type) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
     return AccountMain({
@@ -92,6 +94,8 @@ export const EditAccountMain = (id, GroupId,mainCode, mainName) => {
             "AccountGroupId": GroupId,
             "AccountMainCode": +mainCode,
             "AccountMainName": `${mainName}`,
+            "Instict":+instict,
+            "Type":+type,
             "lang": "fa",
         },
         headers: {
