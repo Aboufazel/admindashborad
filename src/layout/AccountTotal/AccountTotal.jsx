@@ -1,5 +1,6 @@
 import {Alert, Breadcrumb, Button, Col, Container, Modal, Row} from "react-bootstrap";
 import FilterBox from "../../components/FilterBox/FilterBox";
+import Form from 'react-bootstrap/Form';
 import {useContext, useEffect, useState} from "react";
 import {GiveIdContext} from "../../Context/GiveId";
 import {
@@ -19,6 +20,8 @@ const AccountTotal = () => {
     const [account, setAccount] = useState(undefined);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
+    const [instinct, setInstinct] = useState("");
+    const [always,setAlways] = useState("");
     const [edit, setEdit] = useState({id: "", code: "", name: "", active: ""});
     const [show, setShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
@@ -67,7 +70,7 @@ const AccountTotal = () => {
 
     const manageAddAccount = async () => {
         setWaiting(true);
-        const addResponse = await AddAccountSpec(value.code, value.name, MainId.authData);
+        const addResponse = await AddAccountSpec(value.code, value.name, MainId.authData , instinct , always);
         if (addResponse.data.isSuccess === true) {
             setMessage(addResponse.data.message);
             setShow(false);
@@ -128,7 +131,7 @@ const AccountTotal = () => {
 
     const manageSendEditAccount = async () => {
         setWaiting(true);
-        const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name);
+        const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name , instinct , always);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setEditShow(false);
@@ -204,6 +207,20 @@ const AccountTotal = () => {
         setDeleteModal(id);
     }
 
+
+    const manageInstictSelectChange = (e) =>{
+        console.log(e.target.value)
+        setInstinct(e.target.value)
+    }
+
+
+
+    const manageAlwaysSelectChange = (e) =>{
+        console.log(e.target.value)
+        setAlways(e.target.value)
+    }
+
+
     return (
         <Container>
             <Row>
@@ -265,6 +282,54 @@ const AccountTotal = () => {
                                         }
                                     </Modal.Header>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
+
+                                        <Row className={"my-3"}>
+                                            <Col className={"d-flex align-items-center col-3"}>
+                                                <label style={{fontFamily: 'iran-sans'}}
+                                                       className={"me-2"}>{"ماهیت حساب:"}</label>
+                                            </Col>
+                                            <Col className={"d-flex align-items-center col-9"}>
+                                                <Form.Select
+                                                    value={instinct}
+                                                    onChange={manageInstictSelectChange}>
+                                                    <option selected={true}>
+                                                        {""}
+                                                    </option>
+                                                    <option value={0}>
+                                                        {"بدون ماهیت"}
+                                                    </option>
+                                                    <option value={1}>
+                                                        {"بدهکار"}
+                                                    </option>
+                                                    <option value={2}>
+                                                        {"بستانکار"}
+                                                    </option>
+                                                </Form.Select>
+                                            </Col>
+                                        </Row>
+
+                                        <Row className={"my-3"}>
+                                            <Col className={"d-flex align-items-center col-3"}>
+                                                <label style={{fontFamily: 'iran-sans'}}
+                                                       className={"me-2"}>{"نوع حساب:"}</label>
+                                            </Col>
+                                            <Col className={"d-flex align-items-center col-9"}>
+                                                <Form.Select
+                                                    value={always}
+                                                    onChange={manageAlwaysSelectChange}>
+                                                    <option selected={true}>
+                                                        {""}
+                                                    </option>
+                                                    <option value={0}>
+                                                        {"موقت"}
+                                                    </option>
+                                                    <option value={1}>
+                                                        {"دائم"}
+                                                    </option>
+                                                </Form.Select>
+                                            </Col>
+                                        </Row>
+
                                         <Row className={"my-3"}>
                                             <Col className={"d-flex align-items-center col-12"}>
                                                 <label style={{fontFamily: 'iran-sans'}}
@@ -273,6 +338,7 @@ const AccountTotal = () => {
                                                        className={'p-2'}/>
                                             </Col>
                                         </Row>
+
                                         <Row className={"my-3"}>
                                             <Col className={"d-flex align-items-center col-12"}>
                                                 <label style={{fontFamily: 'iran-sans'}}
@@ -281,6 +347,7 @@ const AccountTotal = () => {
                                                        className={'p-2'}/>
                                             </Col>
                                         </Row>
+
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button className={'close_btn'} onClick={handleClose}>
@@ -291,6 +358,8 @@ const AccountTotal = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+
+
                                 <Modal show={editShow} onHide={handleEditClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title className={'modal_title'}>
@@ -305,6 +374,72 @@ const AccountTotal = () => {
                                         <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
                                         <Modal.Body
                                             class={'d-flex flex-column justify-content-start p-3'}>
+
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"ماهیت حساب فعلی:"}</label>
+                                                    <input value={instinct} className={"bg-body"} disabled/>
+                                                </Col>
+                                            </Row>
+
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"وضعیت حساب فعلی:"}</label>
+                                                    <input value={always} className={"bg-body"} disabled/>
+                                                </Col>
+                                            </Row>
+
+
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-3"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"ماهیت حساب:"}</label>
+                                                </Col>
+                                                <Col className={"d-flex align-items-center col-9"}>
+                                                    <Form.Select
+                                                        value={instinct}
+                                                        onChange={manageInstictSelectChange}>
+                                                        <option selected={true}>
+                                                            {""}
+                                                        </option>
+                                                        <option value={0}>
+                                                            {"بدون ماهیت"}
+                                                        </option>
+                                                        <option value={1}>
+                                                            {"بدهکار"}
+                                                        </option>
+                                                        <option value={2}>
+                                                            {"بستانکار"}
+                                                        </option>
+                                                    </Form.Select>
+                                                </Col>
+                                            </Row>
+
+                                            <Row className={"my-3"}>
+                                                <Col className={"d-flex align-items-center col-3"}>
+                                                    <label style={{fontFamily: 'iran-sans'}}
+                                                           className={"me-2"}>{"نوع حساب:"}</label>
+                                                </Col>
+                                                <Col className={"d-flex align-items-center col-9"}>
+                                                    <Form.Select
+                                                        value={always}
+                                                        onChange={manageAlwaysSelectChange}>
+                                                        <option selected={true}>
+                                                            {""}
+                                                        </option>
+                                                        <option value={0}>
+                                                            {"موقت"}
+                                                        </option>
+                                                        <option value={1}>
+                                                            {"دائم"}
+                                                        </option>
+                                                    </Form.Select>
+                                                </Col>
+                                            </Row>
+
+
                                             <Row className={"my-3"}>
                                                 <Col className={"d-flex align-items-center col-12"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
@@ -313,6 +448,7 @@ const AccountTotal = () => {
                                                            value={edit.code} className={'p-2'}/>
                                                 </Col>
                                             </Row>
+
                                             <Row className={"my-3"}>
                                                 <Col className={"d-flex align-items-center col-12"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
@@ -321,6 +457,7 @@ const AccountTotal = () => {
                                                            value={edit.name} className={'p-2'}/>
                                                 </Col>
                                             </Row>
+
                                         </Modal.Body>
                                     }
                                     <Modal.Footer>

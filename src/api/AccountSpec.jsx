@@ -19,7 +19,7 @@ export const GetAllAccountSpec = () => {
     })
 }
 
-export const AddAccountSpec = (specCode , specName,MainId) => {
+export const AddAccountSpec = (specCode , specName,MainId , instict , type) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
 
@@ -30,6 +30,8 @@ export const AddAccountSpec = (specCode , specName,MainId) => {
             "AccountSpecCode": +specCode,
             "AccountSpecName": `${specName}`,
             "AccountMainId":MainId,
+            "Instict":+instict,
+            "Type":+type,
             "lang": "fa",
         },
         headers: {
@@ -75,7 +77,7 @@ export const DeleteAccountSpec = (id) =>{
     })
 }
 
-export const EditAccountSpec = (id, MainId,specCode, specName) => {
+export const EditAccountSpec = (id, MainId,specCode, specName, instict , type) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
     return AccountGroup({
@@ -86,6 +88,8 @@ export const EditAccountSpec = (id, MainId,specCode, specName) => {
             "AccountMainId": MainId,
             "AccountSpecCode": +specCode,
             "AccountSpecName": `${specName}`,
+            "Instict":+instict,
+            "Type":+type,
             "lang": "fa",
         },
         headers: {
