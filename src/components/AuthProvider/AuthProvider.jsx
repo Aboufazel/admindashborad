@@ -5,14 +5,10 @@ import Storage from "../../Service/Storage";
 
 const AuthProvider = ({children}) => {
     const storage = Storage();
-    console.log("storage");
-    console.log(storage);
-    const admin = 4;
 
-    if (storage.accessToken === null) {
+
+    if (storage.userId === undefined) {
         return <Navigate to={"/login"}/>;
-    }else if (storage.kind !== admin){
-        return <Navigate to={"/app"}/>;
     }
     return (
         <>
