@@ -1,19 +1,24 @@
-import {Alert, AlertTitle, Button, Grid, TextField} from "@mui/material";
+import {Box, Button, Grid, TextField} from "@mui/material";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
 
-import {userData, userMobile} from "../../Toolkit/Slice/contact.slice"
+import {userData} from "../../Toolkit/Slice/contact.slice"
 import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {CreateNewUser} from "../../api/Services";
 import {useNavigate} from "react-router-dom";
 import WhiteLoader from "../../Loader/WhiteLoader";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const SignUp = () => {
-const navigate = useNavigate()
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
-    const [show , setShow] = useState(false);
+    const [show, setShow] = useState(false);
     const [form, setForm] = useState([
         {mobile: "", job: "", mail: "", password: "", rePassword: ""},
     ])
@@ -23,39 +28,74 @@ const navigate = useNavigate()
     }
 
 
-    const EmptyInput =  () => {
+    const EmptyInput = () => {
         setForm({mobile: "", job: "", mail: "", password: "", rePassword: ""});
     }
 
-    const manageAlert = () =>{
-        setShow(show ? false : true)
-    }
 
     const manageSubmit = async (e) => {
         e.preventDefault();
         setLoading(true)
-        const sendData = await CreateNewUser( form.mobile , form.password , form.mail , form.job )
-            .catch((error)=>{
+        const sendData = await CreateNewUser(form.mobile, form.password, form.mail, form.job)
+            .catch((error) => {
                 setLoading(false);
                 console.log(error);
-                manageAlert()
-                EmptyInput()
                 navigate("/signUp");
             });
         console.log(sendData)
-        if(sendData.data.isSuccess === true){
+        if (sendData.data.isSuccess === true) {
             navigate("/verification");
             dispatch(userData(sendData.data));
             EmptyInput()
             setLoading(false);
-            manageAlert()
         }
-        setTimeout(()=>{
-            manageAlert()
-        } , 100)
     }
 
     const dispatch = useDispatch();
+
+
+    const [type, setType] = useState('password');
+
+    // validated states
+    const [lowerValidated, setLowerValidated] = useState(false);
+    const [upperValidated, setUpperValidated] = useState(false);
+    const [numberValidated, setNumberValidated] = useState(false);
+    const [specialValidated, setSpecialValidated] = useState(false);
+    const [lengthValidated, setLengthValidated] = useState(false);
+
+    const handleChange = (value) => {
+        const lower = new RegExp('(?=.*[a-z])');
+        const upper = new RegExp('(?=.*[A-Z])');
+        const number = new RegExp('(?=.*[0-9])');
+        const special = new RegExp('(?=.*[!@#\$%\^&\*])');
+        const length = new RegExp('(?=.{8,})')
+        if (lower.test(value)) {
+            setLowerValidated(true);
+        } else {
+            setLowerValidated(false);
+        }
+        if (upper.test(value)) {
+            setUpperValidated(true);
+        } else {
+            setUpperValidated(false);
+        }
+        if (number.test(value)) {
+            setNumberValidated(true);
+        } else {
+            setNumberValidated(false);
+        }
+        if (special.test(value)) {
+            setSpecialValidated(true);
+        } else {
+            setSpecialValidated(false);
+        }
+        if (length.test(value)) {
+            setLengthValidated(true);
+        } else {
+            setLengthValidated(false);
+        }
+    }
+
 
     useTitle("ورود اطلاعات")
     return (
@@ -73,6 +113,7 @@ const navigate = useNavigate()
                 position={"relative"}
                 alignItems={"center"}
                 maxWidth={500}
+                overflow={"scroll"}
                 bgcolor={theme.palette.neutralN00.main}
                 container>
                 <Grid
@@ -84,21 +125,7 @@ const navigate = useNavigate()
                     width={"100%"}
                     item>
                     <AppBarVer1 title={"ورود اطلاعات"} link={"login"}/>
-                    {
-                        show ? <Alert sx={{position:"absolute" , bottom:25}} severity="error">
-                            <AlertTitle></AlertTitle>
-                            {"ثبت با مشکل مواجه شد" }
-                            <br/>
-                            <br/>
-                            {"شماره موبایل معتبر وارد نمایید"}
-                            <br/>
-                            <br/>
-                            {"ایمیل معتبر وارد نمایید"}
-                            <br/>
-                            <br/>
-                            {"رمز باید حداقل 8 حرف و شامل حرف عدد و کارکتر باشد مانند a123@Asd"}
-                        </Alert>   : ""
-                    }
+
                     <form onSubmit={manageSubmit}>
                         <Grid
                             display={"flex"}
@@ -147,19 +174,92 @@ const navigate = useNavigate()
                                        }}
 
                             />
-                            <TextField name="password"
-                                       type={"password"}
-                                       required={true}
-                                       label="رمز عبور"
-                                       value={form.password}
-                                       variant="outlined"
-                                       onChange={manageChange}
-                                       sx={{
-                                           width: "100%",
-                                           marginY: 0.5,
-                                       }}
+                            <Grid display={"flex"} flexDirection={"column"} width={"100%"}>
+                                <Grid position={"relative"}>
+                                    <TextField name="password"
+                                               type={type}
+                                               width={"100%"}
+                                               required={true}
+                                               label="رمز عبور"
+                                               value={form.password}
+                                               variant="outlined"
+                                               onChange={(e) => handleChange(e.target.value)}
+                                               sx={{
+                                                   width: "100%",
+                                                   marginY: 0.5,
+                                               }}
 
-                            />
+                                    />
+                                    {type === "password" ? (
+                                        <Box sx={{position: "absolute", top: "23px", right: "15px"}}
+                                             onClick={() => setType("text")}>
+                                            <VisibilityOffIcon/>
+                                        </Box>
+                                    ) : (
+                                        <Box sx={{position: "absolute", top: "23px", right: "15px"}}
+                                             onClick={() => setType("password")}>
+                                            <RemoveRedEyeIcon/>
+                                        </Box>
+                                    )}
+                                </Grid>
+
+                                {/* validation tracker */}
+                                <Grid>
+                                    <Box>
+                                        {lowerValidated ? (
+                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                    color={"success"}/>
+                                        ) : (
+                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                     color={"error"}/>
+                                        )}
+                                        {"شامل حروف انگلیسی  کوچک"}
+                                    </Box>
+                                    <Box>
+                                        {upperValidated ? (
+                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                    color={"success"}/>
+                                        ) : (
+                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                     color={"error"}/>
+                                        )}
+                                        {"شامل حروف انگلیسی بزرگ"}
+                                    </Box>
+                                    <Box>
+                                        {numberValidated ? (
+                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                    color={"success"}/>
+                                        ) : (
+                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                     color={"error"}/>
+                                        )}
+                                        {"شامل عدد"}
+                                    </Box>
+                                    <Box>
+                                        {specialValidated ? (
+                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                    color={"success"}/>
+
+                                        ) : (
+                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                     color={"error"}/>
+                                        )}
+                                        {"شامل علائم (@!#$%&*)"}
+                                    </Box>
+                                    <Box>
+                                        {lengthValidated ? (
+                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                    color={"success"}/>
+                                        ) : (
+                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                                                     color={"error"}/>
+                                        )}
+                                        {"حداقل 8 حرف باشد"}
+                                    </Box>
+                                </Grid>
+                            </Grid>
+
+
                             <TextField name="rePassword"
                                        required={true}
                                        type={"password"}

@@ -1,6 +1,7 @@
 import {Grid, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import theme from "../../../themes/theme";
 
 
 const AppBarVer1 = ({title , link}) => {

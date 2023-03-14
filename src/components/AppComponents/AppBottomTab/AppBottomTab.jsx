@@ -9,10 +9,10 @@ import {Link} from "react-router-dom";
 
 const AppBottomTab = () => {
 
-    const [select, setSelect] = useState(true);
+    const [select, setSelect] = useState("Accounting");
 
 
-    const manageSelect = () => setSelect(!select)
+    const manageSelect = (value) => setSelect(value)
     useTitle("برنامه حسابداری")
 
     return (
@@ -22,6 +22,8 @@ const AppBottomTab = () => {
             width={"100%"}
             maxWidth={500}
             position={"fixed"}
+            bgcolor={theme.palette.neutralN00.main}
+            paddingY={2}
             sx={{boxShadow: "0px -4px 6px 0px rgba(0, 0, 0, 0.1)"}}
             bottom={0}
             containe>
@@ -35,18 +37,17 @@ const AppBottomTab = () => {
                     transition: 0.5,
                 }}
                 xs={6}
-
-                bgcolor={"white"} item>
+                 item>
                 <Link to={"/app"}>
                     <Box
                         display={"flex"}
                         alignItems={"center"}
                         justifyContent={"center"}
                         flexDirection={"column"}
-                        onClick={manageSelect}>
-                        <AccountBalanceIcon color={select ? "primary" : "neutralN40"}/>
+                        onClick={()=>manageSelect("Accounting")}>
+                        <AccountBalanceIcon color={select === "Accounting" ? "primary" : "neutralN40"}/>
                         <Typography
-                            color={select ? theme.palette.primary.main : theme.palette.neutralN40.main}
+                            color={select === "Accounting" ? theme.palette.primary.main : theme.palette.neutralN40.main}
                             variant={"h3"}>
                             {"حسابداری"}
                         </Typography>
@@ -59,7 +60,7 @@ const AppBottomTab = () => {
                 alignItems={"center"}
                 justifyContent={"center"}
                 xs={6}
-                onClick={manageSelect}
+                onClick={()=>manageSelect("Profile")}
                 sx={{
                     cursor: 'pointer',
                     transition: 0.5,
@@ -70,10 +71,10 @@ const AppBottomTab = () => {
                          alignItems={"center"}
                          justifyContent={"center"}
                          flexDirection={"column"}
-                         onClick={manageSelect}>
-                        <ManageAccountsIcon color={!select ? "primary" : "neutralN40"}/>
+                         onClick={()=>manageSelect("Profile")}>
+                        <ManageAccountsIcon color={ select === "Profile" ? "primary" : "neutralN40"}/>
                         <Typography
-                            color={!select ? theme.palette.primary.main : theme.palette.neutralN40.main}
+                            color={select === "Profile" ? theme.palette.primary.main : theme.palette.neutralN40.main}
                             variant={"h3"}>
                             {"حساب کاربری"}
                         </Typography>
