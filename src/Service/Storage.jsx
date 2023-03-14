@@ -1,10 +1,11 @@
 const Storage = () => {
 
     return {
-        setLogin: (userId, accessToken) => {
+        setLogin: (userId, accessToken , kind) => {
             const data = {
                 userId,
                 accessToken,
+                kind,
             };
             localStorage.setItem("auth", JSON.stringify(data));
         },
@@ -31,6 +32,15 @@ const Storage = () => {
             const auth = JSON.parse(key);
             return auth.accessToken;
         },
+        get kind() {
+            const key = localStorage.getItem("auth");
+            if (key == null) {
+                return false;
+            }
+            const auth = JSON.parse(key);
+            return auth.kind;
+        },
+
         setAccessToken: (accessToken) => {
             const key = localStorage.getItem("auth");
             const auth = JSON.parse(key);

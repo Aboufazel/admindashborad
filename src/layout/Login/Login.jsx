@@ -18,6 +18,7 @@ const Login = () => {
     const [authInfo, setAuthInfo] = useStorage("auth", {
         userId: "",
         accessToken: "",
+        kind:""
     })
 
     const [state, setState] = useState({
@@ -37,6 +38,7 @@ const Login = () => {
                     setAuthInfo({
                         userId: res.data.token.userId,
                         accessToken: res.data.token.token,
+                        kind:res.data.user.kind,
                     })
                     if (res.data.user.kind === admin){
                         navigate("/");
