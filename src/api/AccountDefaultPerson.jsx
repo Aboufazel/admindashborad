@@ -17,7 +17,7 @@ export const GetAllDefault = () => {
 }
 
 
-export const AddDefaultPerson = (typeId,code, name, canDelete) => {
+export const AddDefaultPerson = (typeId,code, name, canDelete , instict , type) => {
     const data = localStorage.getItem("auth");
     const final = JSON.parse(data);
     return AccountDefaultPerson({
@@ -28,6 +28,8 @@ export const AddDefaultPerson = (typeId,code, name, canDelete) => {
             "DefaultPersonCode": +code,
             "DefaultPersonName": `${name}`,
             "CanDelete": canDelete,
+            "Instict":+instict,
+            "Type":+type,
             "lang": "fa",
         },
         headers: {
@@ -39,7 +41,7 @@ export const AddDefaultPerson = (typeId,code, name, canDelete) => {
 }
 
 
-export const EditDefaultPerson = ( typeId, id, code, name, canDelete) => {
+export const EditDefaultPerson = ( typeId, id, code, name, canDelete , instict , type) => {
     const data = localStorage.getItem("auth");
     const final = JSON.parse(data);
     return AccountDefaultPerson({
@@ -51,6 +53,8 @@ export const EditDefaultPerson = ( typeId, id, code, name, canDelete) => {
             "DefaultPersonCode": +code,
             "DefaultPersonName": `${name}`,
             "CanDelete": canDelete,
+            "Instict":+instict,
+            "Type":+type,
             "lang": "fa",
         },
         headers: {
