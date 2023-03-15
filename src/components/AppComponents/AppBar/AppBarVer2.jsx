@@ -9,6 +9,7 @@ const AppBarVer2 = ({title}) => {
             display={"flex"}
             justifyContent={"start"}
             width={"100%"}
+            height={56}
             padding={1}
             top={0}
             maxWidth={500}

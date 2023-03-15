@@ -103,7 +103,7 @@ const ForgetPass = () => {
                                     type={"submit"}
                                     sx={{
                                         marginTop: 1,
-                                        width: "95%",
+                                        width: "60%",
                                         position: "fixed",
                                         padding: 0.65,
                                         bottom: 16,

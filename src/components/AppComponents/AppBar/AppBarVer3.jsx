@@ -13,6 +13,7 @@ const AppBarVer3 = ({title , link}) => {
             alignItems={"center"}
             justifyContent={"space-between"}
             width={"100%"}
+            height={56}
             padding={1}
             top={0}
             maxWidth={500}

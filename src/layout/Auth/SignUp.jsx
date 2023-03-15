@@ -1,4 +1,4 @@
-import {Box, Button, Grid, TextField} from "@mui/material";
+import {Box, Button, Grid, TextField, Typography} from "@mui/material";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
@@ -35,7 +35,7 @@ const SignUp = () => {
 
     const manageSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading(true);
         const sendData = await CreateNewUser(form.mobile, form.password, form.mail, form.job)
             .catch((error) => {
                 setLoading(false);
@@ -141,6 +141,7 @@ const SignUp = () => {
                                        required={true}
                                        type={"tel"}
                                        label="شماره موبایل"
+                                       error={true}
                                        variant="outlined"
                                        value={form.mobile}
                                        onChange={manageChange}
@@ -205,7 +206,7 @@ const SignUp = () => {
 
                                 {/* validation tracker */}
                                 <Grid>
-                                    <Box>
+                                    <Box display={"flex"}>
                                         {lowerValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -213,9 +214,11 @@ const SignUp = () => {
                                             <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
-                                        {"شامل حروف انگلیسی  کوچک"}
+                                        <Typography variant={"h3"}>
+                                            {"شامل حروف انگلیسی  کوچک"}
+                                        </Typography>
                                     </Box>
-                                    <Box>
+                                    <Box display={"flex"}>
                                         {upperValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -223,9 +226,11 @@ const SignUp = () => {
                                             <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
-                                        {"شامل حروف انگلیسی بزرگ"}
+                                        <Typography variant={"h3"}>
+                                            {"شامل حروف انگلیسی بزرگ"}
+                                        </Typography>
                                     </Box>
-                                    <Box>
+                                    <Box display={"flex"}>
                                         {numberValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -233,9 +238,11 @@ const SignUp = () => {
                                             <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
-                                        {"شامل عدد"}
+                                        <Typography variant={"h3"}>
+                                            {"شامل عدد"}
+                                        </Typography>
                                     </Box>
-                                    <Box>
+                                    <Box display={"flex"}>
                                         {specialValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -244,9 +251,11 @@ const SignUp = () => {
                                             <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
-                                        {"شامل علائم (@!#$%&*)"}
+                                        <Typography variant={"h3"}>
+                                            {"شامل علائم (@!#$%&*)"}
+                                        </Typography>
                                     </Box>
-                                    <Box>
+                                    <Box display={"flex"}>
                                         {lengthValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -254,7 +263,9 @@ const SignUp = () => {
                                             <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
-                                        {"حداقل 8 حرف باشد"}
+                                        <Typography variant={"h3"}>
+                                            {"حداقل 8 حرف باشد"}
+                                        </Typography>
                                     </Box>
                                 </Grid>
                             </Grid>
@@ -276,7 +287,7 @@ const SignUp = () => {
                             <Button
                                 type={"submit"}
                                 sx={{
-                                    width: "95%",
+                                    width: "60%",
                                     position: "fixed",
                                     padding: 0.65,
                                     bottom: 16,

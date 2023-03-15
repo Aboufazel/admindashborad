@@ -10,9 +10,11 @@ const AppBarVer1 = ({title , link}) => {
         <Grid
             display={"flex"}
             justifyContent={"start"}
-            width={"95%"}
+            width={"100%"}
+            height={56}
             maxWidth={500}
             position={"fixed"}
+            bgcolor={theme.palette.neutralN00.main}
             padding={1}
             top={0}>
             <Link to={`/${link}`}>
