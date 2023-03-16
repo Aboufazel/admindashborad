@@ -7,19 +7,22 @@ import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
 import {useSelector} from "react-redux";
 import Loader from "../../Loader/Loader";
 import {VerifyCode} from "../../api/Services";
+import WhiteLoader from "../../Loader/WhiteLoader";
+import {useState} from "react";
 
 const Verification = () => {
     useTitle("احراز هویت");
-
+    const [loading, setLoading] = useState(false);
     const Mobile = useSelector(state => state.action);
     const navigate = useNavigate();
 
 
       const manageVerification = async () =>{
-
+          setLoading(true);
           const sendData = await VerifyCode(Mobile.data.verify , Mobile.data.userId).catch();
           if (sendData.data.isSuccess === true){
               navigate("/app")
+              setLoading(false)
           }
 
           console.log(sendData)
@@ -100,7 +103,9 @@ const Verification = () => {
                         }} variant={"contained"}
                         onClick={()=>manageVerification()}
                         color={"primary"}>
-                        {"ثبت"}
+                        {
+                            loading === false ? "ثبت" : <WhiteLoader/>
+                        }
                     </Button>
                 </Grid>
             </Grid>

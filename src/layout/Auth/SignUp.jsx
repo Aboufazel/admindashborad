@@ -1,4 +1,4 @@
-import {Box, Button, Grid, TextField, Typography} from "@mui/material";
+import {Alert, Box, Button, Grid, TextField, Typography, Zoom} from "@mui/material";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
@@ -14,44 +14,21 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import * as Yup from "yup";
+
 
 const SignUp = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
-    const [show, setShow] = useState(false);
+    const [helperText, setHelperTex] = useState({mobile: "", passWord: "" , rePassword:""});
     const [form, setForm] = useState([
-        {mobile: "", job: "", mail: "", password: "", rePassword: ""},
+        {mobile: "", job: "", email: "", password: "", rePassword: ""}
     ])
 
-    const manageChange = (e )=> {
-        setForm({...form, [e.target.name]: e.target.value});
-    }
+
+    const [error, setError] = useState({mobile: false, passWord: false , rePassword:false})
 
 
-    const EmptyInput = () => {
-        setForm({mobile: "", job: "", mail: "", password: "", rePassword: ""});
-    }
-
-
-    const manageSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        const sendData = await CreateNewUser(form.mobile, form.password, form.mail, form.job)
-            .catch((error) => {
-                setLoading(false);
-                console.log(error);
-                navigate("/signUp");
-            });
-        console.log(sendData)
-        if (sendData.data.isSuccess === true) {
-            navigate("/verification");
-            dispatch(userData(sendData.data));
-            EmptyInput()
-            setLoading(false);
-        }
-    }
-
-    const dispatch = useDispatch();
 
 
     const [type, setType] = useState('password');
@@ -63,38 +40,98 @@ const SignUp = () => {
     const [specialValidated, setSpecialValidated] = useState(false);
     const [lengthValidated, setLengthValidated] = useState(false);
 
-    const handleChange = (value) => {
-        const lower = new RegExp('(?=.*[a-z])');
-        const upper = new RegExp('(?=.*[A-Z])');
-        const number = new RegExp('(?=.*[0-9])');
-        const special = new RegExp('(?=.*[!@#\$%\^&\*])');
-        const length = new RegExp('(?=.{8,})')
-        if (lower.test(value)) {
-            setLowerValidated(true);
+    const manageChange = (e) => {
+        if (e.target.name === "password"){
+            setForm({...form, [e.target.name]: e.target.value});
+            const lower = new RegExp('(?=.*[a-z])');
+            const upper = new RegExp('(?=.*[A-Z])');
+            const number = new RegExp('(?=.*[0-9])');
+            const special = new RegExp('(?=.*[!@#\$%\^&\*])');
+            const length = new RegExp('(?=.{8,})')
+            if (lower.test(e.target.value)) {
+                setLowerValidated(true);
+            } else {
+                setLowerValidated(false);
+            }
+            if (upper.test(e.target.value)) {
+                setUpperValidated(true);
+            } else {
+                setUpperValidated(false);
+            }
+            if (number.test(e.target.value)) {
+                setNumberValidated(true);
+            } else {
+                setNumberValidated(false);
+            }
+            if (special.test(e.target.value)) {
+                setSpecialValidated(true);
+            } else {
+                setSpecialValidated(false);
+            }
+            if (length.test(e.target.value)) {
+                setLengthValidated(true);
+            } else {
+                setLengthValidated(false);
+            }
         } else {
-            setLowerValidated(false);
-        }
-        if (upper.test(value)) {
-            setUpperValidated(true);
-        } else {
-            setUpperValidated(false);
-        }
-        if (number.test(value)) {
-            setNumberValidated(true);
-        } else {
-            setNumberValidated(false);
-        }
-        if (special.test(value)) {
-            setSpecialValidated(true);
-        } else {
-            setSpecialValidated(false);
-        }
-        if (length.test(value)) {
-            setLengthValidated(true);
-        } else {
-            setLengthValidated(false);
+            setForm({...form, [e.target.name]: e.target.value});
         }
     }
+
+
+    const EmptyInput = () => {
+        setForm({mobile: "", job: "", mail: "", password: "", rePassword: ""});
+    }
+
+
+    const manageSubmit = async (e) => {
+        e.preventDefault();
+        setError({mobile: false, passWord: false , rePassword: false})
+        setHelperTex({mobile: "", passWord: ""})
+        setLoading(true);
+        if(form.password === form.rePassword){
+            const sendData = await CreateNewUser(form.mobile, form.password, form.mail, form.job)
+                .catch((error) => {
+                    setLoading(false);
+                    if (error.response.data.errors.Mobile !== undefined && error.response.data.errors.passWord !== undefined) {
+                        setError({mobile: true, passWord: true});
+                        console.log(error.response.data.errors.Mobile[0])
+                        setHelperTex({
+                            mobile: `${error.response.data.errors.Mobile[0]}`,
+                            passWord: `${error.response.data.errors.passWord[0]}`
+                        })
+                    } else if (error.response.data.errors.Mobile !== undefined) {
+                        setError({mobile: true, passWord: false})
+                        setHelperTex({mobile: "", passWord: `${error.response.data.errors.passWord[0]}`})
+
+                    } else if (error.response.data.errors.passWord !== undefined) {
+                        setError({mobile: false, passWord: true})
+                        setHelperTex({mobile: `${error.response.data.errors.Mobile[0]}`, passWord: ""})
+
+                    }
+
+                    console.log(error.response.data.errors);
+                    navigate("/signUp");
+                });
+            if (sendData.data.isSuccess === true) {
+                navigate("/verification");
+                dispatch(userData(sendData.data));
+                EmptyInput()
+                setLoading(false);
+            }
+        }else {
+            setError({passWord: true , rePassword: true})
+            setLoading(false)
+        }
+
+    }
+
+    const dispatch = useDispatch();
+
+
+
+
+
 
 
     useTitle("ورود اطلاعات")
@@ -141,8 +178,9 @@ const SignUp = () => {
                                        required={true}
                                        type={"tel"}
                                        label="شماره موبایل"
-                                       error={true}
                                        variant="outlined"
+                                       error={error.mobile}
+                                       helperText={error.mobile ? "شماره موبایل درست نیست" : ""}
                                        value={form.mobile}
                                        onChange={manageChange}
                                        sx={{
@@ -182,9 +220,11 @@ const SignUp = () => {
                                                width={"100%"}
                                                required={true}
                                                label="رمز عبور"
+                                               error={error.passWord}
                                                value={form.password}
+                                               helperText={error.passWord ? "پسورد  همخوانی ندارد" : ""}
                                                variant="outlined"
-                                               onChange={(e) => handleChange(e.target.value)}
+                                               onChange={manageChange}
                                                sx={{
                                                    width: "100%",
                                                    marginY: 0.5,
@@ -276,7 +316,9 @@ const SignUp = () => {
                                        type={"password"}
                                        label="تکرار رمز عبور"
                                        variant="outlined"
+                                       error={error.rePassword}
                                        value={form.rePassword}
+                                       helperText={error.rePassword ? "پسورد همخوانی ندارد" : ""}
                                        onChange={manageChange}
                                        sx={{
                                            width: "100%",
