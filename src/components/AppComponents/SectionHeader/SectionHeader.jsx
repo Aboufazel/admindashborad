@@ -9,7 +9,7 @@ const SectionHeader = ({title , margin , price , badge}) => {
             display={"flex"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            height={"max-content"}
+            height={30}
             width={"100%"}
             marginTop={margin}
             padding={0.78}

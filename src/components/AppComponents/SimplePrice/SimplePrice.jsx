@@ -8,7 +8,7 @@ const SimplePrice = ({title , price , badge , padding}) => {
         <Grid
             display={"flex"}
             alignItems={"center"}
-            height={"max-content"}
+            height={40}
             width={"100%"}
             padding={padding}
             container>

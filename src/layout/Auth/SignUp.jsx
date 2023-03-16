@@ -23,7 +23,7 @@ const SignUp = () => {
         {mobile: "", job: "", mail: "", password: "", rePassword: ""},
     ])
 
-    const manageChange = e => {
+    const manageChange = (e )=> {
         setForm({...form, [e.target.name]: e.target.value});
     }
 
@@ -206,7 +206,7 @@ const SignUp = () => {
 
                                 {/* validation tracker */}
                                 <Grid>
-                                    <Box display={"flex"}>
+                                    <Box display={"flex"} marginY={0.5}>
                                         {lowerValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -218,7 +218,7 @@ const SignUp = () => {
                                             {"شامل حروف انگلیسی  کوچک"}
                                         </Typography>
                                     </Box>
-                                    <Box display={"flex"}>
+                                    <Box display={"flex"} marginY={0.5}>
                                         {upperValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -230,7 +230,7 @@ const SignUp = () => {
                                             {"شامل حروف انگلیسی بزرگ"}
                                         </Typography>
                                     </Box>
-                                    <Box display={"flex"}>
+                                    <Box display={"flex"} marginY={0.5}>
                                         {numberValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -242,7 +242,7 @@ const SignUp = () => {
                                             {"شامل عدد"}
                                         </Typography>
                                     </Box>
-                                    <Box display={"flex"}>
+                                    <Box display={"flex"} marginY={0.5}>
                                         {specialValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
@@ -255,7 +255,7 @@ const SignUp = () => {
                                             {"شامل علائم (@!#$%&*)"}
                                         </Typography>
                                     </Box>
-                                    <Box display={"flex"}>
+                                    <Box display={"flex"} marginY={0.5}>
                                         {lengthValidated ? (
                                             <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
