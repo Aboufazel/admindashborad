@@ -56,7 +56,7 @@ const Login = () => {
                     setChecked((prev) => !prev);
                     setTimeout(() => {
                         setShowAlert(false)
-                    }, 500)
+                    }, 4500)
                 }
             })
 

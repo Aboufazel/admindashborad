@@ -14,25 +14,44 @@ const ForgetPass = () => {
 
     const [message , setMessage] = useState(0);
 
-    const [show , setShow] = useState(false)
+    const [show , setShow] = useState(false);
+    const [error , setError] = useState(false)
 
-    const [loading , setLoading] = useState(false)
+    const [loading , setLoading] = useState(false);
+
+
+    const InputValidate = () => {
+        if(form.user.length !== 11){
+            setError(true)
+        }else if(form.user.length === 11){
+            setError(false)
+        }
+    }
 
     const manageChange = e => {
         setForm({...form, [e.target.name]: e.target.value});
+        InputValidate();
     }
 
     const ManageSendData = async (e) => {
         e.preventDefault();
+        InputValidate();
+        if(form.user.length !== 11){
+            setError(true)
+        }
         setLoading(true)
-        console.log(form)
         const sendData = await forgetPass(form.user).catch((error)=>{
             setLoading(false);
-            alert(error)
         });
-        setMessage(sendData.data.data.passWord);
-        setShow(true)
-        setLoading(false);
+       if(sendData.data.isSuccess){
+           setMessage(sendData.data.data.passWord);
+           setShow(true)
+           setLoading(false);
+       }else {
+           setMessage(sendData.data.message);
+           setShow(true)
+           setLoading(false);
+       }
 
         setTimeout(()=>{
             setShow(false)
@@ -92,6 +111,8 @@ const ForgetPass = () => {
                                            label="شماره موبایل"
                                            value={form.user}
                                            variant="outlined"
+                                           error={error}
+                                           helperText={error ? "فرمت شماره موبایل درست نیست" : ""}
                                            onChange={manageChange}
                                            sx={{
                                                width: "100%",
@@ -103,7 +124,7 @@ const ForgetPass = () => {
                                     type={"submit"}
                                     sx={{
                                         marginTop: 1,
-                                        width: "60%",
+                                        width: "90%",
                                         position: "fixed",
                                         padding: 0.65,
                                         bottom: 16,

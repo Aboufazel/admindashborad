@@ -12,7 +12,7 @@ const SectionHeader = ({title , margin , price , badge}) => {
             height={30}
             width={"100%"}
             marginTop={margin}
-            padding={0.78}
+            paddingX={0.78}
             bgcolor={theme.palette.primary.extraLight}
             container>
             <Typography variant={"h3"} color={theme.palette.neutralN100} fontWeight={"bold"}>

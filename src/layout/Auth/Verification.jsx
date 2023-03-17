@@ -95,7 +95,7 @@ const Verification = () => {
                         type={"submit"}
                         sx={{
                             marginTop: 1,
-                            width: "60%",
+                            width: "90%",
                             padding: 0.65,
                             position: "fixed",
                             maxWidth: 500,

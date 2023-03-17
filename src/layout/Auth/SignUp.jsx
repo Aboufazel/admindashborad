@@ -20,15 +20,14 @@ import * as Yup from "yup";
 const SignUp = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
-    const [helperText, setHelperTex] = useState({mobile: "", passWord: "" , rePassword:""});
+    const [helperText, setHelperTex] = useState({mobile: "", passWord: "", rePassword: ""});
     const [form, setForm] = useState([
         {mobile: "", job: "", email: "", password: "", rePassword: ""}
     ])
 
 
-    const [error, setError] = useState({mobile: false, passWord: false , rePassword:false})
-
-
+    const [error, setError] = useState({mobile: false, passWord: false, rePassword: false})
+    const [button, setButton] = useState(true)
 
 
     const [type, setType] = useState('password');
@@ -41,8 +40,9 @@ const SignUp = () => {
     const [lengthValidated, setLengthValidated] = useState(false);
 
     const manageChange = (e) => {
-        if (e.target.name === "password"){
+        if (e.target.name === "password") {
             setForm({...form, [e.target.name]: e.target.value});
+
             const lower = new RegExp('(?=.*[a-z])');
             const upper = new RegExp('(?=.*[A-Z])');
             const number = new RegExp('(?=.*[0-9])');
@@ -55,6 +55,7 @@ const SignUp = () => {
             }
             if (upper.test(e.target.value)) {
                 setUpperValidated(true);
+
             } else {
                 setUpperValidated(false);
             }
@@ -65,17 +66,30 @@ const SignUp = () => {
             }
             if (special.test(e.target.value)) {
                 setSpecialValidated(true);
+
             } else {
                 setSpecialValidated(false);
+
             }
             if (length.test(e.target.value)) {
                 setLengthValidated(true);
+
             } else {
                 setLengthValidated(false);
             }
         } else {
             setForm({...form, [e.target.name]: e.target.value});
+
+            if (lowerValidated === true
+                && upperValidated === true
+                && numberValidated === true
+                && specialValidated === true
+                && lengthValidated === true) {
+                setButton(false)
+            }
         }
+
+
     }
 
 
@@ -86,10 +100,10 @@ const SignUp = () => {
 
     const manageSubmit = async (e) => {
         e.preventDefault();
-        setError({mobile: false, passWord: false , rePassword: false})
+        setError({mobile: false, passWord: false, rePassword: false})
         setHelperTex({mobile: "", passWord: ""})
         setLoading(true);
-        if(form.password === form.rePassword){
+        if (form.password === form.rePassword) {
             const sendData = await CreateNewUser(form.mobile, form.password, form.mail, form.job)
                 .catch((error) => {
                     setLoading(false);
@@ -119,19 +133,14 @@ const SignUp = () => {
                 EmptyInput()
                 setLoading(false);
             }
-        }else {
-            setError({passWord: true , rePassword: true})
+        } else {
+            setError({passWord: true, rePassword: true})
             setLoading(false)
         }
 
     }
 
     const dispatch = useDispatch();
-
-
-
-
-
 
 
     useTitle("ورود اطلاعات")
@@ -246,61 +255,61 @@ const SignUp = () => {
 
                                 {/* validation tracker */}
                                 <Grid>
-                                    <Box display={"flex"} marginY={0.5}>
+                                    <Box display={"flex"} alignItems={"center"} marginY={0.5}>
                                         {lowerValidated ? (
-                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <CheckCircleOutlineIcon fontSize="10px" sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
                                         ) : (
-                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <RemoveCircleOutlineIcon fontSize="10px" sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
                                         <Typography variant={"h3"}>
                                             {"شامل حروف انگلیسی  کوچک"}
                                         </Typography>
                                     </Box>
-                                    <Box display={"flex"} marginY={0.5}>
+                                    <Box display={"flex"} alignItems={"center"} marginY={0.5}>
                                         {upperValidated ? (
-                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <CheckCircleOutlineIcon fontSize="10px"  sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
                                         ) : (
-                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <RemoveCircleOutlineIcon fontSize="10px"  sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
                                         <Typography variant={"h3"}>
                                             {"شامل حروف انگلیسی بزرگ"}
                                         </Typography>
                                     </Box>
-                                    <Box display={"flex"} marginY={0.5}>
+                                    <Box display={"flex"} alignItems={"center"} marginY={0.5}>
                                         {numberValidated ? (
-                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <CheckCircleOutlineIcon fontSize="10px"  sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
                                         ) : (
-                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <RemoveCircleOutlineIcon fontSize="10px"  sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
                                         <Typography variant={"h3"}>
                                             {"شامل عدد"}
                                         </Typography>
                                     </Box>
-                                    <Box display={"flex"} marginY={0.5}>
+                                    <Box display={"flex"} alignItems={"center"} marginY={0.5}>
                                         {specialValidated ? (
-                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <CheckCircleOutlineIcon fontSize="10px"  sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
 
                                         ) : (
-                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <RemoveCircleOutlineIcon fontSize="10px"  sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
                                         <Typography variant={"h3"}>
                                             {"شامل علائم (@!#$%&*)"}
                                         </Typography>
                                     </Box>
-                                    <Box display={"flex"} marginY={0.5}>
+                                    <Box display={"flex"} alignItems={"center"} marginY={0.5}>
                                         {lengthValidated ? (
-                                            <CheckCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <CheckCircleOutlineIcon fontSize="10px"  sx={{marginRight: 0.5}}
                                                                     color={"success"}/>
                                         ) : (
-                                            <RemoveCircleOutlineIcon fontSize="small" sx={{marginRight: 0.5}}
+                                            <RemoveCircleOutlineIcon fontSize="10px"  sx={{marginRight: 0.5}}
                                                                      color={"error"}/>
                                         )}
                                         <Typography variant={"h3"}>
@@ -329,12 +338,13 @@ const SignUp = () => {
                             <Button
                                 type={"submit"}
                                 sx={{
-                                    width: "60%",
+                                    width: "90%",
                                     position: "fixed",
                                     padding: 0.65,
                                     bottom: 16,
                                     maxWidth: 500
                                 }} variant={"contained"}
+                                disabled={button}
                                 color={"primary"}>
                                 {
                                     loading === false ? "ثبت" : <WhiteLoader/>
