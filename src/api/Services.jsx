@@ -65,12 +65,14 @@ export const Edit = (userid, usertype, owner, username, password, mobile, email,
 }
 
 //use for delete user
-export const deleteUser = (userid , token) => {
-    Api.delete(`/UserService/api/Users/remove?userTypeId=${userid}`, {
+export const deleteUser = (userid) => {
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+    Api.delete(`/UserService/api/Users/Delete?userId=${userid}`, {
         headers: {
-            "selfuserid": `${userid}`,
-            "token": `${token}`
-        }
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
+        },
     })
 }
 

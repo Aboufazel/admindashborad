@@ -1,4 +1,4 @@
-import {Breadcrumb, Col, Button ,Container,Row} from "react-bootstrap";
+import {Breadcrumb, Col, Button, Container, Row, Modal} from "react-bootstrap";
 
 import '../main.style.css'
 import '../../components/CustomTable/table.style.css'
@@ -60,17 +60,26 @@ const Category = () => {
 
 
     const manageDelete = async (userid) => {
-        const item = await deleteUser(userid , token);
-        if(item === undefined){
-            alert("حذف با مشکل مواجه شد")
-        }else {
-            alert("عملیات با موفقیت انجام شد")
-        }
+        setDeleteModalShow(false);
+        const removeData = await deleteUser(userid).catch(alert(error));
     }
 
 
 
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(undefined);
+    const manageDeleteModal = (id)=>{
+        setDeleteModalShow(true);
+        setDeleteModal(id);
+    }
 
+    const handleClose = () => {
+        setDeleteModalShow(false);
+    };
+
+    const handleDeleteClose = ()=>{
+        setDeleteModalShow(false);
+    }
 
     useEffect(() => {
         manageGetdata();
@@ -82,7 +91,27 @@ const Category = () => {
 
 
     return (
+
+
+
         <Container>
+
+            <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
+                <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
+                    {"آیا از حذف حساب اطمینان دارید؟"}
+                    <Row className={"d-flex flex-row justify-content-center"}>
+                        <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                            <Button className={'save_btn'} onClick={handleDeleteClose}>
+                                {"انصراف"}
+                            </Button>
+                            <Button className={'close_btn'} onClick={() => manageDelete(deleteModal)}>
+                                {"حذف"}
+                            </Button>
+                        </Col>
+                    </Row>
+                </Modal.Body>
+            </Modal>
+
             <Row>
                 <Col>
                     <Breadcrumb>
@@ -176,7 +205,7 @@ const Category = () => {
                                                                                        bgColor={"--color-danger"}
                                                                                        tooltip={"حذف کاربر"}
                                                                                        icon={faTrash}
-                                                                                       onClick={() => manageDelete(item.userTypeId)}/>
+                                                                                       onClick={() => manageDeleteModal(item.userId)}/>
                                                                 </td>
                                                             </tr>
                                                         ))
