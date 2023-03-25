@@ -5,7 +5,7 @@ import '../../components/CustomTable/table.style.css'
 import FilterBox from "../../components/FilterBox/FilterBox";
 
 import {useCallback, useEffect, useState} from "react";
-import {deleteUser, EditStatus, GetAllFromUser} from "../../api/Services";
+import {deleteUser, EditStatus, GetAllFromUser, GetById} from "../../api/Services";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../Loader/Loader";
@@ -16,8 +16,9 @@ const Category = () => {
     const [id, setId] = useState({});
     const [token, setToken] = useState({});
     const [data, setData] = useState(undefined)
-
-
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(undefined);
+    const [edit, setEdit] = useState({userId: "", userTypeId: "", userOwnerId: "", userName: "", passWord:"", mobile:"" , email:""});
     const [call, setCall] = useState(false)
     const [btn, setBtn] = useState(false)
     const [error, setError] = useState(false)
@@ -55,7 +56,17 @@ const Category = () => {
 
 
     const manageEditUser = async (userid) => {
-
+        const getUser = await GetById (userid).catch()
+        getUser.data.users.map(item => setEdit({
+            userId: item.userId,
+            userTypeId:item.userTypeId,
+            userOwnerId: item.userOwnerId, userName: item.userName, passWord: item.passWord , mobile: item.mobile ,email: item.email
+        }))
+        if (getUser.status === 200) {
+            setLoading(false)
+        } else {
+            setDeleteModalShow(false)
+        }
     }
 
 
@@ -66,19 +77,27 @@ const Category = () => {
 
 
 
-    const [deleteModalShow, setDeleteModalShow] = useState(false);
-    const [deleteModal, setDeleteModal] = useState(undefined);
+
     const manageDeleteModal = (id)=>{
         setDeleteModalShow(true);
         setDeleteModal(id);
     }
 
+
+    const manageEditChange = (e) => {
+        setEdit({...edit, [e.target.name]: e.target.value});
+    }
     const handleClose = () => {
         setDeleteModalShow(false);
     };
 
     const handleDeleteClose = ()=>{
         setDeleteModalShow(false);
+    }
+
+
+    const manageSendEditAccount = ()=>{
+
     }
 
     useEffect(() => {
@@ -95,6 +114,47 @@ const Category = () => {
 
 
         <Container>
+            {/*<Modal show={deleteModalShow} onHide={handleClose}>*/}
+            {/*    <Modal.Header closeButton>*/}
+            {/*        <Modal.Title className={'modal_title'}>*/}
+            {/*            {"ویرایش حساب"}*/}
+            {/*        </Modal.Title>*/}
+            {/*        {*/}
+            {/*            btn === true ? <Loader/> : <div></div>*/}
+            {/*        }*/}
+            {/*    </Modal.Header>*/}
+            {/*    {loading === true ?*/}
+            {/*        <div className={"d-flex w-100 justify-content-center"}><Loader/>*/}
+            {/*        </div> :*/}
+            {/*        <Modal.Body*/}
+            {/*            class={'d-flex flex-column justify-content-start p-3'}>*/}
+            {/*            <Row className={"my-3"}>*/}
+            {/*                <Col className={"d-flex align-items-center col-12"}>*/}
+            {/*                    <label style={{fontFamily: 'iran-sans'}}*/}
+            {/*                           className={"me-2"}>{"کد گروه:"}</label>*/}
+            {/*                    <input name={"code"} onChange={manageEditChange}*/}
+            {/*                           value={edit.code} className={'p-2'}/>*/}
+            {/*                </Col>*/}
+            {/*            </Row>*/}
+            {/*            <Row className={"my-3"}>*/}
+            {/*                <Col className={"d-flex align-items-center col-12"}>*/}
+            {/*                    <label style={{fontFamily: 'iran-sans'}}*/}
+            {/*                           className={"me-2"}>{"نام گروه:"}</label>*/}
+            {/*                    <input name={"name"} onChange={manageEditChange}*/}
+            {/*                           value={edit.name} className={'p-2'}/>*/}
+            {/*                </Col>*/}
+            {/*            </Row>*/}
+            {/*        </Modal.Body>*/}
+            {/*    }*/}
+            {/*    <Modal.Footer>*/}
+            {/*        <Button className={'close_btn'} onClick={handleDeleteClose}>*/}
+            {/*            {"بستن"}*/}
+            {/*        </Button>*/}
+            {/*        <Button onClick={() => manageSendEditAccount()} className={'save_btn'}>*/}
+            {/*            {"ویرایش گروه"}*/}
+            {/*        </Button>*/}
+            {/*    </Modal.Footer>*/}
+            {/*</Modal>*/}
 
             <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
                 <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>

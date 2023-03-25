@@ -281,6 +281,7 @@ const AccountingGroup = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+
                                 <Modal show={editShow} onHide={handleEditClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title className={'modal_title'}>
@@ -322,6 +323,8 @@ const AccountingGroup = () => {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+
+
                                 <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         {"آیا از حذف حساب اطمینان دارید؟"}
