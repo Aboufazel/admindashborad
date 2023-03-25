@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 //api axios base url
 const Api = axios.create({
     baseURL: "http://siavashma.ir"
@@ -115,6 +116,25 @@ export const VerifyCode = (code , userId)=>{
     return Api({
         method:"put",
         url:`/userservice/api/users/EditVerify?verify=${+code}&userid=${+userId}`,
+    })
+}
+
+
+export const EditStatus = (userId , isActive ) => {
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+    return Api({
+        method: 'PUT',
+        url: '/userservice/api/users/EditStatus',
+        params: {
+            "UserId": userId,
+            "status": isActive
+        },
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json'
+        }
     })
 }
 export default Api;

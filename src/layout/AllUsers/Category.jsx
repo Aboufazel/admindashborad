@@ -5,28 +5,26 @@ import '../../components/CustomTable/table.style.css'
 import {GiveIdContext} from "../../Context/GiveId"
 import FilterBox from "../../components/FilterBox/FilterBox";
 
-import {useCallback, useContext, useEffect, useState} from "react";
-import {deleteUser, GetAllFromUser, GetById} from "../../api/Services";
+import {useCallback, useEffect, useState} from "react";
+import {deleteUser, EditStatus, GetAllFromUser} from "../../api/Services";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {useNavigate} from "react-router-dom";
 import Loader from "../../Loader/Loader";
-import {EditIsActive} from "../../api/AccountGroup";
 
 
 
 const Category = () => {
     const [id, setId] = useState({});
-    const {state , dispatch} = useContext(GiveIdContext)
     const [token, setToken] = useState({});
     const [data, setData] = useState(undefined)
 
 
     const [call, setCall] = useState(false)
+    const [btn, setBtn] = useState(false)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    const navigate = useNavigate();
+
 
     const manageGetdata = useCallback(() => {
         const data =  localStorage.getItem("auth");
@@ -38,10 +36,10 @@ const Category = () => {
 
 
     const manageActive = async (id, active) => {
-        const activeResponse = await EditIsActive(id, active)
-            .catch(() => {
-
-            });
+        setBtn(true)
+        const activeResponse = await EditStatus(id, active === 0 ? 1 : 0).catch(() => {});
+        setCall(!call)
+        setBtn(false)
     }
     const manageUserTable = useCallback(async () => {
         const apiData = await GetAllFromUser(id, token).catch(() => setError(true));
@@ -58,16 +56,7 @@ const Category = () => {
 
 
     const manageEditUser = async (userid) => {
-        setLoading(true)
-        const user = await GetById(userid);
-        if (user.data.rows === 0) {
-            alert("پاسخی از سمت سرور دریافت نشد")
-            setLoading(false)
-        } else if (user.data.rows !== 0) {
-            dispatch({type: 'UserData' , payload:user})
-            setLoading(false)
-            navigate("/editUser")
-        }
+
     }
 
 
@@ -79,6 +68,9 @@ const Category = () => {
             alert("عملیات با موفقیت انجام شد")
         }
     }
+
+
+
 
 
     useEffect(() => {
@@ -111,6 +103,9 @@ const Category = () => {
                             <p>
                                 {'کاربران'}
                             </p>
+                            {
+                                btn ? <Loader/> : ""
+                            }
                         </Col>
                     </Row>
                     <Row>
@@ -160,10 +155,18 @@ const Category = () => {
                                                                 <td className={"p-2"}>{item.email}</td>
                                                                 <td className={"p-2"}>{item.kind === 4 ? "مدیر" : "کاربر عادی"}</td>
                                                                 <td className={"p-2"}>{item.status === 1 ? <Button
-                                                                    onClick={() => manageActive(item.accountGroupId, !item.isActive)}
-                                                                    variant={"success"} value={true}>{"فعال"}</Button> : <Button
-                                                                    onClick={() => manageActive(item.accountGroupId, !item.isActive)}
-                                                                    variant={"secondary"} value={false}>{"غیر فعال"}</Button>}</td>
+                                                                    onClick={() => manageActive(item.userId, item.status)}
+                                                                    variant={"success"} value={true}>
+                                                                        {
+                                                                            "فعال"
+                                                                        }
+                                                                </Button> : <Button
+                                                                    onClick={() => manageActive(item.userId , item.status)}
+                                                                    variant={"secondary"} value={false}>
+                                                                    {
+                                                                         "غیرفعال"
+                                                                    }
+                                                                </Button>}</td>
                                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                                     <ActionTableButton color={"--text-color-white"}
                                                                                        bgColor={"--color-warning"}
