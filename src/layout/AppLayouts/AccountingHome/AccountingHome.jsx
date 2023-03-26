@@ -1,4 +1,4 @@
-import {Grid,Box, Typography} from "@mui/material";
+import {Grid,Typography} from "@mui/material";
 import AppBarVer2 from "../../../components/AppComponents/AppBar/AppBarVer2";
 import SectionHeader from "../../../components/AppComponents/SectionHeader/SectionHeader";
 import SimplePrice from "../../../components/AppComponents/SimplePrice/SimplePrice";
