@@ -1,4 +1,4 @@
-import {Alert, Box, Button, Grid, TextField, Typography, Zoom} from "@mui/material";
+import {Box, Button, Grid, TextField, Typography, Zoom} from "@mui/material";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
@@ -14,7 +14,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import * as Yup from "yup";
+
 
 
 const SignUp = () => {
@@ -38,7 +38,7 @@ const SignUp = () => {
     const [numberValidated, setNumberValidated] = useState(false);
     const [specialValidated, setSpecialValidated] = useState(false);
     const [lengthValidated, setLengthValidated] = useState(false);
-
+    const dispatch = useDispatch();
     const manageChange = (e) => {
         if (e.target.name === "password") {
             setForm({...form, [e.target.name]: e.target.value});
@@ -140,7 +140,7 @@ const SignUp = () => {
 
     }
 
-    const dispatch = useDispatch();
+
 
 
     useTitle("ورود اطلاعات")

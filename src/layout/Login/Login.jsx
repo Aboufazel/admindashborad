@@ -2,22 +2,23 @@ import "./login.style.css"
 import {LoginApi} from "../../api/Services"
 import {Link, useNavigate} from "react-router-dom";
 import useStorage from "../../hooks/storage";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {Alert, Box, Button, Grid, TextField, Typography, Zoom} from "@mui/material";
 import WhiteLoader from "../../Loader/WhiteLoader";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
-import Storage from "../../Service/Storage";
-
+import {GiveIdContext} from "../../Context/GiveId";
 const Login = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [message, setMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [checked, setChecked] = useState(false);
-
+    const {dispatch} = useContext(GiveIdContext)
 
 
     const navigate = useNavigate();
+
+
     const [authInfo, setAuthInfo] = useStorage("auth", {
         userId: "",
         accessToken: "",
@@ -29,36 +30,36 @@ const Login = () => {
         password: "",
     });
 
-    const manageSubmit = (e) => {
+    const manageSubmit = async (e) => {
         e.preventDefault();
         const admin = 4;
         setLoading(true);
         setShowAlert(false);
-        LoginApi(state.email, state.password)
-            .then(res => {
-                if (res.data.isSuccess === true) {
-                    setLoading(false)
-                    setAuthInfo({
-                        userId: res.data.token.userId,
-                        accessToken: res.data.token.token,
-                        kind:res.data.user.kind,
-                    })
-                    if (res.data.user.kind === admin){
-                        navigate("/");
-                    }else {
-                        navigate("/app")
-                    }
-                }
-                else {
-                    setMessage(res.data.message);
-                    setShowAlert(true);
-                    setLoading(false);
-                    setChecked((prev) => !prev);
-                    setTimeout(() => {
-                        setShowAlert(false)
-                    }, 4500)
-                }
+
+        const res = await LoginApi(state.email, state.password).catch()
+
+        if (res.data.isSuccess === true) {
+            setLoading(false);
+            setAuthInfo({
+                userId: res.data.token.userId,
+                accessToken: res.data.token.token,
+                kind:res.data.user.kind,
             })
+            if (res.data.user.kind === admin){
+                navigate("/");
+            }else {
+                navigate("/app")
+            }
+        }
+        else {
+            setMessage(res.data.message);
+            setShowAlert(true);
+            setLoading(false);
+            setChecked((prev) => !prev);
+            setTimeout(() => {
+                setShowAlert(false)
+            }, 4500)
+        }
 
     };
 

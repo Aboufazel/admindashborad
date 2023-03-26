@@ -3,10 +3,14 @@ import {Grid} from "@mui/material";
 import AppBarVer2 from "../../../components/AppComponents/AppBar/AppBarVer2";
 import SectionHeader from "../../../components/AppComponents/SectionHeader/SectionHeader";
 import SimplePrice from "../../../components/AppComponents/SimplePrice/SimplePrice";
+import {useContext} from "react";
+import {GiveIdContext} from "../../../Context/GiveId";
 
 
 const Profile = () => {
     useTitle("حساب کاربر")
+    const userInfo = useContext(GiveIdContext);
+    console.log(userInfo)
 
     return (
         <Grid

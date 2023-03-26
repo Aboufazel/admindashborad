@@ -1,6 +1,5 @@
-import {Box, Button, Grid, TextField, Typography} from "@mui/material";
+import {Button, Grid, TextField, Typography} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import AppBarVer1 from "../../components/AppComponents/AppBar/AppBarVer1";
@@ -24,8 +23,6 @@ const Verification = () => {
               navigate("/app")
               setLoading(false)
           }
-
-          console.log(sendData)
       }
 
 

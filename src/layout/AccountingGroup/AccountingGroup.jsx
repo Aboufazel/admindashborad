@@ -18,7 +18,7 @@ import Loader from "../../Loader/Loader";
 
 
 const AccountingGroup = () => {
-    const {state, dispatch} = useContext(GiveIdContext)
+    const {dispatch} = useContext(GiveIdContext)
     const [account, setAccount] = useState(undefined);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
