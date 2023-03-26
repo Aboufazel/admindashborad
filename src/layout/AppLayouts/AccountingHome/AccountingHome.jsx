@@ -7,17 +7,20 @@ import AddIcon from '@mui/icons-material/Add';
 import {useEffect, useState} from "react";
 import {GetById} from "../../../api/Services";
 import Loader from "../../../Loader/Loader";
+import {userData} from "../../../Toolkit/Slice/contact.slice";
+import {useDispatch} from "react-redux";
 
 const AccountingHome = () => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
+    const dispatch = useDispatch();
 
     const [loading , setLoading] = useState(true);
     const ManageUserInfo = async ()=>{
         setLoading(true);
         const data = await GetById(final.userId).catch()
         setLoading(false)
-
+        dispatch(userData(data.data));
     }
 
 

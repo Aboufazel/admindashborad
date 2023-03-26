@@ -5,12 +5,13 @@ import SectionHeader from "../../../components/AppComponents/SectionHeader/Secti
 import SimplePrice from "../../../components/AppComponents/SimplePrice/SimplePrice";
 import {useContext} from "react";
 import {GiveIdContext} from "../../../Context/GiveId";
+import {useSelector} from "react-redux";
 
 
 const Profile = () => {
     useTitle("حساب کاربر")
-    const userInfo = useContext(GiveIdContext);
-    console.log(userInfo)
+    const ProfileInfo = useSelector(state => state.action);
+    console.log(ProfileInfo)
 
     return (
         <Grid
@@ -27,8 +28,8 @@ const Profile = () => {
 
             <SectionHeader title={"اطلاعات"} margin={3.375}/>
             <SimplePrice title={"نام کسب و کار"} price={"زندی کالا"} padding={0.6}/>
-            <SimplePrice title={"شماره تلفن"} price={"09179896554"} padding={0.6}/>
-            <SimplePrice title={"ایمیل"} price={"siavashma.ir@gmail.com"} padding={0.6}/>
+            <SimplePrice title={"شماره تلفن"} price={ProfileInfo === undefined ? "" :ProfileInfo.users.map(item =>(item.mobile))} padding={0.6}/>
+            <SimplePrice title={"ایمیل"} price={ProfileInfo === undefined ? "" :ProfileInfo.users.map(item =>(item.email))} padding={0.6}/>
             <SimplePrice title={"تغییر اطلاعات کاربر"} padding={0.6}/>
             <SimplePrice title={"تغییر رمز عبور"} padding={0.6}/>
 
