@@ -11,22 +11,6 @@ import {userData} from "../../../Toolkit/Slice/contact.slice";
 import {useDispatch} from "react-redux";
 
 const AccountingHome = () => {
-    const data = localStorage.getItem("auth")
-    const final = JSON.parse(data);
-    const dispatch = useDispatch();
-
-    const [loading , setLoading] = useState(true);
-    const ManageUserInfo = async ()=>{
-        setLoading(true);
-        const data = await GetById(final.userId).catch()
-        setLoading(false)
-        dispatch(userData(data.data));
-    }
-
-
-    useEffect(()=>{
-        ManageUserInfo()
-    } , [])
 
     return (
            <Grid
@@ -39,39 +23,27 @@ const AccountingHome = () => {
                container
                width={'100%'}>
                <AppBarVer2 title={"نرم افزار حسابداری"}/>
-               {
-                   loading ?
-                       <Box marginTop={"50%"}>
-                           <Loader/>
-                       </Box> :
-                       (
-                           <>
-                               <SectionHeader title={"وضعیت کسب و کار در سال 1401"} margin={3.375}/>
-                               <SimplePrice title={"موجودی نقدی"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
-                               <SimplePrice title={"بدهی"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
-                               <SimplePrice title={"طلب"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
-                               <SimplePrice title={"درآمد"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
-                               <SimplePrice title={"هزینه"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+               <SectionHeader title={"وضعیت کسب و کار در سال 1401"} margin={3.375}/>
+               <SimplePrice title={"موجودی نقدی"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+               <SimplePrice title={"بدهی"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+               <SimplePrice title={"طلب"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+               <SimplePrice title={"درآمد"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
+               <SimplePrice title={"هزینه"} price={"29,102,000"} badge={"ریال"} padding={0.6}/>
 
-                               <SectionHeader title={"اسناد مالی"} margin={0}/>
-                               <SimplePrice title={"ثبت حسابداری"} padding={0.6}/>
+               <SectionHeader title={"اسناد مالی"} margin={0}/>
+               <SimplePrice title={"ثبت حسابداری"} padding={0.6}/>
 
-                               <SectionHeader title={"حسابداری"} margin={0}/>
-                               <SimplePrice title={"دفاتر"} padding={0.6}/>
-                               <SimplePrice title={"گزارشات"} padding={0.6}/>
-                               <SimplePrice title={"تعاریف حسابداری"} padding={0.6}/>
-                               <SimplePrice title={"سال مالی (سال فعلی 1401)"} padding={0.6}/>
-
-
-                               <ActionButton>
-                                   <AddIcon/>
-                                   <Typography variant={"h1"}>
-                                       {"ثبت"}
-                                   </Typography>
-                               </ActionButton>
-                           </>
-                       )
-               }
+               <SectionHeader title={"حسابداری"} margin={0}/>
+               <SimplePrice title={"دفاتر"} padding={0.6}/>
+               <SimplePrice title={"گزارشات"} padding={0.6}/>
+               <SimplePrice title={"تعاریف حسابداری"} padding={0.6}/>
+               <SimplePrice title={"سال مالی (سال فعلی 1401)"} padding={0.6}/>
+               <ActionButton>
+                   <AddIcon/>
+                   <Typography variant={"h1"}>
+                       {"ثبت"}
+                   </Typography>
+               </ActionButton>
            </Grid>
     )
 }

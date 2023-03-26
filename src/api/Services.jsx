@@ -83,7 +83,7 @@ export const CreateNewUser = (username, password, email , job) => {
 
     return Api({
         method: 'post',
-        url: '/UserService/api/Users/addUser',
+        url: '/UserService/api/Users/add',
         data: {
             "userTypeId": 0,
             "userOwnerId": 0,

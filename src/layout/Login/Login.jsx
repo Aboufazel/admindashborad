@@ -7,13 +7,14 @@ import {Alert, Box, Button, Grid, TextField, Typography, Zoom} from "@mui/materi
 import WhiteLoader from "../../Loader/WhiteLoader";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
-import {GiveIdContext} from "../../Context/GiveId";
+import {userData} from "../../Toolkit/Slice/contact.slice";
+import {useDispatch} from "react-redux";
 const Login = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [message, setMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [checked, setChecked] = useState(false);
-    const {dispatch} = useContext(GiveIdContext)
+    const dispatch = useDispatch();
 
 
     const navigate = useNavigate();
@@ -36,22 +37,7 @@ const Login = () => {
         setLoading(true);
         setShowAlert(false);
 
-        const res = await LoginApi(state.email, state.password).catch()
-
-        if (res.data.isSuccess === true) {
-            setLoading(false);
-            setAuthInfo({
-                userId: res.data.token.userId,
-                accessToken: res.data.token.token,
-                kind:res.data.user.kind,
-            })
-            if (res.data.user.kind === admin){
-                navigate("/");
-            }else {
-                navigate("/app")
-            }
-        }
-        else {
+        const res = await LoginApi(state.email, state.password).catch(()=>{
             setMessage(res.data.message);
             setShowAlert(true);
             setLoading(false);
@@ -59,8 +45,21 @@ const Login = () => {
             setTimeout(() => {
                 setShowAlert(false)
             }, 4500)
-        }
+        })
 
+        setLoading(false);
+        setAuthInfo({
+            userId: res.data.token.userId,
+            accessToken: res.data.token.token,
+            kind:res.data.user.kind,
+        })
+
+        if (res.data.user.kind === admin){
+            navigate("/");
+        }else if(res.data.user.kind !== admin) {
+            navigate("/app")
+        }
+        dispatch(userData(res.data))
     };
 
     useTitle("صفحه ورود")
