@@ -4,11 +4,7 @@ import SectionHeader from "../../../components/AppComponents/SectionHeader/Secti
 import SimplePrice from "../../../components/AppComponents/SimplePrice/SimplePrice";
 import ActionButton from "../../../components/AppComponents/ActionButton/ActionButton";
 import AddIcon from '@mui/icons-material/Add';
-import {useEffect, useState} from "react";
-import {GetById} from "../../../api/Services";
-import Loader from "../../../Loader/Loader";
-import {userData} from "../../../Toolkit/Slice/contact.slice";
-import {useDispatch} from "react-redux";
+
 
 const AccountingHome = () => {
 
