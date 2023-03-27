@@ -2,13 +2,14 @@ import "./login.style.css"
 import {LoginApi} from "../../api/Services"
 import {Link, useNavigate} from "react-router-dom";
 import useStorage from "../../hooks/storage";
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {Alert, Box, Button, Grid, TextField, Typography, Zoom} from "@mui/material";
 import WhiteLoader from "../../Loader/WhiteLoader";
 import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import {userData} from "../../Toolkit/Slice/contact.slice";
 import {useDispatch} from "react-redux";
+
 const Login = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [message, setMessage] = useState(false);
@@ -23,7 +24,7 @@ const Login = () => {
     const [authInfo, setAuthInfo] = useStorage("auth", {
         userId: "",
         accessToken: "",
-        kind:""
+        kind: ""
     })
 
     const [state, setState] = useState({
@@ -37,26 +38,36 @@ const Login = () => {
         setLoading(true);
         setShowAlert(false);
 
-        const res = await LoginApi(state.email, state.password).catch(()=>{
+        const res = await LoginApi(state.email, state.password).catch(() => {
             setMessage(res.data.message);
             setShowAlert(true);
             setLoading(false);
             setChecked((prev) => !prev);
             setTimeout(() => {
                 setShowAlert(false)
+                setChecked((prev) => !prev);
             }, 4500)
         })
-
+        setMessage(res.data.message);
+        setShowAlert(true);
         setLoading(false);
+        setChecked((prev) => !prev);
+        setTimeout(() => {
+            setShowAlert(false)
+            setChecked((prev) => !prev);
+        }, 4500)
+
+
         setAuthInfo({
             userId: res.data.token.userId,
             accessToken: res.data.token.token,
-            kind:res.data.user.kind,
+            kind: res.data.user.kind,
         })
 
-        if (res.data.user.kind === admin){
+
+        if (res.data.user.kind === admin) {
             navigate("/");
-        }else if(res.data.user.kind !== admin) {
+        } else if (res.data.user.kind !== admin) {
             navigate("/app")
         }
         dispatch(userData(res.data))
@@ -66,12 +77,13 @@ const Login = () => {
 
     return (
         <Grid container
+              position={"relative"}
               display={'flex'}
               flexDirection={"column"}
               alignItems={"center"}
         >
             {showAlert === true ?
-                <Box position={"absolute"} bottom={150} right={10}>
+                <Box position={"absolute"} bottom={"5%"} left={"35%"}>
                     <Zoom in={checked}>
                         <Alert sx={{transition: 10}} variant="filled" severity="error">
                             {message}

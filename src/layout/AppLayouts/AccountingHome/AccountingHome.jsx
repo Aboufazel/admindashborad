@@ -4,6 +4,7 @@ import SectionHeader from "../../../components/AppComponents/SectionHeader/Secti
 import SimplePrice from "../../../components/AppComponents/SimplePrice/SimplePrice";
 import ActionButton from "../../../components/AppComponents/ActionButton/ActionButton";
 import AddIcon from '@mui/icons-material/Add';
+import AppBottomTab from "../../../components/AppComponents/AppBottomTab/AppBottomTab";
 
 
 const AccountingHome = () => {
@@ -40,6 +41,7 @@ const AccountingHome = () => {
                        {"ثبت"}
                    </Typography>
                </ActionButton>
+               <AppBottomTab/>
            </Grid>
     )
 }

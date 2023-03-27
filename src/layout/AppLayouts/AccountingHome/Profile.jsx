@@ -11,6 +11,7 @@ import {useState} from "react";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {ModalStyle} from "../../../components/AppComponents/ModalStyle/ModalStyle"
+import AppBottomTab from "../../../components/AppComponents/AppBottomTab/AppBottomTab";
 
 const Profile = () => {
     useTitle("حساب کاربر")
@@ -101,7 +102,7 @@ const Profile = () => {
             <Box display={"flex"} width={"100%"} onClick={handleOpenModal}>
                 <SimplePrice title={"خروج از حساب کاربری"} padding={0.6}/>
             </Box>
-
+            <AppBottomTab/>
         </Grid>
     )
 

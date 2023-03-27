@@ -122,6 +122,22 @@ export const VerifyCode = (code , userId)=>{
 }
 
 
+
+export const ChangeUserPassword = (oldPass , newPass)=>{
+    const data = localStorage.getItem("auth")
+    const final = JSON.parse(data);
+
+    return Api({
+        method: 'put',
+        url: `/UserService/api/Users/changePassword?userId=${+final.userId}&oldPassword=${oldPass}&newPassWord=${newPass}`,
+        headers: {
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json'
+        },
+    })
+}
+
 export const EditStatus = (userId , isActive ) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);

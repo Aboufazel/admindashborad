@@ -1,7 +1,7 @@
 import {Grid} from "@mui/material";
 import {Outlet} from "react-router-dom";
 import theme from "../themes/theme";
-import AppBottomTab from "../components/AppComponents/AppBottomTab/AppBottomTab";
+
 
 const MobileLayout = ()=>{
 
@@ -22,7 +22,6 @@ const MobileLayout = ()=>{
                 width={'100%'}
                 >
                 <Outlet/>
-                <AppBottomTab/>
             </Grid>
         </Grid>
     )
