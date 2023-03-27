@@ -35,6 +35,10 @@ const Profile = () => {
         navigate("/login")
     }
 
+    const mangeNavigate = (link)=>{
+        navigate(link)
+    }
+
     return (
         <Grid
             display={"flex"}
@@ -82,9 +86,16 @@ const Profile = () => {
                          padding={0.6}/>
             <SimplePrice title={"ایمیل"} price={ProfileInfo.user === undefined ? "" : ProfileInfo.user.email}
                          padding={0.6}/>
-            <SimplePrice title={"تغییر اطلاعات کاربر"} padding={0.6}/>
-            <SimplePrice title={"تغییر رمز عبور"} padding={0.6}/>
 
+
+
+            <Box display={"flex"} width={"100%"} onClick={()=> mangeNavigate("changeInfo")}>
+                <SimplePrice title={"تغییر اطلاعات کاربر"} padding={0.6}/>
+            </Box>
+
+            <Box display={"flex"} width={"100%"} onClick={()=> mangeNavigate("changePass")}>
+                <SimplePrice title={"تغییر رمز عبور"} padding={0.6}/>
+            </Box>
             <SectionHeader title={"اطلاعات"} padding={0.6}/>
             <SimplePrice title={"تماس با پشتیبانی"} padding={0.6}/>
             <Box display={"flex"} width={"100%"} onClick={handleOpenModal}>

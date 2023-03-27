@@ -30,6 +30,8 @@ import CashReport from "../layout/AppLayouts/Report/CashReport";
 import DefineMain from "../layout/AppLayouts/DefineAccount/DefineMain";
 import DefineListType1 from "../layout/AppLayouts/DefineAccount/DefineListType1";
 import DefineListType2 from "../layout/AppLayouts/DefineAccount/DefineListType2";
+import ChangeInformation from "../layout/AppLayouts/ChangeInformation/ChangeInformation";
+import ChangePassword from "../layout/AppLayouts/ChangePassword/ChangePassword";
 
 
 const Root = () => {
@@ -247,6 +249,26 @@ const Root = () => {
                         <Suspense fallback={<LoadingPage/>}>
                             <AuthProvider>
                                 <DefineListType2/>
+                            </AuthProvider>
+                        </Suspense>
+                    )
+                },
+                {
+                    path: "/app/profile/changeInfo",
+                    element: (
+                        <Suspense fallback={<LoadingPage/>}>
+                            <AuthProvider>
+                                <ChangeInformation/>
+                            </AuthProvider>
+                        </Suspense>
+                    )
+                },
+                {
+                    path: "/app/profile/changePass",
+                    element: (
+                        <Suspense fallback={<LoadingPage/>}>
+                            <AuthProvider>
+                                <ChangePassword/>
                             </AuthProvider>
                         </Suspense>
                     )
