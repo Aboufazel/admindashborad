@@ -32,6 +32,7 @@ import DefineListType1 from "../layout/AppLayouts/DefineAccount/DefineListType1"
 import DefineListType2 from "../layout/AppLayouts/DefineAccount/DefineListType2";
 import ChangeInformation from "../layout/AppLayouts/ChangeInformation/ChangeInformation";
 import ChangePassword from "../layout/AppLayouts/ChangePassword/ChangePassword";
+import MobileNotFound from "../layout/PageNotFound/MobileNotFound";
 
 
 const Root = () => {
@@ -49,7 +50,12 @@ const Root = () => {
         }, {
             path: "/signUp",
             element: <SignUp/>
-        }, {
+        },  {
+            path: "*",
+            element: <MobileNotFound/>
+        },
+
+            {
             path: "/",
             element: <IndexLayout/>,
             children: [
