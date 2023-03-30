@@ -7,12 +7,13 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 
 
-const AppBottomTab = () => {
+const AppBottomTab = ({step}) => {
 
-    const [select, setSelect] = useState("Accounting");
+    const [select, setSelect] = useState(step);
 
 
     const manageSelect = (value) => setSelect(value)
+
     useTitle("برنامه حسابداری")
 
     return (

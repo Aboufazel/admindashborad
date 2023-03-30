@@ -102,7 +102,7 @@ const Profile = () => {
             <Box display={"flex"} width={"100%"} onClick={handleOpenModal}>
                 <SimplePrice title={"خروج از حساب کاربری"} padding={0.6}/>
             </Box>
-            <AppBottomTab/>
+            <AppBottomTab step={"Profile"}/>
         </Grid>
     )
 

@@ -245,7 +245,11 @@ const AccountingMain = () => {
                         </Breadcrumb.Item>
                         <Breadcrumb.Item className={'beard_crumb'}>
                             <Link to={'/accountingGroup'}>
-                                {'گروه حساب'}
+                                {
+                                    groupName === undefined ? "" : groupName.map(item => (
+                                        ` گروه حساب ${item.accountGroupName}`
+                                    ))
+                                }
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
@@ -259,18 +263,8 @@ const AccountingMain = () => {
                     <Row>
                         <Col>
                             <p>
-                                {
-                                    groupName === undefined ? "" : groupName.map(item => (
-                                        `حساب های کل گروه حساب ${item.accountGroupName}`
-                                    ))
-                                }
+                                {"حساب کل"}
                             </p>
-                            {
-                                waiting === true ?
-                                    <div style={{left: 45}} className={'position-absolute'}>
-                                        <Loader/>
-                                    </div> : <div></div>
-                            }
                         </Col>
                     </Row>
                     <Row className={"d-flex my-3 mb-5"}>

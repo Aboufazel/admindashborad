@@ -15,12 +15,13 @@ const AppBarVer1 = ({title , link}) => {
             maxWidth={500}
             position={"fixed"}
             bgcolor={theme.palette.neutralN00.main}
-            padding={1}
+            py={1}
+            px={0.5}
             top={0}>
             <Link to={`/${link}`}>
                 <ArrowForwardIcon color={"neutralN100"}/>
             </Link>
-            <Typography marginLeft={0.55}>
+            <Typography marginLeft={0.4}>
                 {title}
             </Typography>
         </Grid>

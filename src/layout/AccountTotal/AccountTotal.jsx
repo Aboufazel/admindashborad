@@ -33,9 +33,11 @@ const AccountTotal = () => {
     const [waiting, setWaiting] = useState(false);
     const [deleteModal, setDeleteModal] = useState(undefined);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [bread, setBread] = useState([]);
 
 
     const MainId = useContext(GiveIdContext);
+    console.log(MainId)
     const navigate = useNavigate();
 
 
@@ -97,6 +99,8 @@ const AccountTotal = () => {
         AccountSpecGetTabel();
         manageMainCode();
     }, [reload])
+
+
 
 
     const emptyInput = () => {
@@ -215,6 +219,9 @@ const AccountTotal = () => {
 
 
 
+
+
+
     const manageAlwaysSelectChange = (e) =>{
         console.log(e.target.value)
         setAlways(e.target.value)
@@ -233,7 +240,10 @@ const AccountTotal = () => {
                         </Breadcrumb.Item>
                         <Breadcrumb.Item className={'beard_crumb'}>
                             <Link to={'/accountingMain'}>
-                                {'حساب کل'}
+                                {
+                                 account === undefined ? "" :  account.filter(item => item.accountMainId === MainId.authData).map(item => (
+                                     item.accountMainName))
+                                }
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
@@ -247,18 +257,8 @@ const AccountTotal = () => {
                     <Row className={'mb-3'}>
                         <Col lg={5}>
                             <p>
-                                {
-                                    account === undefined ? "" : account.map(item => (
-                                        `حساب های معین حساب کل ${item.accountMainName}`
-                                    ))
-                                }
+                                حساب های معین
                             </p>
-                            {
-                                waiting === true ?
-                                    <div style={{left: 45}} className={'position-absolute'}>
-                                        <Loader/>
-                                    </div> : <div></div>
-                            }
                         </Col>
                         <Col>
 

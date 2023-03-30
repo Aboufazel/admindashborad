@@ -131,7 +131,6 @@ const ChangeInformation = () => {
                                        required={true}
                                        label="شماره موبایل"
                                        type={"tel"}
-                                       focused
                                        value={form.mobile}
                                        variant="outlined"
                                        onChange={manageChange}
@@ -147,7 +146,6 @@ const ChangeInformation = () => {
                                        label="ایمیل"
                                        type={"email"}
                                        value={form.email}
-                                       focused
                                        variant="outlined"
                                        onChange={manageChange}
                                        sx={{
