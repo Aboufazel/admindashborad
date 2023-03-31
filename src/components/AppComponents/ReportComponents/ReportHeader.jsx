@@ -1,19 +1,18 @@
-import {Grid, NativeSelect, Typography} from "@mui/material";
+import {FormControl, Grid, InputLabel, NativeSelect, Typography} from "@mui/material";
 import theme from "../../../themes/theme";
 
 
-const ReportBody = ({percent , HeaderTitle , margin , price , badge}) => {
-
-
-    return(
+const ReportHeader = ({selectValue, percent, margin, price, badge}) => {
+    return (
         <Grid
             display={"flex"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            height={"max-content"}
+            height={40}
             width={"100%"}
             marginTop={margin}
-            padding={0.78}
+            px={0.78}
+            bgcolor={theme.palette.primary.extraLight}
             container>
 
             <Grid
@@ -26,14 +25,32 @@ const ReportBody = ({percent , HeaderTitle , margin , price , badge}) => {
                     transition: 0.5,
                 }}
                 item>
-                <Typography display={"flex"} color={theme.palette.neutralN100.main} variant={"h2"}>
-                    {HeaderTitle}
-                </Typography>
-                <Typography variant={"h3"} marginLeft={1} color={theme.palette.neutralN40.main}>
+                <FormControl>
+                    <NativeSelect
+                        defaultValue={30}
+                        sx={{
+                            ":before": {
+                                borderBottom: "none",
+                            },
+
+                            ":after": {
+                                borderBottom: "none",
+                            }
+                        }}
+                        inputProps={{
+                            name: 'age',
+                            id: 'uncontrolled-native',
+                        }}
+                    >
+                        <option value={selectValue}>
+                            {selectValue}
+                        </option>
+                    </NativeSelect>
+                </FormControl>
+                <Typography variant={"h3"} marginLeft={0.2} color={theme.palette.neutralN40.main}>
                     {percent}
                 </Typography>
             </Grid>
-
 
 
             <Grid
@@ -57,4 +74,5 @@ const ReportBody = ({percent , HeaderTitle , margin , price , badge}) => {
     )
 }
 
-export default ReportBody;
+
+export default ReportHeader;

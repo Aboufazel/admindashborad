@@ -1,8 +1,9 @@
-import {Grid, Typography} from "@mui/material";
+import {Grid, NativeSelect, Typography} from "@mui/material";
 import theme from "../../../themes/theme";
 
 
-const SectionHeader = ({title , margin , price , badge}) => {
+const ReportBody = ({percent , HeaderTitle , margin , price , badge}) => {
+
 
     return(
         <Grid
@@ -12,12 +13,28 @@ const SectionHeader = ({title , margin , price , badge}) => {
             height={40}
             width={"100%"}
             marginTop={margin}
-            paddingX={0.78}
-            bgcolor={theme.palette.primary.extraLight}
+            px={0.78}
             container>
-            <Typography variant={"h3"} color={theme.palette.neutralN100} fontWeight={"bold"}>
-                {title}
-            </Typography>
+
+            <Grid
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"start"}
+                xs={6}
+                sx={{
+                    cursor: 'pointer',
+                    transition: 0.5,
+                }}
+                item>
+                <Typography display={"flex"} color={theme.palette.neutralN100.main} variant={"h2"}>
+                    {HeaderTitle}
+                </Typography>
+                <Typography variant={"h3"} marginLeft={1} color={theme.palette.neutralN40.main}>
+                    {percent}
+                </Typography>
+            </Grid>
+
+
 
             <Grid
                 display={"flex"}
@@ -40,5 +57,4 @@ const SectionHeader = ({title , margin , price , badge}) => {
     )
 }
 
-
-export default SectionHeader;
+export default ReportBody;
