@@ -17,13 +17,14 @@ import {GiveIdContext} from "../../Context/GiveId";
 import Loader from "../../Loader/Loader";
 import {ReturnTotalAccountContext} from "../../Context/ReturnTotalAccount";
 import {GetById} from "../../api/AccountGroup";
+import {AccountMainTable} from "../../data/Database/AccountMainTable";
 
 
 const AccountingMain = () => {
     const [account, setAccount] = useState(undefined);
-    const [groupName , setGroupName] = useState(undefined);
+    const [groupName, setGroupName] = useState(undefined);
     const [instinct, setInstinct] = useState("");
-    const [always,setAlways] = useState("");
+    const [always, setAlways] = useState("");
     const {state, dispatch} = useContext(GiveIdContext);
     const {ReturnState, Dispatch} = useContext(ReturnTotalAccountContext);
     const [error, setError] = useState(false);
@@ -39,7 +40,6 @@ const AccountingMain = () => {
     const [waiting, setWaiting] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [deleteModal, setDeleteModal] = useState(undefined);
-
 
 
     const navigate = useNavigate();
@@ -58,9 +58,9 @@ const AccountingMain = () => {
     }
 
 
-    const manageAccountGroupName = async () =>{
-        const getResponse  = await GetById(Id.authData);
-            setGroupName(getResponse.data.accountGroups);
+    const manageAccountGroupName = async () => {
+        const getResponse = await GetById(Id.authData);
+        setGroupName(getResponse.data.accountGroups);
 
     }
     console.log(groupName)
@@ -95,7 +95,7 @@ const AccountingMain = () => {
 
     const manageAddAccount = async () => {
         setWaiting(true);
-        const addResponse = await AddAccountMain(value.code, value.name, Id.authData , instinct , always);
+        const addResponse = await AddAccountMain(value.code, value.name, Id.authData, instinct, always);
         if (addResponse.data.isSuccess === true) {
             setMessage(addResponse.data.message);
             setShow(false);
@@ -167,18 +167,18 @@ const AccountingMain = () => {
         setEdit({...edit, [e.target.name]: e.target.value});
     }
 
-    const handleDeleteClose = ()=>{
+    const handleDeleteClose = () => {
         setDeleteModalShow(false);
     }
 
-    const manageDeleteModal = (id)=>{
+    const manageDeleteModal = (id) => {
         setDeleteModalShow(true);
         setDeleteModal(id);
     }
 
     const manageSendEditAccount = async () => {
         setWaiting(true);
-        const sendEditResponse = await EditAccountMain(edit.id, Id.authData, edit.code, edit.name, instinct , always);
+        const sendEditResponse = await EditAccountMain(edit.id, Id.authData, edit.code, edit.name, instinct, always);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setWaiting(false);
@@ -221,14 +221,13 @@ const AccountingMain = () => {
     }
 
 
-    const manageInstictSelectChange = (e) =>{
+    const manageInstictSelectChange = (e) => {
         console.log(e.target.value)
         setInstinct(e.target.value)
     }
 
 
-
-    const manageAlwaysSelectChange = (e) =>{
+    const manageAlwaysSelectChange = (e) => {
         console.log(e.target.value)
         setAlways(e.target.value)
     }
@@ -281,7 +280,7 @@ const AccountingMain = () => {
                                         </Modal.Title>
                                         {
                                             waiting === true ?
-                                                    <Loader/>
+                                                <Loader/>
                                                 : <div></div>
                                         }
                                     </Modal.Header>
@@ -476,11 +475,13 @@ const AccountingMain = () => {
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         {"آیا از حذف حساب اطمینان دارید؟"}
                                         <Row className={"d-flex flex-row justify-content-center"}>
-                                            <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                                            <Col
+                                                className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
                                                 <Button className={'save_btn'} onClick={handleDeleteClose}>
                                                     {"انصراف"}
                                                 </Button>
-                                                <Button className={'close_btn'} onClick={() => manageRemoveAccount(deleteModal)}>
+                                                <Button className={'close_btn'}
+                                                        onClick={() => manageRemoveAccount(deleteModal)}>
                                                     {"حذف"}
                                                 </Button>
                                             </Col>
@@ -514,21 +515,13 @@ const AccountingMain = () => {
                                 <table className={"table_block"}>
                                     <thead>
                                     <tr>
-                                        <td className={"p-2"}>
-                                            {"کد حساب کل"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"نام حساب کل"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"حساب های معین"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"وضعیت حساب"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"عملیات"}
-                                        </td>
+                                        {
+                                            AccountMainTable.map(item => (
+                                                <td key={`account-main-${item.id}`} className={"p-2"}>
+                                                    {item.name}
+                                                </td>
+                                            ))
+                                        }
                                     </tr>
                                     </thead>
                                     <tbody>
