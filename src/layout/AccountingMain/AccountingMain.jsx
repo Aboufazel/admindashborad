@@ -246,7 +246,7 @@ const AccountingMain = () => {
                         <Breadcrumb.Item className={'beard_crumb'}>
                             <Link to={'/accountingGroup'}>
                                 {
-                                    groupName === undefined ? "" : groupName.map(item => (
+                                    account === undefined ? "" : account.map(item => (
                                         ` گروه حساب ${item.accountGroupName}`
                                     ))
                                 }
