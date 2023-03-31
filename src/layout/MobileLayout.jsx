@@ -9,6 +9,7 @@ const MobileLayout = ()=>{
         <Grid
             display={"flex"}
             justifyContent={"center"}
+
             height={"90vh"}
             container >
             <Grid

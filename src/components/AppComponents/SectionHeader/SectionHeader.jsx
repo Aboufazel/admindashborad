@@ -9,10 +9,10 @@ const SectionHeader = ({title , margin , price , badge}) => {
             display={"flex"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            height={40}
+            height={30}
             width={"100%"}
             marginTop={margin}
-            paddingX={0.78}
+            px={0.78}
             bgcolor={theme.palette.primary.extraLight}
             container>
             <Typography variant={"h3"} color={theme.palette.neutralN100} fontWeight={"bold"}>
