@@ -3,7 +3,7 @@ import theme from "../../../themes/theme";
 import AppBarVer1 from "../../../components/AppComponents/AppBar/AppBarVer1";
 import WhiteLoader from "../../../Loader/WhiteLoader";
 import {useEffect, useState} from "react";
-import {forgetPass} from "../../../api/Services";
+import {Edit, forgetPass} from "../../../api/Services";
 import useTitle from "../../../hooks/useTitle";
 import {useSelector} from "react-redux";
 
@@ -28,41 +28,36 @@ const ChangeInformation = () => {
         setForm({
             job: ProfileInfo.user === undefined ? "" : ProfileInfo.business.map(item => (item.businessName)),
             mobile: ProfileInfo.user === undefined ? "" : ProfileInfo.user.mobile,
-            email:ProfileInfo.user === undefined ? "" : ProfileInfo.user.email
+            email: ProfileInfo.user === undefined ? "" : ProfileInfo.user.email
         })
     }, [])
-    const InputValidate = () => {
-        if (form.user.length !== 11) {
-            setError(true)
-        } else if (form.user.length === 11) {
-            setError(false)
-        }
-    }
+
 
     const manageChange = e => {
         setForm({...form, [e.target.name]: e.target.value});
-        InputValidate();
     }
 
     const ManageSendData = async (e) => {
         e.preventDefault();
-        InputValidate();
-        if (form.user.length !== 11) {
-            setError(true)
-        }
         setLoading(true)
-        const sendData = await forgetPass(form.user).catch((error) => {
+        const sendData = await Edit(
+            ProfileInfo.user.userId,
+            ProfileInfo.user.userTypeId,
+            ProfileInfo.user.userOwnerId,
+            ProfileInfo.user.userName,
+            ProfileInfo.user.passWord,
+            ProfileInfo.user.mobile,
+            form.email,
+            ProfileInfo.user.kind, form.job).catch((error) => {
             setLoading(false);
         });
-        if (sendData.data.isSuccess) {
-            setMessage(sendData.data.data.passWord);
-            setShow(true)
-            setLoading(false);
-        } else {
-            setMessage(sendData.data.message);
-            setShow(true)
-            setLoading(false);
-        }
+        setLoading(false);
+        setMessage(sendData.data.message);
+        setShow(!show)
+        setTimeout(() => {
+            setShow(false)
+        }, 2500)
+
     }
 
     useTitle("تغییر اطلاعات کاربر")
@@ -99,8 +94,7 @@ const ChangeInformation = () => {
 
                     {
                         show ? <Alert sx={{position: "absolute", bottom: 90}} severity="success">
-                            <AlertTitle>{`${message}رمز جدید `}</AlertTitle>
-                            {"پسورد با موفقیت تغییر کرد"}
+                            <AlertTitle>{message}</AlertTitle>
                         </Alert> : ""
                     }
                     <form onSubmit={ManageSendData}>
@@ -131,6 +125,7 @@ const ChangeInformation = () => {
                                        required={true}
                                        label="شماره موبایل"
                                        type={"tel"}
+                                       disabled
                                        value={form.mobile}
                                        variant="outlined"
                                        onChange={manageChange}

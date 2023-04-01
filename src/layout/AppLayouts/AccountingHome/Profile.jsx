@@ -15,7 +15,9 @@ import AppBottomTab from "../../../components/AppComponents/AppBottomTab/AppBott
 
 const Profile = () => {
     useTitle("حساب کاربر")
+
     const ProfileInfo = useSelector(state => state.action);
+
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);

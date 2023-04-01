@@ -4,6 +4,8 @@ import AppBarVer1 from "../../../components/AppComponents/AppBar/AppBarVer1";
 import WhiteLoader from "../../../Loader/WhiteLoader";
 import {useState} from "react";
 import {ChangeUserPassword} from "../../../api/Services";
+import useStorage from "../../../hooks/storage";
+import {useNavigate} from "react-router-dom";
 
 const ChangePassword = () => {
     const [form, setForm] = useState([
@@ -17,8 +19,29 @@ const ChangePassword = () => {
 
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
+
+    const [tokenInfo, setTokenInfo] = useStorage("auth", {
+        refreshToken: "",
+        accessToken: "",
+    });
+
     const manageChange = e => {
         setForm({...form, [e.target.name]: e.target.value});
+    }
+
+
+
+
+    const manageLogout = () => {
+        localStorage.clear();
+        setTokenInfo({
+            accessToken: "",
+            refreshToken: "",
+        })
+        setTimeout(()=>{
+            navigate("/login")
+        } , 3000)
     }
 
     const ManageSendData = async (e) => {
@@ -39,9 +62,13 @@ const ChangePassword = () => {
         setShow(!show)
         setLoading(false);
 
+        if(sendData.data.isSuccess === true){
+            manageLogout()
+        }
+
         setTimeout(()=>{
-            setShow(!show)
-        } , 100)
+            setShow(false)
+        } , 2500)
     }
 
 

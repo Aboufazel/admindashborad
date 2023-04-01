@@ -6,10 +6,12 @@ import ActionButton from "../../../components/AppComponents/ActionButton/ActionB
 import AddIcon from '@mui/icons-material/Add';
 import AppBottomTab from "../../../components/AppComponents/AppBottomTab/AppBottomTab";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 
 const AccountingHome = () => {
 
+    const ProfileInfo = useSelector(state => state.action);
 
     const navigate = useNavigate();
 
@@ -47,7 +49,7 @@ const AccountingHome = () => {
                 <SimplePrice title={"تعاریف حسابداری"} padding={0.6}/>
             </Box>
 
-            <SimplePrice title={"سال مالی (سال فعلی 1401)"} padding={0.6}/>
+            <SimplePrice title={`سال مالی (سال فعلی ${ProfileInfo.user === undefined ? "" : ProfileInfo.fiscalYear.map(item => item.fiscalYearName)})`} padding={0.6}/>
             <ActionButton>
                 <AddIcon/>
                 <Typography variant={"h1"}>

@@ -43,24 +43,32 @@ export const GetById = (userid) => {
 }
 
 //use for edit user
-export const Edit = (userid, usertype, owner, username, password, mobile, email, kind) => {
+export const Edit = (userid, usertype, owner, username, password, mobile, email, kind , business) => {
+
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
-    return Api.put('/UserService/api/Users/edit', {
+
+    return Api( {
+        method:"put",
+        url:'/UserService/api/Users/edit',
+
+        data: {
+            "userId": userid,
+            "userTypeId": usertype,
+            "userOwnerId": owner,
+            "UserName": username,
+            "PassWord": "",
+            "Mobile": mobile,
+            "Email": email,
+            "kind": kind,
+            "businessName":business
+        },
         headers: {
             "selfuserid": `${final.userId}`,
-            "token": `${final.accessToken}`
+            "token": `${final.accessToken}`,
+            'Content-Type': 'application/json',
         },
-        data: {
-            "userId": `${userid}`,
-            "userTypeId": `${usertype}`,
-            "userOwnerId": `${owner}`,
-            "userName": `${username}`,
-            "passWord": `${password}`,
-            "mobile": `${mobile}`,
-            "email": `${email}`,
-            "kind": `${kind}`
-        }
+
     })
 }
 
