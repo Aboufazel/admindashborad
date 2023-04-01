@@ -3,7 +3,7 @@ import theme from "../../../themes/theme";
 import AppBarVer1 from "../../../components/AppComponents/AppBar/AppBarVer1";
 import WhiteLoader from "../../../Loader/WhiteLoader";
 import {useEffect, useState} from "react";
-import {Edit, forgetPass} from "../../../api/Services";
+import {Edit} from "../../../api/Services";
 import useTitle from "../../../hooks/useTitle";
 import {useSelector} from "react-redux";
 
@@ -19,7 +19,7 @@ const ChangeInformation = () => {
     const [message, setMessage] = useState(0);
 
     const [show, setShow] = useState(false);
-    const [error, setError] = useState(false)
+
 
     const [loading, setLoading] = useState(false);
 
@@ -48,7 +48,7 @@ const ChangeInformation = () => {
             ProfileInfo.user.passWord,
             ProfileInfo.user.mobile,
             form.email,
-            ProfileInfo.user.kind, form.job).catch((error) => {
+            ProfileInfo.user.kind, form.job).catch(() => {
             setLoading(false);
         });
         setLoading(false);
