@@ -14,6 +14,7 @@ import {Link, useNavigate} from "react-router-dom";
 import ActionTableButton from "../../components/ActionTableButton/ActionTableButton";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../Loader/Loader";
+import {AccountTotalTable} from "../../data/Database/AccountTotalTable";
 
 
 const AccountTotal = () => {
@@ -22,7 +23,7 @@ const AccountTotal = () => {
     const [value, setValue] = useState({code: "", name: ""});
     const [instinct, setInstinct] = useState("");
     const [always,setAlways] = useState("");
-    const [edit, setEdit] = useState({id: "", code: "", name: "", active: ""});
+    const [edit, setEdit] = useState({id: "", code: "", name: "", active: "" ,  instinct:"" , always:""});
     const [show, setShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
     const [errorShow, setErrorShow] = useState(false);
@@ -115,7 +116,8 @@ const AccountTotal = () => {
         const getResponse = await AccountSpecGetById(id);
         getResponse.data.accountSpecs.map(item => setEdit({
             id: item.accountSpecId,
-            code: item.accountSpecCode, name: item.accountSpecName, active: item.isActive
+            code: item.accountSpecCode, name: item.accountSpecName, active: item.isActive,
+            instinct: item.instinct , always: item.type
         }))
         if (getResponse.status === 200) {
             setLoading(false)
@@ -135,7 +137,7 @@ const AccountTotal = () => {
 
     const manageSendEditAccount = async () => {
         setWaiting(true);
-        const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name , instinct , always);
+        const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name , edit.instinct , edit.always);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setEditShow(false);
@@ -379,7 +381,7 @@ const AccountTotal = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"ماهیت حساب فعلی:"}</label>
-                                                    <input value={instinct} className={"bg-body"} disabled/>
+                                                    <input value={edit.instinct === 0 ? "ماهیت ندارد" : edit.instinct === 1 ? "بدهکار" :"بستانکار"} className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 
@@ -387,7 +389,7 @@ const AccountTotal = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"وضعیت حساب فعلی:"}</label>
-                                                    <input value={always} className={"bg-body"} disabled/>
+                                                    <input value={edit.always === 0 ? "موقت" :"دائم"} className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 
@@ -511,18 +513,13 @@ const AccountTotal = () => {
                                 <table className={"table_block"}>
                                     <thead>
                                     <tr>
-                                        <td className={"p-2"}>
-                                            {"کد حساب معین"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"نام حساب معین"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"وضعیت حساب"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"عملیات"}
-                                        </td>
+                                        {
+                                            AccountTotalTable.map(item => (
+                                                <td key={`account-total-td-${item.id}`} className={"p-2"}>
+                                                    {item.name}
+                                                </td>
+                                            ))
+                                        }
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -531,6 +528,11 @@ const AccountTotal = () => {
                                             item => <tr key={item.accountSpecId}>
                                                 <td className={"p-2"}>{item.accountSpecCode}</td>
                                                 <td className={"p-2"}>{item.accountSpecName}</td>
+                                                <td className={"p-2"}>
+                                                    {item.instinct === 0 ? "ماهیت ندارد" : item.instinct === 1 ? "بدهکار" :"بستانکار"}
+                                                    /
+                                                    {item.type === 0 ? "موقت" : "دائم"}
+                                                </td>
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
                                                     variant={"success"}
                                                     value={true}
