@@ -15,6 +15,7 @@ import {
 } from "../../api/AccountDefaultPerson";
 import {GiveIdContext} from "../../Context/GiveId";
 import {AccountTypeGetById, GetAllAccountType} from "../../api/AccountType";
+import {AccountDefaultPerson} from "../../data/Database/AccounttDefaultPerson";
 
 
 const AccountingDefaultPerson = () => {
@@ -26,7 +27,7 @@ const AccountingDefaultPerson = () => {
     const {state, dispatch} = useContext(GiveIdContext);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
-    const [edit, setEdit] = useState({typeId: "", id: "", code: "", name: "", delete: ""});
+    const [edit, setEdit] = useState({typeId: "", id: "", code: "", name: "", delete: "" , instinct:"" , always:"" });
     const [show, setShow] = useState(false);
     const [canDelete, setCanDelete] = useState(false);
     const [type, setType] = useState({id: ""});
@@ -86,7 +87,6 @@ const AccountingDefaultPerson = () => {
 
     const AccountTypeGetTabel = async () => {
         const data = await GetAllAccountType().catch(() => setError(true));
-        console.log(data)
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");
@@ -98,6 +98,7 @@ const AccountingDefaultPerson = () => {
 
     const AccountGetTable = async () => {
         const data = await GetAllDefault().catch(() => setError(true));
+        console.log(data)
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");
@@ -173,7 +174,7 @@ const AccountingDefaultPerson = () => {
         console.log(canDelete)
         setWaiting(true)
         const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name ,
-            canDelete === false ? 0 : 1  , instinct , always);
+            canDelete === false ? 0 : 1  , edit.instinct , edit.always);
         if (sendEditData.data.isSuccess === true) {
             setLoading(!setReload(!reload));
             setWaiting(false);
@@ -460,7 +461,7 @@ const AccountingDefaultPerson = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"ماهیت حساب فعلی:"}</label>
-                                                    <input value={instinct} className={"bg-body"} disabled/>
+                                                    <input value={edit.instinct === 0 ? "ماهیت ندارد" : edit.instinct === 1 ? "بدهکار" :"بستانکار"} className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 
@@ -468,7 +469,7 @@ const AccountingDefaultPerson = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"وضعیت حساب فعلی:"}</label>
-                                                    <input value={always} className={"bg-body"} disabled/>
+                                                    <input value={edit.always === 0 ? "موقت" :"دائم"} className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 
@@ -639,26 +640,26 @@ const AccountingDefaultPerson = () => {
                                 <table className={"table_block"}>
                                     <thead>
                                     <tr>
-                                        <td className={"p-2"}>
-                                            {"کد گروه حساب"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"نام گروه حساب"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"حساب های لینک شده"}
-                                        </td>
-                                        <td className={"p-2"}>
-                                            {"عملیات"}
-                                        </td>
+                                        {
+                                            AccountDefaultPerson.map(item => (
+                                                <td key={`account-default-td-${item.id}`} className={"p-2"}>
+                                                    {item.name}
+                                                </td>
+                                            ))
+                                        }
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {
                                         account.map(item => (
-                                            <tr key={item.defaultPersonId}>
+                                            <tr key={`default-table-body-${item.defaultPersonId}`}>
                                                 <td className={"p-2"}>{item.defaultPersonCode}</td>
                                                 <td className={"p-2"}>{item.defaultPersonName}</td>
+                                                <td className={"p-2"}>
+                                                    {item.instinct === 0 ? "ماهیت ندارد" : item.instinct === 1 ? "بدهکار" :"بستانکار"}
+                                                    /
+                                                    {item.type === 0 ? "موقت" : "دائم"}
+                                                </td>
                                                 <td className={"p-2"}><Button
                                                     onClick={() => manageDefaultPersonsLink(item.defaultPersonId)}
                                                     variant={"warning"}>{"مشاهده"}</Button>
