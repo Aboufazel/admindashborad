@@ -243,8 +243,9 @@ const AccountTotal = () => {
                         <Breadcrumb.Item className={'beard_crumb'}>
                             <Link to={'/accountingMain'}>
                                 {
-                                 account === undefined ? "" :  account.filter(item => item.accountMainId === MainId.authData).map(item => (
-                                     item.accountMainName))
+                                 account === undefined ? "حساب کل" :  account.filter(item => item.accountMainId === MainId.authData).map(item => (
+                                     ` حساب کل ${item.item.accountMainName}`
+                                     ))
                                 }
                             </Link>
                         </Breadcrumb.Item>
