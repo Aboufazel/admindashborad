@@ -16,20 +16,18 @@ import "./accountMain.style.css"
 import {GiveIdContext} from "../../Context/GiveId";
 import Loader from "../../Loader/Loader";
 import {ReturnTotalAccountContext} from "../../Context/ReturnTotalAccount";
-import {GetById} from "../../api/AccountGroup";
 import {AccountMainTable} from "../../data/Database/AccountMainTable";
 
 
 const AccountingMain = () => {
     const [account, setAccount] = useState(undefined);
-    const [groupName, setGroupName] = useState(undefined);
     const [instinct, setInstinct] = useState("");
     const [always, setAlways] = useState("");
-    const {state, dispatch} = useContext(GiveIdContext);
-    const {ReturnState, Dispatch} = useContext(ReturnTotalAccountContext);
+    const {dispatch} = useContext(GiveIdContext);
+    const {Dispatch} = useContext(ReturnTotalAccountContext);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
-    const [edit, setEdit] = useState({id: "", code: "", name: "", active: ""});
+    const [edit, setEdit] = useState({id: "", code: "", name: "", active: "" , instinct:"" , always:""});
     const [show, setShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
     const [errorShow, setErrorShow] = useState(false);
@@ -57,13 +55,6 @@ const AccountingMain = () => {
         setValue({...value, [e.target.name]: e.target.value});
     }
 
-
-    const manageAccountGroupName = async () => {
-        const getResponse = await GetById(Id.authData);
-        setGroupName(getResponse.data.accountGroups);
-
-    }
-    console.log(groupName)
     const AccountMainGetTabel = async () => {
         const data = await GetAllAccountMain().catch(() => setError(true));
         console.log(data.data.accountMains)
@@ -80,7 +71,6 @@ const AccountingMain = () => {
     useEffect(() => {
         AccountMainGetTabel();
         manageGroupCode();
-        manageAccountGroupName();
     }, [reload]);
 
 
@@ -121,10 +111,15 @@ const AccountingMain = () => {
     const manageEditAccount = async (id) => {
         setEditShow(true);
         setLoading(true);
+
         const getResponse = await AccountMainGetById(id);
+        console.log(getResponse);
+
         getResponse.data.accountMains.map(item => setEdit({
             id: item.accountMainId,
-            code: item.accountMainCode, name: item.accountMainName, active: item.isActive
+            code: item.accountMainCode, name: item.accountMainName, active: item.isActive,
+            instinct: item.instinct ,
+            always: item.type
         }))
         if (getResponse.status === 200) {
             setLoading(false);
@@ -178,7 +173,7 @@ const AccountingMain = () => {
 
     const manageSendEditAccount = async () => {
         setWaiting(true);
-        const sendEditResponse = await EditAccountMain(edit.id, Id.authData, edit.code, edit.name, instinct, always);
+        const sendEditResponse = await EditAccountMain(edit.id, Id.authData, edit.code, edit.name, edit.instinct, edit.always);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setWaiting(false);
@@ -383,7 +378,7 @@ const AccountingMain = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"ماهیت حساب فعلی:"}</label>
-                                                    <input value={instinct} className={"bg-body"} disabled/>
+                                                    <input value={edit.instinct === 0 ? "ماهیت ندارد" : edit.instinct === 1 ? "بدهکار" :"بستانکار"} className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 
@@ -391,7 +386,7 @@ const AccountingMain = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"وضعیت حساب فعلی:"}</label>
-                                                    <input value={always} className={"bg-body"} disabled/>
+                                                    <input value={edit.always === 0 ? "موقت" :"دائم"} className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 
@@ -532,6 +527,11 @@ const AccountingMain = () => {
                                             item => <tr key={`account-main-tr-${item.accountMainId}`}>
                                                 <td className={"p-2"}>{item.accountMainCode}</td>
                                                 <td className={"p-2"}>{item.accountMainName}</td>
+                                                <td className={"p-2"}>
+                                                    {item.instinct === 0 ? "ماهیت ندارد" : item.instinct === 1 ? "بدهکار" :"بستانکار"}
+                                                    /
+                                                    {item.type === 0 ? "موقت" : "دائم"}
+                                                </td>
                                                 <td className={"p-2"}>
                                                     <Button onClick={() => manageAccountTotal(item.accountMainId)}
                                                             variant={"warning"}>
