@@ -173,7 +173,7 @@ const AccountingMain = () => {
 
     const manageSendEditAccount = async () => {
         setWaiting(true);
-        const sendEditResponse = await EditAccountMain(edit.id, Id.authData, edit.code, edit.name, edit.instinct, edit.always);
+        const sendEditResponse = await EditAccountMain(edit.id, Id.authData, edit.code, edit.name, instinct, always);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setWaiting(false);
@@ -223,7 +223,6 @@ const AccountingMain = () => {
 
 
     const manageAlwaysSelectChange = (e) => {
-        console.log(e.target.value)
         setAlways(e.target.value)
     }
 

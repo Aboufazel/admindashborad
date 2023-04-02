@@ -137,7 +137,7 @@ const AccountTotal = () => {
 
     const manageSendEditAccount = async () => {
         setWaiting(true);
-        const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name , edit.instinct , edit.always);
+        const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name , instinct , always);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setEditShow(false);

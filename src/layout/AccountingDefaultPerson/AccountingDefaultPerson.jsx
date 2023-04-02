@@ -174,7 +174,7 @@ const AccountingDefaultPerson = () => {
         console.log(canDelete)
         setWaiting(true)
         const sendEditData = await  EditDefaultPerson(edit.typeId ,edit.id ,edit.code , edit.name ,
-            canDelete === false ? 0 : 1  , edit.instinct , edit.always);
+            canDelete === false ? 0 : 1  , instinct , always);
         if (sendEditData.data.isSuccess === true) {
             setLoading(!setReload(!reload));
             setWaiting(false);
