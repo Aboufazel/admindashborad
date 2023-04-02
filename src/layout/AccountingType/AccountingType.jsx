@@ -17,7 +17,7 @@ import {GiveIdContext} from "../../Context/GiveId";
 
 const AccountingType = () => {
     const [account, setAccount] = useState(undefined);
-    const {state , dispatch} = useContext(GiveIdContext);
+    const {dispatch} = useContext(GiveIdContext);
     const [error, setError] = useState(false);
     const [value, setValue] = useState({name: ""});
     const [show, setShow] = useState(false);
@@ -65,7 +65,7 @@ const AccountingType = () => {
 
 
     useEffect(() => {
-        AccountTypeGetTabel();
+        AccountTypeGetTabel().then();
     }, [reload])
 
 
@@ -330,7 +330,7 @@ const AccountingType = () => {
                 </Col>
                 <Row>
                     <Col className={"d-flex p-5 w-100 col-12"}>
-                        <Row className={"overflow-scroll d-flex w-100"}>
+                        <Row  className={"overflow-scroll d-flex w-100"}>
                             {account === undefined ?
                                 <div className={"d-flex w-100 justify-content-center"}><Loader/></div> :
                                 <table className={"table_block"}>

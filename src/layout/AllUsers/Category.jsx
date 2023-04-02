@@ -11,33 +11,39 @@ import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../Loader/Loader";
 
 
-
 const Category = () => {
     const [id, setId] = useState({});
     const [token, setToken] = useState({});
     const [data, setData] = useState(undefined)
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [deleteModal, setDeleteModal] = useState(undefined);
-    const [edit, setEdit] = useState({userId: "", userTypeId: "", userOwnerId: "", userName: "", passWord:"", mobile:"" , email:""});
+    const [edit, setEdit] = useState({
+        userId: "",
+        userTypeId: "",
+        userOwnerId: "",
+        userName: "",
+        passWord: "",
+        mobile: "",
+        email: ""
+    });
     const [call, setCall] = useState(false)
     const [btn, setBtn] = useState(false)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 
 
-
     const manageGetdata = useCallback(() => {
-        const data =  localStorage.getItem("auth");
+        const data = localStorage.getItem("auth");
         const final = JSON.parse(data);
         setId(final.userId)
         setToken(final.accessToken)
     }, [id])
 
 
-
     const manageActive = async (id, active) => {
         setBtn(true)
-        const activeResponse = await EditStatus(id, active === 0 ? 1 : 0).catch(() => {});
+        const activeResponse = await EditStatus(id, active === 0 ? 1 : 0).catch(() => {
+        });
         setCall(!call)
         setBtn(false)
     }
@@ -56,11 +62,15 @@ const Category = () => {
 
 
     const manageEditUser = async (userid) => {
-        const getUser = await GetById (userid).catch()
+        const getUser = await GetById(userid).catch()
         getUser.data.users.map(item => setEdit({
             userId: item.userId,
-            userTypeId:item.userTypeId,
-            userOwnerId: item.userOwnerId, userName: item.userName, passWord: item.passWord , mobile: item.mobile ,email: item.email
+            userTypeId: item.userTypeId,
+            userOwnerId: item.userOwnerId,
+            userName: item.userName,
+            passWord: item.passWord,
+            mobile: item.mobile,
+            email: item.email
         }))
         if (getUser.status === 200) {
             setLoading(false)
@@ -76,9 +86,7 @@ const Category = () => {
     }
 
 
-
-
-    const manageDeleteModal = (id)=>{
+    const manageDeleteModal = (id) => {
         setDeleteModalShow(true);
         setDeleteModal(id);
     }
@@ -91,12 +99,12 @@ const Category = () => {
         setDeleteModalShow(false);
     };
 
-    const handleDeleteClose = ()=>{
+    const handleDeleteClose = () => {
         setDeleteModalShow(false);
     }
 
 
-    const manageSendEditAccount = ()=>{
+    const manageSendEditAccount = () => {
 
     }
 
@@ -110,7 +118,6 @@ const Category = () => {
 
 
     return (
-
 
 
         <Container>
@@ -210,7 +217,7 @@ const Category = () => {
                                     </Row> :
                                     <Row>
                                         <Col className={"d-flex p-5 w-100 col-12"}>
-                                            <Row className={"overflow-scroll d-flex w-100"}>
+                                            <Row style={{height:"50vh"}} className={"overflow-scroll  d-flex w-100"}>
                                                 <table className={"table_block"}>
                                                     <thead>
                                                     <tr>
@@ -245,14 +252,14 @@ const Category = () => {
                                                                 <td className={"p-2"}>{item.status === 1 ? <Button
                                                                     onClick={() => manageActive(item.userId, item.status)}
                                                                     variant={"success"} value={true}>
-                                                                        {
-                                                                            "فعال"
-                                                                        }
+                                                                    {
+                                                                        "فعال"
+                                                                    }
                                                                 </Button> : <Button
-                                                                    onClick={() => manageActive(item.userId , item.status)}
+                                                                    onClick={() => manageActive(item.userId, item.status)}
                                                                     variant={"secondary"} value={false}>
                                                                     {
-                                                                         "غیرفعال"
+                                                                        "غیرفعال"
                                                                     }
                                                                 </Button>}</td>
                                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
