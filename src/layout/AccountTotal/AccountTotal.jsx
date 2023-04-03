@@ -59,10 +59,19 @@ const AccountTotal = () => {
             alert("نیاز به ورود مجدد دارید");
             navigate('/login')
         }
+
         setAccount(data.data.accountSpecs);
-        const GetBread = account.filter(item => item.accountMainId === MainId.authData)[0];
-        setBread(GetBread);
+
+        if(account !== undefined){
+            const GetBread = account.filter(item => item.accountMainId === MainId.authData)[0];
+            setBread(GetBread);
+        }
+
+        if(bread === undefined){
+            setReload(!reload)
+        }
     };
+
 
 
     const manageChange = (e) => {

@@ -38,6 +38,7 @@ const AccountingMain = () => {
     const [waiting, setWaiting] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [deleteModal, setDeleteModal] = useState(undefined);
+    const [bread, setBread] = useState(undefined);
 
 
     const navigate = useNavigate();
@@ -64,6 +65,16 @@ const AccountingMain = () => {
             navigate('/login')
         }
         setAccount(data.data.accountMains);
+
+        if(account !== undefined){
+            const GetBread = account.filter(item => item.accountGroupId === Id.authData)[0];
+            setBread(GetBread);
+        }
+
+        if(bread === undefined){
+            setReload(!reload)
+        }
+
         Dispatch({type: 'AccountData', payload: data.data.accountMains});
     };
 
@@ -217,7 +228,6 @@ const AccountingMain = () => {
 
 
     const manageInstictSelectChange = (e) => {
-        console.log(e.target.value)
         setInstinct(e.target.value)
     }
 
@@ -239,9 +249,7 @@ const AccountingMain = () => {
                         <Breadcrumb.Item className={'beard_crumb'}>
                             <Link to={'/accountingGroup'}>
                                 {
-                                    account === undefined ? "گروه حساب" : account.map(item => (
-                                        ` گروه حساب ${item.accountGroupName}`
-                                    ))
+                                    bread === undefined ? "گروه حساب" : ` گروه حساب ${bread.accountGroupName}`
                                 }
                             </Link>
                         </Breadcrumb.Item>
