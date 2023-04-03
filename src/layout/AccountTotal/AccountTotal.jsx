@@ -22,19 +22,19 @@ const AccountTotal = () => {
     const [error, setError] = useState(false);
     const [value, setValue] = useState({code: "", name: ""});
     const [instinct, setInstinct] = useState("");
-    const [always,setAlways] = useState("");
-    const [edit, setEdit] = useState({id: "", code: "", name: "", active: "" ,  instinct:"" , always:""});
+    const [always, setAlways] = useState("");
+    const [edit, setEdit] = useState({id: "", code: "", name: "", active: "", instinct: "", always: ""});
     const [show, setShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
     const [errorShow, setErrorShow] = useState(false);
     const [successShow, setSuccessShow] = useState(false);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [reload , setReload] = useState(false);
+    const [reload, setReload] = useState(false);
     const [waiting, setWaiting] = useState(false);
     const [deleteModal, setDeleteModal] = useState(undefined);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
-    const [bread, setBread] = useState([]);
+    const [bread, setBread] = useState(undefined);
 
 
     const MainId = useContext(GiveIdContext);
@@ -53,18 +53,16 @@ const AccountTotal = () => {
 
     const AccountSpecGetTabel = async () => {
         const data = await GetAllAccountSpec().catch(() => setError(true));
-        console.log(data.data)
+
         if (data.data.isSuccess === false) {
             localStorage.clear();
             alert("نیاز به ورود مجدد دارید");
             navigate('/login')
         }
         setAccount(data.data.accountSpecs);
+        const GetBread = account.filter(item => item.accountMainId === MainId.authData)[0];
+        setBread(GetBread);
     };
-
-
-
-
 
 
     const manageChange = (e) => {
@@ -73,7 +71,7 @@ const AccountTotal = () => {
 
     const manageAddAccount = async () => {
         setWaiting(true);
-        const addResponse = await AddAccountSpec(value.code, value.name, MainId.authData , instinct , always);
+        const addResponse = await AddAccountSpec(value.code, value.name, MainId.authData, instinct, always);
         if (addResponse.data.isSuccess === true) {
             setMessage(addResponse.data.message);
             setShow(false);
@@ -102,12 +100,9 @@ const AccountTotal = () => {
     }, [reload])
 
 
-
-
     const emptyInput = () => {
         setValue({code: "", name: ""});
     }
-
 
 
     const manageEditAccount = async (id) => {
@@ -117,7 +112,7 @@ const AccountTotal = () => {
         getResponse.data.accountSpecs.map(item => setEdit({
             id: item.accountSpecId,
             code: item.accountSpecCode, name: item.accountSpecName, active: item.isActive,
-            instinct: item.instinct , always: item.type
+            instinct: item.instinct, always: item.type
         }))
         if (getResponse.status === 200) {
             setLoading(false)
@@ -137,7 +132,7 @@ const AccountTotal = () => {
 
     const manageSendEditAccount = async () => {
         setWaiting(true);
-        const sendEditResponse = await EditAccountSpec(edit.id,MainId.authData,edit.code, edit.name , instinct , always);
+        const sendEditResponse = await EditAccountSpec(edit.id, MainId.authData, edit.code, edit.name, instinct, always);
         if (sendEditResponse.data.isSuccess === true) {
             setSuccessShow(true);
             setEditShow(false);
@@ -183,24 +178,24 @@ const AccountTotal = () => {
     }
 
 
-    const manageMainCode = ()=>{
-        if(MainId.authData === undefined){
+    const manageMainCode = () => {
+        if (MainId.authData === undefined) {
             navigate("/accountingGroup");
         }
     }
 
-    const handleDeleteClose = ()=>{
+    const handleDeleteClose = () => {
         setDeleteModalShow(false);
     }
 
     const manageActive = async (id, active) => {
         setWaiting(true);
         const activeResponse = await SpecEditIsActive(id, active)
-            .catch(()=>{
+            .catch(() => {
                 setMessage(activeResponse.data.message);
                 setErrorShow(true);
                 setWaiting(false);
-                setTimeout(()=>{
+                setTimeout(() => {
                     setErrorShow(false)
                 }, 2500)
             })
@@ -208,23 +203,19 @@ const AccountTotal = () => {
         setWaiting(false);
     }
 
-    const manageDeleteModal = (id)=>{
+    const manageDeleteModal = (id) => {
         setDeleteModalShow(true);
         setDeleteModal(id);
     }
 
 
-    const manageInstictSelectChange = (e) =>{
+    const manageInstictSelectChange = (e) => {
         console.log(e.target.value)
         setInstinct(e.target.value)
     }
 
 
-
-
-
-
-    const manageAlwaysSelectChange = (e) =>{
+    const manageAlwaysSelectChange = (e) => {
         console.log(e.target.value)
         setAlways(e.target.value)
     }
@@ -243,9 +234,7 @@ const AccountTotal = () => {
                         <Breadcrumb.Item className={'beard_crumb'}>
                             <Link to={'/accountingMain'}>
                                 {
-                                 account === undefined ? "حساب کل" :  account.filter(item => item.accountMainId === MainId.authData).map(item => (
-                                     ` حساب کل ${item.item.accountMainName}`
-                                     ))
+                                    bread === undefined ? "حساب کل" : ` حساب کل ${bread.accountMainName}`
                                 }
                             </Link>
                         </Breadcrumb.Item>
@@ -356,7 +345,7 @@ const AccountTotal = () => {
                                         <Button className={'close_btn'} onClick={handleClose}>
                                             {"بستن"}
                                         </Button>
-                                        <Button onClick={()=>manageAddAccount()} className={'save_btn'}>
+                                        <Button onClick={() => manageAddAccount()} className={'save_btn'}>
                                             {"ذخیره"}
                                         </Button>
                                     </Modal.Footer>
@@ -382,7 +371,9 @@ const AccountTotal = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"ماهیت حساب فعلی:"}</label>
-                                                    <input value={edit.instinct === 0 ? "ماهیت ندارد" : edit.instinct === 1 ? "بدهکار" :"بستانکار"} className={"bg-body"} disabled/>
+                                                    <input
+                                                        value={edit.instinct === 0 ? "ماهیت ندارد" : edit.instinct === 1 ? "بدهکار" : "بستانکار"}
+                                                        className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 
@@ -390,7 +381,8 @@ const AccountTotal = () => {
                                                 <Col className={"d-flex align-items-center"}>
                                                     <label style={{fontFamily: 'iran-sans'}}
                                                            className={"me-2"}>{"وضعیت حساب فعلی:"}</label>
-                                                    <input value={edit.always === 0 ? "موقت" :"دائم"} className={"bg-body"} disabled/>
+                                                    <input value={edit.always === 0 ? "موقت" : "دائم"}
+                                                           className={"bg-body"} disabled/>
                                                 </Col>
                                             </Row>
 
@@ -476,11 +468,13 @@ const AccountTotal = () => {
                                     <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                                         {"آیا از حذف حساب اطمینان دارید؟"}
                                         <Row className={"d-flex flex-row justify-content-center"}>
-                                            <Col className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
+                                            <Col
+                                                className={"d-flex flex-row-reverse gap-3 mt-3 flex-row justify-content-center col-12"}>
                                                 <Button className={'save_btn'} onClick={handleDeleteClose}>
                                                     {"انصراف"}
                                                 </Button>
-                                                <Button className={'close_btn'} onClick={() => manageRemoveAccount(deleteModal)}>
+                                                <Button className={'close_btn'}
+                                                        onClick={() => manageRemoveAccount(deleteModal)}>
                                                     {"حذف"}
                                                 </Button>
                                             </Col>
@@ -495,12 +489,12 @@ const AccountTotal = () => {
                     </Row>
                     <Row>
                         <Col className={"position-relative"}>
-                            <Alert style={{position:"fixed" , top:0 , left:0}} variant={"danger"}
+                            <Alert style={{position: "fixed", top: 0, left: 0}} variant={"danger"}
                                    onClose={() => setErrorShow(false)} dismissible show={errorShow}>
                                 {message}
                             </Alert>
-                            <Alert  style={{position:"fixed" , top:0 , left:0}} variant={"success"}
-                                    onClose={() => setSuccessShow(false)} dismissible show={successShow}>
+                            <Alert style={{position: "fixed", top: 0, left: 0}} variant={"success"}
+                                   onClose={() => setSuccessShow(false)} dismissible show={successShow}>
                                 {message}
                             </Alert>
                         </Col>
@@ -530,25 +524,25 @@ const AccountTotal = () => {
                                                 <td className={"p-2"}>{item.accountSpecCode}</td>
                                                 <td className={"p-2"}>{item.accountSpecName}</td>
                                                 <td className={"p-2"}>
-                                                    {item.instinct === 0 ? "ماهیت ندارد" : item.instinct === 1 ? "بدهکار" :"بستانکار"}
+                                                    {item.instinct === 0 ? "ماهیت ندارد" : item.instinct === 1 ? "بدهکار" : "بستانکار"}
                                                     /
                                                     {item.type === 0 ? "موقت" : "دائم"}
                                                 </td>
                                                 <td className={"p-2"}>{item.isActive === true ? <Button
                                                     variant={"success"}
                                                     value={true}
-                                                    onClick={() => manageActive(item.accountSpecId , !item.isActive)}
+                                                    onClick={() => manageActive(item.accountSpecId, !item.isActive)}
                                                 >{"فعال"}</Button> : <Button
                                                     variant={"secondary"}
                                                     value={false}
-                                                    onClick={() => manageActive(item.accountSpecId , !item.isActive)}
+                                                    onClick={() => manageActive(item.accountSpecId, !item.isActive)}
                                                 >{"غیر فعال"}</Button>}</td>
                                                 <td className={"d-flex justify-content-center gap-2 p-2"}>
                                                     <ActionTableButton color={"--text-color-white"}
                                                                        bgColor={"--color-warning"}
                                                                        tooltip={"ویرایش"}
                                                                        icon={faEdit}
-                                                                       onClick={()=> manageEditAccount(item.accountSpecCode)}
+                                                                       onClick={() => manageEditAccount(item.accountSpecCode)}
                                                     />
 
                                                     <ActionTableButton color={"--text-color-white"}
