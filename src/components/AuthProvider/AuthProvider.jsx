@@ -1,15 +1,16 @@
 import React from "react";
-import {Navigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Storage from "../../Service/Storage";
 
 
 const AuthProvider = ({children}) => {
     const storage = Storage();
-
+    const navigate = useNavigate();
 
     if (storage.userId === undefined) {
-        return <Navigate to={"/login"}/>;
+        navigate("/login")
     }
+
     return (
         <>
             {children}
