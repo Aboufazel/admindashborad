@@ -40,7 +40,7 @@ const Category = () => {
     }
 
     const manageUserTable = async () => {
-        const apiData = await GetAllFromUser(id, token).catch(() => setError(true));
+        const apiData = await GetAllFromUser().catch(() => setError(true));
         if (apiData.data.isSuccess === false) {
             setLoading(true)
             setCall(true)
@@ -64,7 +64,7 @@ const Category = () => {
 
     const manageDelete = async (userid) => {
         setDeleteModalShow(false);
-        const removeData = await deleteUser(userid).catch(()=>{});
+        const removeData = await deleteUser(userid).catch(()=> setError(true));
         setCall(!call)
     }
 
@@ -185,7 +185,17 @@ const Category = () => {
                                                                 <td className={"p-2"}>{item.userName}</td>
                                                                 <td className={"p-2"}>{item.mobile}</td>
                                                                 <td className={"p-2"}>{item.email}</td>
-                                                                <td className={"p-2"}>{item.kind === 4 ? "مدیر" : "کاربر عادی"}</td>
+                                                                <td className={"p-2"}>{item.kind === 4 ?  <Button
+                                                                    variant={"warning"} value={true}>
+                                                                    {
+                                                                        "مدیر"
+                                                                    }
+                                                                </Button> : <Button
+                                                                    variant={"primary"} value={false}>
+                                                                    {
+                                                                        "کاربر عادی"
+                                                                    }
+                                                                </Button>}</td>
                                                                 <td className={"p-2"}>{item.status === 1 ? <Button
                                                                     onClick={() => manageActive(item.userId, item.status)}
                                                                     variant={"success"} value={true}>
