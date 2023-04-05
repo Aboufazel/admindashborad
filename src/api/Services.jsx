@@ -21,19 +21,27 @@ export const LoginApi = (username, password) => {
 
 //use for get All contact
 export const GetAllFromUser = (userid, token) => {
+
+    const data = localStorage.getItem("auth");
+    const final = JSON.parse(data);
+
     return Api.get(`/UserService/api/Users/getall`, {
+
         headers: {
-            "selfuserid": `${userid}`,
-            "token": `${token}`
+            "selfuserid": `${final.userId}`,
+            "token": `${final.accessToken}`
         }
+
     })
 }
 
 
 //use for get contact by id
 export const GetById = (userid) => {
+
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
+
     return Api.get(`/UserService/api/Users/getbyid?userid=${userid}`, {
         headers: {
             "selfuserid": `${final.userId}`,
@@ -149,6 +157,7 @@ export const ChangeUserPassword = (oldPass , newPass)=>{
 export const EditStatus = (userId , isActive ) => {
     const data = localStorage.getItem("auth")
     const final = JSON.parse(data);
+
     return Api({
         method: 'PUT',
         url: '/userservice/api/users/EditStatus',

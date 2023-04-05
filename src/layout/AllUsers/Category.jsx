@@ -38,7 +38,8 @@ const Category = () => {
         setCall(!call)
         setBtn(false)
     }
-    const manageUserTable = useCallback(async () => {
+
+    const manageUserTable = async () => {
         const apiData = await GetAllFromUser(id, token).catch(() => setError(true));
         if (apiData.data.isSuccess === false) {
             setLoading(true)
@@ -49,7 +50,13 @@ const Category = () => {
             setCall(false);
             setLoading(false)
         }
-    }, [call])
+    }
+
+
+
+    useEffect(()=>{
+        manageUserTable().then()
+    } , [call])
 
 
 
@@ -57,7 +64,8 @@ const Category = () => {
 
     const manageDelete = async (userid) => {
         setDeleteModalShow(false);
-        const removeData = await deleteUser(userid).catch(alert(error));
+        const removeData = await deleteUser(userid).catch(()=>{});
+        setCall(!call)
     }
 
 
@@ -83,7 +91,7 @@ const Category = () => {
     }, [id])
 
     useEffect(() => {
-        manageUserTable()
+        manageUserTable().then()
     }, [call])
 
 
@@ -91,6 +99,7 @@ const Category = () => {
 
 
         <Container>
+
             <Modal style={{fontFamily: 'iran-sans'}} show={deleteModalShow} onHide={handleClose}>
                 <Modal.Body class={'d-flex flex-column justify-content-start p-3'}>
                     {"آیا از حذف حساب اطمینان دارید؟"}
