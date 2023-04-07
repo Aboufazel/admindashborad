@@ -206,12 +206,15 @@ const AccountingMain = () => {
 
 
     const manageActive = async (id, active) => {
+
         setWaiting(true);
         const activeResponse = await MainEditIsActive(id, active)
             .catch(() => {
+
                 setMessage(activeResponse.data.message);
                 setErrorShow(true);
                 setWaiting(false);
+
                 setTimeout(() => {
                     setErrorShow(false)
                 }, 2500)

@@ -94,9 +94,9 @@ export const EditAccountMain = (id, GroupId,mainCode, mainName , instict , type)
             "AccountGroupId": GroupId,
             "AccountMainCode": +mainCode,
             "AccountMainName": `${mainName}`,
+            "lang": "fa",
             "Instict":+instict,
             "Type":+type,
-            "lang": "fa",
         },
         headers: {
             "selfuserid": `${final.userId}`,
