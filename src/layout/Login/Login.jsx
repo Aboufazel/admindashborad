@@ -9,12 +9,15 @@ import theme from "../../themes/theme";
 import useTitle from "../../hooks/useTitle";
 import {userData} from "../../Toolkit/Slice/contact.slice";
 import {useDispatch} from "react-redux";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 const Login = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [message, setMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [checked, setChecked] = useState(false);
+    const [type, setType] = useState('password');
     const dispatch = useDispatch();
 
 
@@ -121,20 +124,34 @@ const Login = () => {
                                    }}
 
                         />
-                        <TextField id="login-mobile-number"
-                                   required={true}
-                                   type="password"
-                                   label="رمز عبور"
-                                   onChange={(e) => setState({
-                                       ...state,
-                                       password: e.target.value
-                                   })}
-                                   value={state.password}
-                                   variant="outlined"
-                                   sx={{
-                                       width: "100%",
-                                       marginY: 1,
-                                   }}/>
+                        <Grid position={"relative"}>
+                            <TextField id="login-mobile-number"
+                                       required={true}
+                                       type={type}
+                                       label="رمز عبور"
+                                       onChange={(e) => setState({
+                                           ...state,
+                                           password: e.target.value
+                                       })}
+                                       value={state.password}
+                                       variant="outlined"
+                                       sx={{
+                                           width: "100%",
+                                           marginY: 1,
+                                       }}/>
+
+                            {type === "password" ? (
+                                <Box sx={{position: "absolute", top: "33px", right: "15px"}}
+                                     onClick={() => setType("text")}>
+                                    <VisibilityOffIcon/>
+                                </Box>
+                            ) : (
+                                <Box sx={{position: "absolute", top: "33px", right: "15px"}}
+                                     onClick={() => setType("password")}>
+                                    <RemoveRedEyeIcon/>
+                                </Box>
+                            )}
+                        </Grid>
                         <Button
                             type={"submit"}
                             color={"primary"}
