@@ -17,7 +17,21 @@ const IndexLayout = () => {
         setTimeout(()=>{
             setLoading(false)
         } , 200)
-    } , [])
+    } , []);
+
+
+
+
+    useEffect(()=>{
+        ManageToken()
+    } , [storage.kind])
+
+
+    const ManageToken = ()=>{
+        if (storage.kind === undefined){
+            navigate("/login")
+        }
+    }
 
 
 

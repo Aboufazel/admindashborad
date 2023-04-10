@@ -11,14 +11,23 @@ import {userData} from "../../Toolkit/Slice/contact.slice";
 import {useDispatch} from "react-redux";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import Storage from "../../Service/Storage";
 
 const Login = () => {
+
+
+    
+    
     const [showAlert, setShowAlert] = useState(false);
     const [message, setMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [checked, setChecked] = useState(false);
     const [type, setType] = useState('password');
     const dispatch = useDispatch();
+
+    const storage = Storage();
+
+    console.log(storage.kind)
 
 
     const navigate = useNavigate();
